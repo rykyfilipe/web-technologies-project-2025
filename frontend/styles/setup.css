@@ -4,7 +4,8 @@
     --dashboard-width: calc(100vw - var(--navbar-width) - 100px);
 
     --primary-color: #eaeaea;
-    --secondary-color: black;
+    --secondary-color: #26282b;
+
 
     --font-size-small: 16px;
     --font-size-medium: 20px;
