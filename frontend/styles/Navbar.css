@@ -1,7 +1,9 @@
 @import url("setup.css");
 
 .navbar {
-    width: var(--navbar-width);
+    min-width: 100px;
+    width: 20%;
+    max-width: var(--navbar-width);
     height: 95%;
 
     display: flex;
@@ -9,6 +11,7 @@
     align-items: center;
 
     margin-left: 20px;
+    margin-right: 20px;
 
     gap: 20px;
 
@@ -43,7 +46,7 @@
 }
 
 .nav-item {
-    width: 200px;
+    width: 80%;
     height: 30px;
 
 
@@ -65,4 +68,10 @@
 .nav-item:hover {
     color: var(--primary-color);
     background: var(--secondary-color);
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        display: none;
+    }
 }

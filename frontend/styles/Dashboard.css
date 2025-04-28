@@ -2,13 +2,16 @@
 
 
 .dashboard {
-    width: var(--dashboard-width);
+    min-width: 500px;
+    width: 100%;
+    max-width: var(--dashboard-width);
+
     height: 95%;
 
     border-radius: 20px;
     border: 1px solid black;
 
-    margin-left: 20px;
+    margin: auto;
 
     /*background-color: var(--primary-color);*/
     /*box-shadow: inset 4px 4px 12px rgb(170, 168, 170), inset -4px -4px 12px white;*/
@@ -18,4 +21,11 @@
     justify-content: center;
 
     font-size: var(--font-size-large);
+}
+
+@media (max-width: 600px) {
+    .dashboard {
+        margin: auto;
+        min-width: 90%;
+    }
 }

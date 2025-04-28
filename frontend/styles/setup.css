@@ -1,7 +1,7 @@
 :root {
 
     --navbar-width: 250px;
-    --dashboard-width: calc(100vw - var(--navbar-width) - 100px);
+    --dashboard-width: calc(100vw - var(--navbar-width) - 50px);
 
     --primary-color: #eaeaea;
     --secondary-color: #26282b;
