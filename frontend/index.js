@@ -1,0 +1,9 @@
+import Navbar from "./sections/Navbar.js";
+import {getContainer} from "./utils/components-functions.js";
+import Dashboard from "./sections/Dashboard.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const container = getContainer('root');
+    Navbar(container);
+    Dashboard(container);
+})

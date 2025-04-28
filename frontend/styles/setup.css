@@ -1,0 +1,13 @@
+:root {
+
+    --navbar-width: 250px;
+    --dashboard-width: calc(100vw - var(--navbar-width) - 100px);
+
+    --primary-color: #eaeaea;
+    --secondary-color: black;
+
+    --font-size-small: 16px;
+    --font-size-medium: 20px;
+    --font-size-large: 26px;
+
+}

@@ -1,0 +1,40 @@
+@import url("setup.css");
+
+.navbar {
+    width: var(--navbar-width);
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-left: 20px;
+
+    gap: 30px;
+
+    border-radius: 50px;
+
+    background-color: var(--primary-color);
+    box-shadow: inset 4px 4px 12px rgb(170, 168, 170), inset -4px -4px 12px white;
+}
+
+.nav-item {
+    width: 200px;
+    height: 20px;
+
+    border: none;
+
+    cursor: pointer;
+    background: transparent;
+
+    color: #26282b;
+    font-size: var(--font-size-medium);
+}
+
+.nav-item:first-of-type {
+    margin-top: 50px;
+}
+
+.nav-item:hover {
+    filter: invert(1);
+}
