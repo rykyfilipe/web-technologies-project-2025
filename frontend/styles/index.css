@@ -16,3 +16,19 @@
     background: var(--primary-color);
 }
 
+.alert {
+    position: absolute;
+
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 12px 20px;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    font-size: 1rem;
+
+    top: 20px;
+    right: 20px;
+
+    text-align: center;
+    font-weight: 500;
+}

@@ -3,6 +3,7 @@ import Home from "../sections/Home.js";
 import Contact from "../sections/Contact.js";
 
 export const navItems = [
+
     {
         id: 1,
         name: "Home",
