@@ -1,10 +1,9 @@
 @import url("setup.css");
 
-
 .dashboard {
-    min-width: 500px;
     width: 100%;
     max-width: var(--dashboard-width);
+    min-width: 300px; /* Evită ca dashboard-ul să devină prea mic pe ecrane mici */
 
     height: 95%;
 
@@ -13,19 +12,38 @@
 
     margin: auto;
 
-    /*background-color: var(--primary-color);*/
-    /*box-shadow: inset 4px 4px 12px rgb(170, 168, 170), inset -4px -4px 12px white;*/
-
     display: flex;
     align-items: center;
     justify-content: center;
 
     font-size: var(--font-size-large);
+
+    transition: width 0.3s ease, height 0.3s ease; /* Tranziție pentru schimbările de dimensiuni */
+}
+
+/* Media Queries pentru responsive design */
+@media (max-width: 1024px) {
+    .dashboard {
+        width: 90%; /* Dashboard-ul va ocupa 90% din lățimea pe ecrane mai mici */
+        max-width: 800px; /* Setează o lățime maximă pe tablete */
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        width: 95%; /* Crește lățimea pe tablete mai mici */
+        max-width: 700px;
+    }
 }
 
 @media (max-width: 600px) {
     .dashboard {
-        margin: auto;
-        min-width: 90%;
+        width: 100%; /* Pe dispozitive mobile, dashboard-ul va ocupa întreaga lățime */
+        max-width: 100%; /* Lăsăm dashboard-ul să se extindă complet pe mobil */
+        min-width: 90%; /* Evită dimensiuni prea mici pe mobil */
+    }
+
+    .dashboard {
+        font-size: var(--font-size-medium); /* Ajustează dimensiunea fontului pe mobil */
     }
 }

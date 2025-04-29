@@ -21,7 +21,6 @@ http.createServer((req, res) => {
             res.writeHead(404);
             res.end('404 Not Found');
         } else {
-            // Adaugăm antete pentru cache (ex: 1 oră)
             res.writeHead(200, {
                 'Content-Type': contentType,
                 'Cache-Control': 'public, max-age=31536000, immutable'
