@@ -1,7 +1,7 @@
-import {addCSS} from "../utils/style-functions.js";
 import {navItems} from "../constants/index.js";
 import NavItem from "../components/NavItem.js";
 import Dashboard from "./Dashboard.js";
+import "../styles/Navbar.css"
 
 const Navbar = (container) => {
     const nav = document.createElement("nav");
@@ -26,9 +26,8 @@ const Navbar = (container) => {
         NavItem(nav, navItem);
     });
 
-    container.append(nav);
 
-    addCSS("Navbar");
+    container.append(nav);
 };
 
 export default Navbar;

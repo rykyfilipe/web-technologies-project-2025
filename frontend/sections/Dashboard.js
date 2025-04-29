@@ -1,5 +1,6 @@
 import {addCSS} from "../utils/style-functions.js";
 import {getContainer} from "../utils/components-functions.js";
+import "../styles/Dashboard.css"
 
 const Dashboard = (container) => {
     if (!container) {
@@ -17,9 +18,8 @@ const Dashboard = (container) => {
     section.id = "dashboard";
     section.textContent = "Dashboard";
 
-    container.append(section);
-
     addCSS('Dashboard');
+    container.append(section);
 };
 
 export default Dashboard;
