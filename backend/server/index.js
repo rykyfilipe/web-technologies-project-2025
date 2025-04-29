@@ -24,7 +24,7 @@ http.createServer((req, res) => {
             // Adaugăm antete pentru cache (ex: 1 oră)
             res.writeHead(200, {
                 'Content-Type': contentType,
-                'Cache-Control': 'public, max-age=3600'
+                'Cache-Control': ''public, max-age=31536000, immutable''
             });
             res.end(content);
         }
