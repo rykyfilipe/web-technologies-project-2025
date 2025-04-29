@@ -3,9 +3,11 @@ export const addCSS = (path) => {
     link.rel = 'stylesheet';
     link.href = './frontend/styles/' + path + '.css';
 
-    const existingLink = document.querySelector(`link[href="${link.href}"]`);
+    // Verifică dacă există deja un link cu acest href în head
+    const existingLink = Array.from(document.head.getElementsByTagName('link'))
+        .find((el) => el.href === link.href);
+
     if (!existingLink) {
         document.head.appendChild(link);
     }
 };
-
