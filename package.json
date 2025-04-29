@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "backend/server/index.js",
   "scripts": {
-    "start": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "node server.js"
   },
   "dependencies": {
     "dotenv": "^16.5.0"
