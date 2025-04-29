@@ -1,7 +1,7 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = {
+export default {
     entry: './frontend/index.js',
     output: {
         filename: 'bundle.js',
@@ -22,7 +22,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env'],
-                        sourceType: 'module',
+                        sourceType: 'module', // Explicitly define sourceType as 'module'
                     },
                 },
             },
