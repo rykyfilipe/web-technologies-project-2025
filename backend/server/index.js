@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.BACKEND_PORT | 3000;
+const PORT = process.env.PORT || 3000;
 const rootDir = path.join(__dirname, '../../');
 
 const mimeTypes = {
@@ -21,7 +21,11 @@ http.createServer((req, res) => {
             res.writeHead(404);
             res.end('404 Not Found');
         } else {
-            res.writeHead(200, {'Content-Type': contentType});
+            // Adaugăm antete pentru cache (ex: 1 oră)
+            res.writeHead(200, {
+                'Content-Type': contentType,
+                'Cache-Control': 'public, max-age=31536000, immutable'
+            });
             res.end(content);
         }
     });
