@@ -1,44 +1,41 @@
 @import url("setup.css");
 
 .navbar {
-    min-width: 100px;
     width: 20%;
     max-width: var(--navbar-width);
     height: 95%;
+    min-width: 200px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
 
     margin-left: 20px;
     margin-right: 20px;
-
     gap: 20px;
 
     border-radius: 20px;
     border: 1px solid black;
-
-    /*background-color: var(--primary-color);*/
-    /*box-shadow: inset 4px 4px 12px rgb(170, 168, 170), inset -4px -4px 12px white;*/
+    transition: width 0.3s ease;
 }
 
-
 .logo {
-
     width: 100%;
     height: 40px;
-
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-
 
     background: var(--secondary-color);
     font-size: var(--font-size-large);
     color: var(--primary-color);
 
     border: none;
-
     cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .logo:hover {
@@ -48,17 +45,13 @@
 .nav-item {
     width: 80%;
     height: 30px;
-
-
     border: none;
-
     cursor: pointer;
     background: transparent;
-
     color: var(--secondary-color);
     font-size: var(--font-size-medium);
-
     border-radius: 15px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-item:first-of-type {
@@ -70,8 +63,45 @@
     background: var(--secondary-color);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
     .navbar {
-        display: none;
+        width: 30%;
     }
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 40%;
+    }
+
+    .nav-item {
+        font-size: var(--font-size-small);
+    }
+}
+
+@media (max-width: 800px) {
+    .navbar {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: none;
+    }
+
+    .logo {
+        font-size: var(--font-size-medium);
+    }
+
+    .nav-item {
+        font-size: var(--font-size-small);
+    }
+
+
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
