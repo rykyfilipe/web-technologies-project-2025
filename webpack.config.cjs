@@ -2,13 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: './frontend/index.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
-    mode: 'development',
     module: {
         rules: [
             {
@@ -34,4 +34,15 @@ module.exports = {
         }),
     ],
     devtool: 'source-map',
+};
+
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+module.exports = {
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new CssMinimizerPlugin(),
+        ],
+    },
 };

@@ -8,6 +8,7 @@
     "start": "node backend/server/index.cjs"
   },
   "dependencies": {
+    "css-minimizer-webpack-plugin": "^7.0.2",
     "dotenv": "^16.5.0"
   },
   "devDependencies": {

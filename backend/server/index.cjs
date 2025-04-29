@@ -1,9 +1,10 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const compression = require('compression');  // Importă middleware-ul de comprimare
 
 const PORT = process.env.PORT || 3000;
-const rootDir = path.join(__dirname, '../../dist');
+const rootDir = path.join(__dirname, '../../dist');  // Calea către directorul 'dist'
 
 const mimeTypes = {
     '.html': 'text/html',
@@ -11,34 +12,37 @@ const mimeTypes = {
     '.css': 'text/css'
 };
 
+// Creează serverul cu suport pentru comprimare
 http.createServer((req, res) => {
-    let filePath = path.join(rootDir, req.url === '/' ? 'index.html' : req.url);
-    let ext = path.extname(filePath);
-    let contentType = mimeTypes[ext] || 'text/plain';
+    // Aplicați comprimarea pentru cererile care necesită fișiere text
+    compression()(req, res, () => {
+        let filePath = path.join(rootDir, req.url === '/' ? 'index.html' : req.url);
+        let ext = path.extname(filePath);
+        let contentType = mimeTypes[ext] || 'text/plain';
 
-
-    fs.readFile(filePath, (err, content) => {
-        if (err) {
-            if (req.url !== '/' && ext === '') {
-                fs.readFile(path.join(rootDir, 'index.html'), (fallbackErr, fallbackContent) => {
-                    if (fallbackErr) {
-                        res.writeHead(404);
-                        res.end('404 Not Found');
-                    } else {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(fallbackContent);
-                    }
-                });
+        fs.readFile(filePath, (err, content) => {
+            if (err) {
+                if (req.url !== '/' && ext === '') {
+                    fs.readFile(path.join(rootDir, 'index.html'), (fallbackErr, fallbackContent) => {
+                        if (fallbackErr) {
+                            res.writeHead(404);
+                            res.end('404 Not Found');
+                        } else {
+                            res.writeHead(200, {'Content-Type': 'text/html'});
+                            res.end(fallbackContent);
+                        }
+                    });
+                } else {
+                    res.writeHead(404);
+                    res.end('404 Not Found');
+                }
             } else {
-                res.writeHead(404);
-                res.end('404 Not Found');
+                res.writeHead(200, {
+                    'Content-Type': contentType,
+                    'Cache-Control': 'public, max-age=31536000, immutable'
+                });
+                res.end(content);
             }
-        } else {
-            res.writeHead(200, {
-                'Content-Type': contentType,
-                'Cache-Control': 'public, max-age=31536000, immutable'
-            });
-            res.end(content);
-        }
+        });
     });
-}).listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+}).listen(PORT, () => console.log(`Server running at port : ${PORT}`));
