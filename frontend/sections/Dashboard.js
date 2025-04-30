@@ -1,4 +1,3 @@
-import {addCSS} from "../utils/style-functions.js";
 import {getContainer} from "../utils/components-functions.js";
 import "../styles/Dashboard.css"
 
@@ -19,7 +18,6 @@ const Dashboard = (container) => {
     section.textContent = "Dashboard";
     section.style.minHeight = "300px";
 
-    addCSS('Dashboard');
     container.append(section);
 };
 
