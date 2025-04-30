@@ -1,28 +1,29 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');  // Adăugat pluginul pentru minimizarea CSS-ului
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-    mode: 'production',  // Setează modul de producție
-    entry: './frontend/index.js',  // Punctul de intrare
+    mode: 'production',
+    entry: './frontend/index.js',
     output: {
-        filename: 'bundle.js',  // Numele fișierului de ieșire
-        path: path.resolve(__dirname, 'dist'),  // Calea către directorul dist
-        clean: true,  // Curăță fișierele din dist înainte de a adăuga altele noi
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        clean: true,
     },
     module: {
         rules: [
             {
-                test: /\.css$/i,  // Regula pentru fișierele CSS
-                use: ['style-loader', 'css-loader'],  // Loader-e pentru CSS
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             {
-                test: /\.js$/,  // Regula pentru fișierele JS
-                exclude: /node_modules/,  // Exclude node_modules
+                test: /\.js$/,
+                exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',  // Loader pentru Babel
+                    loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env'],  // Preset pentru transpile la JavaScript compatibil
+                        presets: ['@babel/preset-env'],
                     },
                 },
             },
@@ -30,15 +31,19 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './frontend/index.html',  // Template pentru fișierul HTML
-            filename: 'index.html',  // Numele fișierului HTML de ieșire
+            template: './frontend/index.html',
+            filename: 'index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
         }),
     ],
     optimization: {
-        minimize: true,  // Activează minimizarea fișierelor
+        minimize: true,
         minimizer: [
-            new CssMinimizerPlugin(),  // Plugin pentru minimizarea fișierelor CSS
+            `...`,
+            new CssMinimizerPlugin(),
         ],
     },
-    devtool: 'source-map',  // Ajută la debuggarea codului sursă
+    devtool: 'source-map',
 };

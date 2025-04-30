@@ -1,20 +1,17 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const compression = require('compression');  // Importă middleware-ul de comprimare
+const compression = require('compression');
 
 const PORT = process.env.PORT || 3000;
-const rootDir = path.join(__dirname, '../../dist');  // Calea către directorul 'dist'
-
+const rootDir = path.join(__dirname, '../../dist');
 const mimeTypes = {
     '.html': 'text/html',
     '.js': 'text/javascript',
     '.css': 'text/css'
 };
 
-// Creează serverul cu suport pentru comprimare
 http.createServer((req, res) => {
-    // Aplicați comprimarea pentru cererile care necesită fișiere text
     compression()(req, res, () => {
         let filePath = path.join(rootDir, req.url === '/' ? 'index.html' : req.url);
         let ext = path.extname(filePath);
