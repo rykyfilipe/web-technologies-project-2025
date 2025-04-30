@@ -29,7 +29,7 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 
 ```bash
 git clone https://github.com/rykyfilipe/web-technologies-project-2025.git
-cd repo-name
+cd web-technologies-project-2025
 ```
 
 2. Instaleaza dependentele:
