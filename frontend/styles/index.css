@@ -6,9 +6,15 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: Gentium;
+    src: url(https://example.com/fonts/Gentium.woff);
+    font-display: swap;
+}
+
 body {
     transition: all 0.3s ease;
-
+    font-family: Gentium, serif;
 }
 
 #root {
