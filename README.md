@@ -5,18 +5,22 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 🔗 **Site live:**  
 👉 [https://web-technologies-project-2025-production.up.railway.app/](https://web-technologies-project-2025-production.up.railway.app/)
 
+## PageSpeed Insights 
+**URL: **
+ 👉 [https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop](https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop)
+
 ## 🛠️ Tehnologii utilizate
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Bundler:** Webpack
-- **Backend:** Node.js (Express)
+- **Backend:** Node.js
 - **Hosting backend:** Railway
 
 ## 📦 Funcționalități
 
 - Interfață web statică modernă
 - Servire fișiere frontend prin server Node.js
-- Comunicare client-server (dacă e cazul)
+- Comunicare client-server
 - Design responsiv
 
 ## 🚀 Rulare locală
@@ -37,7 +41,7 @@ npm i
 ```.env
 PORT=valoare
 ```
-4.Compileaza webpack
+4.Compileaza webpack:
 ```bash
 npm run build
 ```
