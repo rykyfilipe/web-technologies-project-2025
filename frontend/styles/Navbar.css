@@ -1,4 +1,4 @@
-@import url("./setup.css");
+@import "./setup.css";
 
 .navbar {
     width: 20%;
@@ -21,7 +21,12 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.3s ease, visibility 0.3s ease, width 0.3s ease;
+
+    transition: opacity 0.3s ease,
+    visibility 0.3s ease,
+    width 0.3s ease;
+    position: relative;
+    z-index: 10;
 }
 
 .navbar.hidden {
@@ -64,6 +69,7 @@
     color: var(--secondary-color);
     font-size: var(--font-size-medium);
     border-radius: 15px;
+
     transition: background-color 0.3s, color 0.3s;
     will-change: background-color, color;
 }
@@ -96,10 +102,17 @@
 @media (max-width: 800px) {
     .navbar {
         width: 100%;
+        height: 100vh;
         position: absolute;
         top: 0;
         left: 0;
         z-index: 1000;
+
+        margin: 0;
+        padding: 20px 0;
+
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .logo {
@@ -109,9 +122,4 @@
     .nav-item {
         font-size: var(--font-size-small);
     }
-}
-
-body {
-    margin: 0;
-    font-family: sans-serif;
 }
