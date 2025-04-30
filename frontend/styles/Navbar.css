@@ -17,7 +17,17 @@
 
     border-radius: 20px;
     border: 1px solid black;
-    transition: width 0.3s ease;
+
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, visibility 0.3s ease, width 0.3s ease;
+}
+
+.navbar.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .logo {
@@ -36,10 +46,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    transition: box-shadow 0.2s ease;
+    will-change: box-shadow;
 }
 
 .logo:hover {
-    border-bottom: 1px solid black;
+    box-shadow: inset 0 -1px 0 black;
 }
 
 .nav-item {
@@ -52,6 +65,7 @@
     font-size: var(--font-size-medium);
     border-radius: 15px;
     transition: background-color 0.3s, color 0.3s;
+    will-change: background-color, color;
 }
 
 .nav-item:first-of-type {
@@ -86,7 +100,6 @@
         top: 0;
         left: 0;
         z-index: 1000;
-        display: none;
     }
 
     .logo {
@@ -96,12 +109,9 @@
     .nav-item {
         font-size: var(--font-size-small);
     }
-
-
 }
 
 body {
     margin: 0;
     font-family: sans-serif;
 }
-

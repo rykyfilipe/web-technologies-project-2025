@@ -12,6 +12,8 @@ const Navbar = (container) => {
     };
 
     nav.classList.add("navbar");
+    nav.classList.add("hidden");
+
 
     const logo = document.createElement("button");
     logo.classList.add("logo");
