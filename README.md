@@ -6,7 +6,7 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 👉 [https://web-technologies-project-2025-production.up.railway.app/](https://web-technologies-project-2025-production.up.railway.app/)
 
 ## PageSpeed Insights 
-**URL: **
+🔗**URL:**
  👉 [https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop](https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop)
 
 ## 🛠️ Tehnologii utilizate
