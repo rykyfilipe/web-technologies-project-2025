@@ -22,16 +22,16 @@
     opacity: 1;
 }
 
-/*.navbar.hidden {*/
-/*    visibility: hidden;*/
-/*    opacity: 0;*/
-/*    pointer-events: none;*/
-/*    position: absolute;*/
-/*    height: 0;*/
-/*    min-height: 0;*/
-/*    margin: 0;*/
-/*    border: none;*/
-/*}*/
+.navbar.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    height: 0;
+    min-height: 0;
+    margin: 0;
+    border: none;
+}
 
 .logo {
     width: 100%;
