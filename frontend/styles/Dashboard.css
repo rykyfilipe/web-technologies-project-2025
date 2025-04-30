@@ -1,48 +1,30 @@
 @import "./setup.css";
 
-
 .dashboard {
     width: 100%;
     max-width: var(--dashboard-width);
     min-width: 300px;
-
+    min-height: 300px;
     height: 95%;
-
     border-radius: 20px;
     border: 1px solid black;
-
     margin: auto;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: var(--font-size-large);
-
-    transition: width 0.3s ease, height 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 @media (max-width: 1024px) {
     .dashboard {
         width: 90%;
-        max-width: 800px;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard {
-        width: 95%;
-        max-width: 700px;
     }
 }
 
 @media (max-width: 600px) {
     .dashboard {
         width: 100%;
-        max-width: 100%;
         min-width: 90%;
-        font-size: var(--font-size-medium);
-
     }
-
 }

@@ -10,6 +10,8 @@ const Navbar = (container) => {
         icon: "ACA-logo",
         callBack: Dashboard
     };
+    nav.style.minWidth = "200px";
+    nav.style.minHeight = "300px";
 
     nav.classList.add("navbar");
     nav.classList.add("hidden");
