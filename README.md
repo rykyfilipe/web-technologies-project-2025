@@ -28,7 +28,7 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 1. Clonează repository-ul:
 
 ```bash
-git clone https://github.com/username/repo-name.git
+git clone https://github.com/rykyfilipe/web-technologies-project-2025.git
 cd repo-name
 ```
 
