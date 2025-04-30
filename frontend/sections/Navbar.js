@@ -14,7 +14,6 @@ const Navbar = (container) => {
     nav.style.minHeight = "300px";
 
     nav.classList.add("navbar");
-    nav.classList.add("hidden");
 
 
     const logo = document.createElement("button");
