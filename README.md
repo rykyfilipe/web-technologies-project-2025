@@ -26,8 +26,26 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 ```bash
 git clone https://github.com/username/repo-name.git
 cd repo-name
+```
 
+2. Instaleaza dependentele:
+
+```bash
 npm i
-.env(seteaza variabila PORT)
+```
+3.Seteaza variabilele de mediu:
+```.env
+PORT=valoare
+```
+4.Compileaza webpack
+```bash
 npm run build
+```
+5.Porneste serverul
+```bash
 npm run start
+```
+6.Ruleaza url in browser:
+```bash
+http://localhost:PORT
+```
