@@ -5,9 +5,11 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 🔗 **Site live:**  
 👉 [https://web-technologies-project-2025-production.up.railway.app/](https://web-technologies-project-2025-production.up.railway.app/)
 
-## PageSpeed Insights 
-🔗**URL:**
- 👉 [https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop](https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop)
+## 🚀 PageSpeed Insights  
+🔗 **URL:**  
+👉 [Analiză Desktop](https://pagespeed.web.dev/analysis/https-web-technologies-project-2025-production-up-railway-app/bwfzvqc73w?form_factor=desktop)
+
+---
 
 ## 🛠️ Tehnologii utilizate
 
@@ -16,6 +18,8 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 - **Backend:** Node.js
 - **Hosting backend:** Railway
 
+---
+
 ## 📦 Funcționalități
 
 - Interfață web statică modernă
@@ -23,25 +27,28 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 - Comunicare client-server
 - Design responsiv
 
-## 🚀 Rulare locală
+---
+
+## ⚙️ Rulare locală
 
 1. Clonează repository-ul:
 
 ```bash
 git clone https://github.com/rykyfilipe/web-technologies-project-2025.git
 cd web-technologies-project-2025
+
 ```
 
-2. Instaleaza dependentele:
+2.Instalează dependențele:
 
 ```bash
-npm i
+npm install
 ```
-3.Seteaza variabilele de mediu:
+3.Setează variabilele de mediu (creează un fișier .env în rădăcina proiectului):
 ```.env
-PORT=valoare
+PORT=3000  # sau orice port dorești
 ```
-4.Compileaza webpack:
+4.Compilează frontend-ul cu Webpack:
 ```bash
 npm run build
 ```
@@ -49,7 +56,7 @@ npm run build
 ```bash
 npm run start
 ```
-6.Ruleaza url in browser:
+6.Accesează aplicația în browser:
 ```bash
-http://localhost:PORT
+[http://localhost:PORT](http://localhost:PORT)
 ```
