@@ -7,7 +7,7 @@ module.exports = {
     mode: 'production',
     entry: './frontend/index.js',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].[contenthash].js', // cache busting
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
@@ -32,10 +32,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './frontend/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
+            filename: '[name].[contenthash].css',
         }),
     ],
     optimization: {
@@ -44,6 +44,10 @@ module.exports = {
             `...`,
             new CssMinimizerPlugin(),
         ],
+        splitChunks: {
+            chunks: 'all',
+        },
+        runtimeChunk: 'single',
     },
     devtool: 'source-map',
 };
