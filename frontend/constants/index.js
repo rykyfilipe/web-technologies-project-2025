@@ -1,26 +1,30 @@
-import About from "../sections/About.js";
+import Actors from "../sections/Actors.js";
 import Home from "../sections/Home.js";
-import Contact from "../sections/Contact.js";
+import Movies from "../sections/Movies.js";
+import dashboard from "../assets/icons/dashboard.svg";
+import profile from "../assets/icons/profile.svg";
+import movie from "../assets/icons/movie.svg";
+
 
 export const navItems = [
 
     {
         id: 1,
-        name: "Home",
-        icon: "home",
+        name: "Dashboard",
+        icon: dashboard,
         callBack: Home
     },
     {
         id: 2,
-        name: "About",
-        icon: "about",
-        callBack: About
+        name: "Actors",
+        icon: profile,
+        callBack: Actors
     },
     {
         id: 3,
-        name: "Contact",
-        icon: "contact",
-        callBack: Contact
+        name: "Movies",
+        icon: movie,
+        callBack: Movies
     },
 
 ];

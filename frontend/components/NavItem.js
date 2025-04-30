@@ -6,6 +6,10 @@ const NavItem = (container, navItemInfo) => {
     item.classList.add("nav-item");
     item.innerText = navItemInfo.name;
 
+    const img = document.createElement("img");
+    img.src = navItemInfo.icon;
+    item.prepend(img);
+
     item.addEventListener("click", (e) => {
         e.preventDefault();
 

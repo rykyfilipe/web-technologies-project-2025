@@ -7,8 +7,9 @@ module.exports = {
     mode: 'production',
     entry: './frontend/index.js',
     output: {
-        filename: '[name].[contenthash].js', // cache busting
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         clean: true,
     },
     module: {
@@ -26,6 +27,20 @@ module.exports = {
                         presets: ['@babel/preset-env'],
                     },
                 },
+            },
+            {
+                test: /\.svg$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/icons/[name][ext]'
+                }
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/images/[name][ext]'
+                }
             },
         ],
     },

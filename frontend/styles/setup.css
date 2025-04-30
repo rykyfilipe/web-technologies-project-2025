@@ -3,11 +3,19 @@
     --navbar-width: 250px;
     --dashboard-width: calc(100vw - var(--navbar-width) - 50px);
 
-    --primary-color: #eaeaea;
+    --border-fill-color: #C8CBD9;
+
+    --dashboard-fill-color: white;
+    --logo-text-color: #5A67BA;
+
+    --primary-color: white;
     --secondary-color: #26282b;
 
-
-    --font-size-small: 16px;
+    --navbar-fill-color: #F1F2F7;
+    --nav-item-fill-color: #979797;
+    --navbar-hover-fill-color: rgba(194, 201, 231, 0.68);
+    
+    --font-size-small: 12px;
     --font-size-medium: 20px;
     --font-size-large: 26px;
 

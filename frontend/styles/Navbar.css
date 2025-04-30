@@ -3,22 +3,17 @@
 .navbar {
     width: 20%;
     max-width: var(--navbar-width);
-    height: 95%;
+    height: 100%;
     min-width: 200px;
     min-height: 300px;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: flex-start;
 
-    margin-left: 20px;
-    margin-right: 20px;
+    padding-left: 20px;
 
-    gap: 20px;
-
-    border-radius: 20px;
-    border: 1px solid black;
 
     transition: opacity 0.3s ease, visibility 0.3s ease;
     position: relative;
@@ -27,45 +22,75 @@
 
     visibility: visible;
     opacity: 1;
+    background: var(--navbar-fill-color);
 }
 
 
 .logo {
     width: 100%;
-    height: 40px;
+    height: 70px;
 
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-
-    background: var(--secondary-color);
-    font-size: var(--font-size-large);
-    color: var(--primary-color);
+    font-size: var(--font-size-small);
+    color: var(--logo-text-color);
 
     border: none;
+    border-bottom: 1px solid var(--border-fill-color);
 
     cursor: pointer;
 
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    
+
+    padding-left: 25px;
+
+    gap: 5px;
+
     transition: box-shadow 0.2s ease;
 }
 
 .nav-item {
-    width: 80%;
-    height: 30px;
+    width: 90%;
+    height: 50px;
+
     border: none;
+    border-radius: 5px;
+
     cursor: pointer;
-    background: transparent;
-    color: var(--secondary-color);
-    font-size: var(--font-size-medium);
-    border-radius: 15px;
+
     transition: background-color 0.3s, color 0.3s;
+
+    font-size: var(--font-size-small);
+    font-weight: normal;
+    font-family: "Poppins", sans-serif;
+    color: var(--nav-item-fill-color);
+
+    text-align: start;
+    padding: 0 20px;
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
 }
 
-.nav-item:first-of-type {
-    margin-top: 50px;
+.nav-item:hover {
+    background: var(--navbar-hover-fill-color);
+}
+
+
+h2 {
+
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-left: 25px;
+
+    font-size: var(--font-size-small);
+    font-weight: normal;
+    font-family: "Poppins", sans-serif;
+    color: var(--nav-item-fill-color);
 }
 
 @media (max-width: 1024px) {
