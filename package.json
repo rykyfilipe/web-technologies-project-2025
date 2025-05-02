@@ -5,7 +5,8 @@
   "main": "backend/server/index.cjs",
   "scripts": {
     "build": "webpack",
-    "start": "node backend/server/index.cjs"
+    "start": "node backend/server/index.cjs",
+    "dev": "webpack serve "
   },
   "dependencies": {
     "compression": "^1.8.0",
