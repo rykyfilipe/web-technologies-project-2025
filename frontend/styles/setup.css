@@ -3,20 +3,28 @@
     --navbar-width: 250px;
     --dashboard-width: calc(100vw - var(--navbar-width) - 50px);
 
-    --border-fill-color: #C8CBD9;
 
-    --dashboard-fill-color: white;
-    --logo-text-color: #5A67BA;
+    --dashboard-fill-color: #FFFFFF;
 
     --primary-color: white;
     --secondary-color: #26282b;
 
     --navbar-fill-color: #F1F2F7;
-    --nav-item-fill-color: #979797;
-    --navbar-hover-fill-color: rgba(194, 201, 231, 0.68);
-    
+    --nav-item-fill-color: #CED1D8;
+    --navbar-hover-fill-color: #E4E6F4;
+    --nav-icon-fill-color: #C4C7DB;
+
+    --logo-text-color: #5A67BA;
+
+    --searchbar-fill-color: #F5F6FB;
+
+    --chart-fill-color: #2c2c2c;
+
+    --border-fill-color: #c3c3c3;
+
+
     --font-size-small: 12px;
-    --font-size-medium: 20px;
-    --font-size-large: 26px;
+    --font-size-medium: 28px;
+    --font-size-large: 24px;
 
 }
