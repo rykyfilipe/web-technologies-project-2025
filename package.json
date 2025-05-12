@@ -2,10 +2,10 @@
   "name": "aca-server",
   "type": "module",
   "version": "1.0.0",
-  "main": "backend/server/index.cjs",
+  "main": "backend/frontend-server/index.cjs",
   "scripts": {
     "build": "webpack",
-    "start": "node backend/server/index.cjs",
+    "start": "node backend/frontend-server/index.cjs",
     "dev": "webpack serve "
   },
   "dependencies": {
