@@ -11,10 +11,20 @@ mysql.connectToDataBase(connection);
 const server = http.createServer((req, res) => {
   const { method, url } = req;
 
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   res.setHeader('Content-Type', 'application/json');
 
   if (method === 'GET' && url === '/hello') {
-
     const authHeader = req.headers['authorization'];
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -35,8 +45,6 @@ const server = http.createServer((req, res) => {
       res.end('Token invalid sau expirat');
       return;
     }
-
-    
   }
 
   if (method === 'POST' && url === '/login') {
@@ -55,4 +63,3 @@ server.listen(port, (error) => {
   }
   console.log('The server lisens at port: ' + port);
 });
-
