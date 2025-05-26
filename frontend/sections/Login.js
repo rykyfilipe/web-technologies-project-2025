@@ -2,6 +2,7 @@ import Navbar from './Navbar.js';
 import Dashboard from './Dashboard.js';
 import '../styles/Login.css';
 import '../styles/index.css';
+import RegisterUser from './RegisterUser.js';
 
 const url_prefix = 'http://127.0.0.1:3001'
 
@@ -37,6 +38,16 @@ const Login = (container) => {
   submitButton.classList.add('form-button');
   loginForm.appendChild(submitButton);
 
+  const registerLink = document.createElement('a');
+  registerLink.textContent = 'Already have an account?';
+  registerLink.classList.add('form-a');
+  registerLink.addEventListener('click', async function () { 
+    loginForm.remove();
+    RegisterUser(container);
+  });
+
+  loginForm.appendChild(registerLink);
+
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = usernameInput.value;
@@ -47,7 +58,7 @@ const Login = (container) => {
           password: password,
       };
       
-    //localStorage.setItem('user', username);
+    
       const response = await fetch(url_prefix + '/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
