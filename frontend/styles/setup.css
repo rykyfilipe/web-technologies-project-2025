@@ -27,4 +27,6 @@
     --font-size-medium: 28px;
     --font-size-large: 24px;
 
+    --login-form-width: 300px;
+    --login-form-height: 400px;
 }
