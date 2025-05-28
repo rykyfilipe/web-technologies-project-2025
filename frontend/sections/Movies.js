@@ -1,5 +1,5 @@
-const Movies = (container) => {
-    container.innerText = 'Movies';
-}
+/** @format */
+
+const Movies = (container) => {};
 
 export default Movies;

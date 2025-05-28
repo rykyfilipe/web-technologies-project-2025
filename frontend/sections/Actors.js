@@ -1,5 +1,5 @@
-const Actors = (container) => {
-    container.innerText = 'Actors';
-}
+/** @format */
+
+const Actors = (container) => {};
 
 export default Actors;
