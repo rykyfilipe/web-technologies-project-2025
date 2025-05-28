@@ -1,5 +1,5 @@
 const Home = (container) => {
-    container.innerText = 'Dashboard';
+    //container.innerText = 'Dashboard';
 }
 
 export default Home;

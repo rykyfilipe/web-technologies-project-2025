@@ -1,5 +1,5 @@
 const Movies = (container) => {
-    container.innerText = 'Movies';
+    //container.innerText = 'Movies';
 }
 
 export default Movies;

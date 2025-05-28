@@ -15,7 +15,7 @@ const Dashboard = (container) => {
     const section = document.createElement("section");
     section.classList.add("dashboard");
     section.id = "dashboard";
-    section.textContent = "Dashboard";
+    //section.textContent = "Dashboard";
     section.style.minHeight = "300px";
 
     container.append(section);
