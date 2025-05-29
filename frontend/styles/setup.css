@@ -1,32 +1,32 @@
+/** @format */
+
 :root {
+	--navbar-width: 250px;
+	--dashboard-width: calc(100vw - var(--navbar-width) - 50px);
 
-    --navbar-width: 250px;
-    --dashboard-width: calc(100vw - var(--navbar-width) - 50px);
+	--dashboard-fill-color: #ffffff;
 
+	--primary-color: white;
+	--secondary-color: #26282b;
+	--thirth-color: #5a67ba;
 
-    --dashboard-fill-color: #FFFFFF;
+	--navbar-fill-color: #f1f2f7;
+	--nav-item-fill-color: #ced1d8;
+	--navbar-hover-fill-color: #e4e6f4;
+	--nav-icon-fill-color: #c4c7db;
 
-    --primary-color: white;
-    --secondary-color: #26282b;
+	--logo-text-color: #5a67ba;
 
-    --navbar-fill-color: #F1F2F7;
-    --nav-item-fill-color: #CED1D8;
-    --navbar-hover-fill-color: #E4E6F4;
-    --nav-icon-fill-color: #C4C7DB;
+	--searchbar-fill-color: #f5f6fb;
 
-    --logo-text-color: #5A67BA;
+	--chart-fill-color: #2c2c2c;
 
-    --searchbar-fill-color: #F5F6FB;
+	--border-fill-color: #c3c3c3;
 
-    --chart-fill-color: #2c2c2c;
+	--font-size-small: 12px;
+	--font-size-medium: 28px;
+	--font-size-large: 24px;
 
-    --border-fill-color: #c3c3c3;
-
-
-    --font-size-small: 12px;
-    --font-size-medium: 28px;
-    --font-size-large: 24px;
-
-    --login-form-width: 300px;
-    --login-form-height: 400px;
+	--login-form-width: 300px;
+	--login-form-height: 400px;
 }

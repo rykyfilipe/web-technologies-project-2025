@@ -11,13 +11,13 @@ import {
 	createShowNominalizationChart,
 } from "../constants/chartInfo.js";
 
-let cachedData = null;
+import {
+	showErrorState,
+	removeLoadingState,
+	showLoadingState,
+} from "../components/utils.js";
 
 const loadData = async () => {
-	if (cachedData) {
-		return cachedData;
-	}
-
 	try {
 		const response = await fetch("http://localhost:3001/get-data");
 		if (!response.ok) {
@@ -29,42 +29,11 @@ const loadData = async () => {
 			throw new Error("Invalid data format: expected array");
 		}
 
-		cachedData = data;
 		return data;
 	} catch (error) {
 		console.error("Error fetching dashboard data:", error);
 		return null;
 	}
-};
-
-const showLoadingState = (container) => {
-	const loadingDiv = document.createElement("div");
-	loadingDiv.id = "loading-state";
-	loadingDiv.className = "loading-state";
-	loadingDiv.innerHTML = `
-		<div class="loading-spinner"></div>
-		<p>Loading dashboard data...</p>
-	`;
-	container.appendChild(loadingDiv);
-};
-
-const removeLoadingState = () => {
-	const loadingState = document.getElementById("loading-state");
-	if (loadingState) {
-		loadingState.remove();
-	}
-};
-
-const showErrorState = (container, message) => {
-	const errorDiv = document.createElement("div");
-	errorDiv.className = "error-state";
-	errorDiv.innerHTML = `
-		<div class="error-icon">⚠️</div>
-		<h3>Unable to Load Data</h3>
-		<p>${message}</p>
-		<button onclick="location.reload()" class="retry-button">Retry</button>
-	`;
-	container.appendChild(errorDiv);
 };
 
 const Home = async (container) => {
@@ -88,7 +57,6 @@ const Home = async (container) => {
 
 	try {
 		const data = await loadData();
-		console.log(data);
 		removeLoadingState();
 
 		if (!data || data.length === 0) {
@@ -161,10 +129,4 @@ const Home = async (container) => {
 	}
 };
 
-// Function to clear cache (useful for development or when data updates)
-const clearCache = () => {
-	cachedData = null;
-};
-
 export default Home;
-export { clearCache };
