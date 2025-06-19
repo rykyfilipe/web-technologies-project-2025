@@ -3,9 +3,11 @@
 import Actors from "../sections/Actors.js";
 import Home from "../sections/Home.js";
 import Movies from "../sections/Movies.js";
+import News from "../sections/News.js"
 import dashboard from "../assets/icons/dashboard.svg";
 import profile from "../assets/icons/profile.svg";
 import movie from "../assets/icons/movie.svg";
+import news from "../assets/icons/news.svg"
 import Dashboard from "../sections/Dashboard.js";
 
 export const navItems = [
@@ -26,5 +28,11 @@ export const navItems = [
 		name: "Movies",
 		icon: movie,
 		callBack: Movies,
+	},
+	{
+		id: 4,
+		name: "News",
+		
+		callBack: News,
 	},
 ];

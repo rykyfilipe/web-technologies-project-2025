@@ -19,7 +19,7 @@ const Actor = (containter, actorInfo) => {
   const nameH = document.createElement('h2');
   nameH.textContent = name;
   const popularityP = document.createElement('p');
-  popularityP.textContent = popularity;
+  popularityP.textContent = '🏆' + popularity.toFixed(1);
   dataDiv.appendChild(nameH);
   dataDiv.appendChild(popularityP);
 
