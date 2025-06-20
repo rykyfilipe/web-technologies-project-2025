@@ -29,7 +29,9 @@ const News = async (container) => {
 async function loadNews(newsDiv, selectedSource) {
   newsDiv.innerHTML = '';
   try {
-    const response = await fetch('http://127.0.0.1:3001/unique-actors');
+    const response = await fetch(
+      'https://web-technologies-project-2025-production.up.railway.app/unique-actors'
+    );
     const data = await response.json();
     const actors = data?.slice(0, 1); // doar primul actor
 
