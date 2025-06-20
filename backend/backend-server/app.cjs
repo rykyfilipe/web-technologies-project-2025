@@ -93,7 +93,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
   }
-  if (url === '/news' && req.method === 'GET') {
+  else if (url === '/news' && req.method === 'GET') {
     const actorQuery = parsedUrl.query.query;
     if (!actorQuery) {
       res.writeHead(400);
@@ -122,7 +122,8 @@ const server = http.createServer(async (req, res) => {
   } else {
     res.writeHead(404);
     res.end(JSON.stringify({ message: 'Not found' }));
-  }
+	}
+	
 });
 
 server.listen(port, (error) => {
