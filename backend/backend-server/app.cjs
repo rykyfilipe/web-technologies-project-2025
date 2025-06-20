@@ -10,12 +10,11 @@ const { interpretData } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
 dotenv.config({
-	// path: "C://Users/bryky/OneDrive/Documente/Programing/Web Technologies/ACA-project/.env",
 	path: "../../.env",
 });
-
+console.log("backend");
 const SECRET_KEY = process.env.SECRET_KEY || "super_secret_key";
-console.log("Secret key:", process.env.SECRET_KEY);
+console.log("Secret key:", SECRET_KEY);
 const connection = mysql.createConnectionToDatabase();
 mysql.connectToDataBase(connection);
 
@@ -79,25 +78,24 @@ const server = http.createServer(async (req, res) => {
 		}
 	} else if (method === "GET" && url === "/unique-actors") {
 		try {
-      const data = await uniqueActors();
+			const data = await uniqueActors();
 
-      if (data === null) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Eroare la procesarea datelor' }));
-        return;
-      }
+			if (data === null) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare la procesarea datelor" }));
+				return;
+			}
 
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(data));
-    } catch (error) {
-      console.error('Eroare în server:', error);
-      if (!res.headersSent) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Eroare internă server' }));
-      }
-    }
- 	}
-	else {
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify(data));
+		} catch (error) {
+			console.error("Eroare în server:", error);
+			if (!res.headersSent) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare internă server" }));
+			}
+		}
+	} else {
 		res.writeHead(404);
 		res.end(JSON.stringify({ message: "Not found" }));
 	}
