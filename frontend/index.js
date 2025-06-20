@@ -9,7 +9,8 @@ import "./styles/index.css";
 document.addEventListener("DOMContentLoaded", () => {
 	const container = getContainer("root");
 	const user = localStorage.getItem("user");
-	// Login(container);
+
+	Login(container);
 	Navbar(container);
 	Dashboard(container);
 });
