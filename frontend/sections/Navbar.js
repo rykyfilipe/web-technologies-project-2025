@@ -28,11 +28,7 @@ const Navbar = (container) => {
 	const toggleBtn = document.createElement("button");
 	toggleBtn.classList.add("hamburger");
 	toggleBtn.innerHTML = "☰";
-	nav.append(toggleBtn);
-
-	// Wrapper pentru meniul navigabil (ascuns pe mobil)
-	const menu = document.createElement("div");
-	menu.classList.add("nav-menu");
+	container.append(toggleBtn);
 
 	const h2 = document.createElement("h2");
 	h2.textContent = "MENU";
