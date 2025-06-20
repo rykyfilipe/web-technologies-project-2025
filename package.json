@@ -1,44 +1,44 @@
 {
-  "name": "aca-server",
-  "type": "module",
-  "version": "1.0.0",
-  "main": "backend/frontend-server/index.cjs",
-  "scripts": {
-    "build": "webpack",
-    "start": "node backend/frontend-server/index.cjs",
-    "dev": "webpack serve "
-  },
-  "dependencies": {
-    "chart.js": "^4.4.9",
-    "compression": "^1.8.0",
-    "css-minimizer-webpack-plugin": "^7.0.2",
-    "dotenv": "^16.5.0",
-    "jsonwebtoken": "^9.0.2",
-    "jspdf": "^3.0.1",
-    "mini-css-extract-plugin": "^2.9.2",
-    "mysql2": "^3.14.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/preset-env": "^7.26.9",
-    "babel-loader": "^10.0.0",
-    "css-loader": "^7.1.2",
-    "html-webpack-plugin": "^5.6.3",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.99.7",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.1"
-  },
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rykyfilipe/web-technologies-project-2025.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rykyfilipe/web-technologies-project-2025/issues"
-  },
-  "homepage": "https://github.com/rykyfilipe/web-technologies-project-2025#readme"
+	"name": "aca-server",
+	"type": "module",
+	"version": "1.0.0",
+	"main": "backend/frontend-server/index.cjs",
+	"scripts": {
+		"build": "webpack",
+		"start": "node backend/frontend-server/index.cjs",
+		"dev": "webpack serve "
+	},
+	"dependencies": {
+		"chart.js": "^4.4.9",
+		"compression": "^1.8.0",
+		"css-minimizer-webpack-plugin": "^7.0.2",
+		"dotenv": "^16.5.0",
+		"jsonwebtoken": "^9.0.2",
+		"jspdf": "^3.0.1",
+		"mini-css-extract-plugin": "^2.9.2",
+		"mysql2": "^3.14.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.26.10",
+		"@babel/preset-env": "^7.26.9",
+		"babel-loader": "^10.0.0",
+		"css-loader": "^7.1.2",
+		"html-webpack-plugin": "^5.6.3",
+		"style-loader": "^4.0.0",
+		"webpack": "^5.99.7",
+		"webpack-cli": "^6.0.1",
+		"webpack-dev-server": "^5.2.1"
+	},
+	"description": "",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rykyfilipe/web-technologies-project-2025.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/rykyfilipe/web-technologies-project-2025/issues"
+	},
+	"homepage": "https://github.com/rykyfilipe/web-technologies-project-2025#readme"
 }
