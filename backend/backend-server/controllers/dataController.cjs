@@ -4,7 +4,7 @@ const fs = require("fs").promises;
 const path = require("path");
 
 async function interpretData() {
-	const filePath = path.join("../backend-server/data", "data.csv");
+	const filePath = path.join(__dirname, "../backend-server/data/data.csv");
 
 	try {
 		const data = await fs.readFile(filePath, "utf8");
