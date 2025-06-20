@@ -1,6 +1,8 @@
 /** @format */
 
 const http = require('http');
+const urlModule = require('url');
+const https = require("https");
 const port = process.env.API_PORT || 3001;
 const mysql = require('./models/init_models.cjs');
 const auth = require('./controllers/authController.cjs');
@@ -17,7 +19,7 @@ mysql.connectToDataBase(connection);
 
 const server = http.createServer(async (req, res) => {
   const { method, url } = req;
-  const parsedUrl = url.parse(req.url, true);
+  const parsedUrl = urlModule.parse(req.url, true);
 
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -93,7 +95,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
   }
-  else if (url === '/news' && req.method === 'GET') {
+  else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
     const actorQuery = parsedUrl.query.query;
     if (!actorQuery) {
       res.writeHead(400);
@@ -101,12 +103,19 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    const newsApiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(
-      actorQuery
-    )}&apiKey=${NEWSAPI_KEY}`;
+    const options = {
+      hostname: 'newsapi.org',
+      path: `/v2/everything?q=${encodeURIComponent(
+        actorQuery
+      )}&apiKey=${NEWSAPI_KEY}`,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'web-tech-project/1.0 (Eduard O.)',
+      },
+    };
 
     https
-      .get(newsApiUrl, (apiRes) => {
+      .get(options, (apiRes) => {
         let data = '';
         apiRes.on('data', (chunk) => (data += chunk));
         apiRes.on('end', () => {
@@ -122,7 +131,7 @@ const server = http.createServer(async (req, res) => {
   } else {
     res.writeHead(404);
     res.end(JSON.stringify({ message: 'Not found' }));
-	}
+  }
 	
 });
 
