@@ -89,40 +89,19 @@ h2 {
 	color: var(--nav-item-fill-color);
 }
 
-@media (max-width: 1024px) {
-	.navbar {
-		width: 30%;
-	}
+.nav-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
-@media (max-width: 768px) {
-	.navbar {
-		width: 40%;
-	}
-}
-
-@media (max-width: 800px) {
-	.navbar {
-		width: 100%;
-		height: 100vh;
-		position: fixed;
-		top: 0;
-		left: 0;
-		background: white;
-		z-index: 1000;
-		transform: translateX(-100%);
-		transition: transform 0.3s ease, opacity 0.3s ease;
-		visibility: hidden;
-	}
-}
-
-/* Buton hamburger */
+/* Buton hamburger - întotdeauna vizibil pe mobil */
 .hamburger {
 	display: none;
-	position: absolute;
+	position: fixed; /* Fixed pentru a rămâne în același loc */
 	top: 20px;
 	left: 20px;
-	z-index: 1100;
+	z-index: 1100; /* Mai mare decât navbar-ul */
 	width: 40px;
 	height: 40px;
 	background: var(--navbar-fill-color);
@@ -138,20 +117,35 @@ h2 {
 .hamburger:hover {
 	background-color: var(--navbar-hover-fill-color);
 }
-.nav-menu {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
+
+@media (max-width: 1024px) {
+	.navbar {
+		width: 30%;
+	}
 }
-/* Responsive - afișare buton hamburger pe mobil */
+
+@media (max-width: 768px) {
+	.navbar {
+		width: 40%;
+	}
+}
+
 @media (max-width: 800px) {
+	/* Afișează butonul hamburger */
 	.hamburger {
 		display: block;
 	}
 
-	/* Navbar ascuns implicit (din stilurile tale deja) */
 	.navbar {
+		width: 100%;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: white;
+		z-index: 1000;
 		transform: translateX(-100%);
+		transition: transform 0.3s ease, opacity 0.3s ease;
 		visibility: hidden;
 		opacity: 0;
 	}
@@ -161,6 +155,5 @@ h2 {
 		transform: translateX(0);
 		visibility: visible;
 		opacity: 1;
-		transition: transform 0.3s ease, opacity 0.3s ease;
 	}
 }

@@ -1,11 +1,16 @@
 /** @format */
-
 import { navItems } from "../constants/index.js";
 import NavItem from "../components/NavItem.js";
 import "../styles/Navbar.css";
 import logo_src from "../assets/icons/logo.svg";
 
 const Navbar = (container) => {
+	// Creează butonul hamburger ÎNAINTEA navbar-ului
+	const toggleBtn = document.createElement("button");
+	toggleBtn.classList.add("hamburger");
+	toggleBtn.innerHTML = "☰";
+	container.append(toggleBtn); // Adaugă butonul direct în container
+
 	const nav = document.createElement("nav");
 	nav.classList.add("navbar");
 
@@ -23,12 +28,6 @@ const Navbar = (container) => {
 	img.src = logo_src;
 	logo.prepend(img);
 	nav.append(logo);
-
-	// Creează butonul hamburger
-	const toggleBtn = document.createElement("button");
-	toggleBtn.classList.add("hamburger");
-	toggleBtn.innerHTML = "☰";
-	nav.append(toggleBtn); // atașez butonul în navbar pentru structură
 
 	// Creează containerul pentru meniul de navigare
 	const menu = document.createElement("div");
