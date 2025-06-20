@@ -11,6 +11,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	const user = localStorage.getItem("user");
 
 	Login(container);
-	Navbar(container);
-	Dashboard(container);
 });
