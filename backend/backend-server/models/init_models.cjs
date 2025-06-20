@@ -12,7 +12,7 @@ function createConnectionToDatabase() {
 	// 		rejectUnauthorized: false,
 	// 	},
 	// });
-	const connection = mysql.createConnection({ uri: process.eenv.DATABASE_URL });
+	const connection = mysql.createConnection({ uri: process.env.DATABASE_URL });
 	return connection;
 }
 
