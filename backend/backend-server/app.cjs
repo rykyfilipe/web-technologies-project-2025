@@ -7,6 +7,7 @@ const auth = require("./controllers/authController.cjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { interpretData } = require("./controllers/dataController.cjs");
+const { uniqueActors } = require("./data/data.cjs");
 
 dotenv.config({
 	// path: "C://Users/bryky/OneDrive/Documente/Programing/Web Technologies/ACA-project/.env",
@@ -76,7 +77,27 @@ const server = http.createServer(async (req, res) => {
 				res.end(JSON.stringify({ message: "Eroare internă server" }));
 			}
 		}
-	} else {
+	} else if (method === "GET" && url === "/unique-actors") {
+		try {
+      const data = await uniqueActors();
+
+      if (data === null) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare la procesarea datelor' }));
+        return;
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+ 	}
+	else {
 		res.writeHead(404);
 		res.end(JSON.stringify({ message: "Not found" }));
 	}

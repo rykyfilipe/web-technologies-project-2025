@@ -27,7 +27,7 @@ const Actors = async (container) => {
   sentinel.id = 'sentinel';
   
 
-  // funcție care încarcă o pagină de actori
+
   async function loadPage(page) {
     const response = await fetch(
       `https://api.themoviedb.org/3/person/popular?language=en-US&page=${page}`,
@@ -49,10 +49,10 @@ const Actors = async (container) => {
     actorsDiv.appendChild(sentinel);
   }
 
-  // încarcă prima pagină
+  
   await loadPage(currentPage);
 
-  // creează un observer care detectează când ești jos
+
   const observer = new IntersectionObserver(async (entries) => {
     console.log('SANTINEL II VAZUT');
     if (entries[0].isIntersecting) {
