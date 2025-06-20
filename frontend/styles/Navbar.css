@@ -1,123 +1,162 @@
 @import "./setup.css";
 
 .navbar {
-    width: 20%;
-    max-width: var(--navbar-width);
-    height: 100%;
-    min-width: 200px;
-    min-height: 300px;
+	width: 20%;
+	max-width: var(--navbar-width);
+	height: 100%;
+	min-width: 200px;
+	min-height: 300px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: flex-start;
 
-    padding-left: 20px;
+	padding-left: 20px;
 
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+	position: relative;
 
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    position: relative;
+	z-index: 10;
 
-    z-index: 10;
-
-    visibility: visible;
-    opacity: 1;
-    background: var(--navbar-fill-color);
+	visibility: visible;
+	opacity: 1;
+	background: var(--navbar-fill-color);
 }
 
-
 .logo {
-    width: 100%;
-    height: 70px;
+	width: 100%;
+	height: 70px;
 
-    font-size: var(--font-size-small);
-    color: var(--logo-text-color);
+	font-size: var(--font-size-small);
+	color: var(--logo-text-color);
 
-    border: none;
-    border-bottom: 1px solid var(--border-fill-color);
+	border: none;
+	border-bottom: 1px solid var(--border-fill-color);
 
-    cursor: pointer;
+	cursor: pointer;
 
-    display: flex;
-    justify-content: start;
-    align-items: center;
+	display: flex;
+	justify-content: start;
+	align-items: center;
 
-    padding-left: 25px;
+	padding-left: 25px;
 
-    gap: 5px;
+	gap: 5px;
 
-    transition: box-shadow 0.2s ease;
+	transition: box-shadow 0.2s ease;
 }
 
 .nav-item {
-    width: 90%;
-    height: 50px;
+	width: 90%;
+	height: 50px;
 
-    border: none;
-    border-radius: 5px;
+	border: none;
+	border-radius: 5px;
 
-    cursor: pointer;
+	cursor: pointer;
 
-    transition: background-color 0.3s, color 0.3s;
+	transition: background-color 0.3s, color 0.3s;
 
-    font-size: var(--font-size-small);
-    font-weight: normal;
-    font-family: "Poppins", sans-serif;
-    color: var(--nav-item-fill-color);
+	font-size: var(--font-size-small);
+	font-weight: normal;
+	font-family: "Poppins", sans-serif;
+	color: var(--nav-item-fill-color);
 
-    text-align: start;
-    padding: 0 20px;
+	text-align: start;
+	padding: 0 20px;
 
-    background: transparent;
+	background: transparent;
 
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 
-    gap: 5px;
+	gap: 5px;
 }
 
 .nav-item:hover {
-    background: var(--navbar-hover-fill-color);
+	background: var(--navbar-hover-fill-color);
 }
 
-
 h2 {
+	margin-top: 30px;
+	margin-bottom: 10px;
+	padding-left: 25px;
 
-    margin-top: 30px;
-    margin-bottom: 10px;
-    padding-left: 25px;
-
-    font-size: var(--font-size-small);
-    font-weight: normal;
-    font-family: "Poppins", sans-serif;
-    color: var(--nav-item-fill-color);
+	font-size: var(--font-size-small);
+	font-weight: normal;
+	font-family: "Poppins", sans-serif;
+	color: var(--nav-item-fill-color);
 }
 
 @media (max-width: 1024px) {
-    .navbar {
-        width: 30%;
-    }
+	.navbar {
+		width: 30%;
+	}
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        width: 40%;
-    }
+	.navbar {
+		width: 40%;
+	}
 }
 
 @media (max-width: 800px) {
-    .navbar {
-        width: 100%;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: white;
-        z-index: 1000;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        visibility: hidden;
-    }
+	.navbar {
+		width: 100%;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: white;
+		z-index: 1000;
+		transform: translateX(-100%);
+		transition: transform 0.3s ease, opacity 0.3s ease;
+		visibility: hidden;
+	}
+}
 
+/* Buton hamburger */
+.hamburger {
+	display: none;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	width: 40px;
+	height: 40px;
+	background: var(--navbar-fill-color);
+	border: none;
+	cursor: pointer;
+	font-size: 28px;
+	color: var(--logo-text-color);
+	border-radius: 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	transition: background-color 0.3s ease;
+}
 
+.hamburger:hover {
+	background-color: var(--navbar-hover-fill-color);
+}
+
+/* Responsive - afișare buton hamburger pe mobil */
+@media (max-width: 800px) {
+	.hamburger {
+		display: block;
+	}
+
+	/* Navbar ascuns implicit (din stilurile tale deja) */
+	.navbar {
+		transform: translateX(-100%);
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	/* Navbar vizibil când are clasa 'show' */
+	.navbar.show {
+		transform: translateX(0);
+		visibility: visible;
+		opacity: 1;
+		transition: transform 0.3s ease, opacity 0.3s ease;
+	}
 }
