@@ -8,7 +8,10 @@ import "./styles/index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
 	const container = getContainer("root");
-	const user = localStorage.getItem("user");
+	const user = localStorage.getItem("w-user");
 
-	Login(container);
+	if (user) {
+		Navbar(container);
+		Dashboard(container);
+	} else Login(container);
 });

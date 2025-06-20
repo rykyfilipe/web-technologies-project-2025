@@ -68,6 +68,7 @@ const RegisterUser = (container) => {
 
 		if (response.ok) {
 			registerForm.remove();
+			localStorage.setItem("w-user", JSON.stringify({ serverData }));
 
 			Navbar(container);
 			Dashboard(container);

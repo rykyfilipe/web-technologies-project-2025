@@ -11,7 +11,7 @@ const Navbar = (container) => {
 	const logoInfo = {
 		name: "Actor Awards Vizualizer",
 		icon: "ACA-logo",
-    	};
+	};
 	nav.style.minWidth = "200px";
 	nav.style.minHeight = "300px";
 
