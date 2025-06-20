@@ -19,7 +19,8 @@ import {
 
 const loadData = async () => {
 	try {
-		const URL = import.meta.env.BACKEND_URL || "http://localhost:3001";
+		const URL =
+			"https://web-technologies-project-2025-production.up.railway.app";
 		const response = await fetch(`${URL}/get-data`);
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
