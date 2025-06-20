@@ -19,7 +19,8 @@ import {
 
 const loadData = async () => {
 	try {
-		const response = await fetch("http://localhost:3001/get-data");
+		const URL = process.env.BACKEND_URL;
+		const response = await fetch(`${URL}/get-data`);
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
@@ -124,7 +125,7 @@ const Home = async (container) => {
 		removeLoadingState();
 		showErrorState(
 			section,
-			"An unexpected error occurred while loading the dashboard.",
+			"An unexpected error occurred while loading the dashboard."
 		);
 	}
 };
