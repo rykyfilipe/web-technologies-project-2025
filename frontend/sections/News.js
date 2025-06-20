@@ -1,62 +1,114 @@
-//const API_KEY = '77874b8dcba14e28be6f852835919719';
+import "../styles/News.css"
+const API_KEYS = {
+  newsapi: '77874b8dcba14e28be6f852835919719',
+  gnews: '32c3c615b227d0dabc009d3b45b37f7e',
+};
 
 const News = async (container) => {
-	container.innerHTML = "";
-	const newsDiv = document.createElement("div");
-	newsDiv.classList.add("news");
-	container.appendChild(newsDiv);
+  container.innerHTML = '';
 
-	try {
-		const response = await fetch(
-			"https://web-technologies-project-2025-production.up.railway.app/unique-actors"
-		);
-		const data = await response.json();
+  const select = document.createElement('select');
+  select.innerHTML = `
+    <option value="newsapi">NewsAPI</option>
+    <option value="gnews">GNews</option>
+  `;
+  select.classList.add('news-source-selector');
+  container.appendChild(select);
 
-		const actors = data?.slice(0, 5);
-		if (!actors || actors.length === 0) {
-			console.warn("Nu s-au găsit actori.");
-			return;
-		}
+  const newsDiv = document.createElement('div');
+  newsDiv.classList.add('news');
+  container.appendChild(newsDiv);
 
-		for (const actor of actors) {
-			const query = actor.trim().replace(/\s+/g, "+");
-			console.log(`Qurety pt: ${query}`);
-			const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${API_KEY}`;
+  select.addEventListener('change', () => {
+    loadNews(newsDiv, select.value);
+  });
+
+  loadNews(newsDiv, select.value);
+};
+
+async function loadNews(newsDiv, selectedSource) {
+  newsDiv.innerHTML = '';
+  try {
+    const response = await fetch('http://127.0.0.1:3001/unique-actors');
+    const data = await response.json();
+    const actors = data?.slice(0, 1); // doar primul actor
+
+    if (!actors || actors.length === 0) {
+      console.warn('Nu s-au găsit actori.');
+      return;
+    }
+
+    for (const actor of actors) {
+      const query = actor.trim().replace(/\s+/g, '+');
+      console.log(`Caut știri pentru ${query} din ${selectedSource}`);
+
+      let url;
+      let source;
+      if (selectedSource === 'newsapi') {
+        url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${API_KEYS.newsapi}`;
+        source = 1;
+      } else if (selectedSource === 'gnews') {
+        url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=${API_KEYS.gnews}`;
+        source = 2;
+      }
 
 			const newsResp = await fetch(url);
 			const data = await newsResp.json();
 
-			if (data.articles) {
-				const firstThreeArticles = data.articles.slice(0, 3);
-				addNews(newsDiv, firstThreeArticles);
-			}
-		}
-	} catch (error) {
-		console.error("Eroare la fetch:", error);
-	}
-};
+      const articles = data.articles?.slice(0, 3);
+      if (articles) addNews(newsDiv, articles, source);
+    }
+  } catch (err) {
+    console.error('Eroare la încărcare știri:', err);
+  }
+}
+ 
 
-// Funcția addNews care adaugă articolele în DOM
-function addNews(container, articles) {
-	articles.forEach((article) => {
-		const div = document.createElement("div");
-		div.className = "news-article";
 
-		div.innerHTML = `
-            <h2>${article.title}</h2>
-            <p><strong>By:</strong> ${article.author ?? "Unknown"}</p>
-            <p><strong>Source:</strong> ${article.source.name}</p>
-            <p>${article.description}</p>
-            <img src="${article.urlToImage}" alt="Image for ${
-			article.title
-		}" style="max-width: 100%;">
-            <p><a href="${article.url}" target="_blank">Read more</a></p>
+function addNews(container, articles, source) {
+  articles.forEach((article) => {
+    const div = document.createElement('div');
+    div.className = 'news-article';
+
+    let title, author, sourceName, description, image, url, publishedAt, urlToImage;
+
+    if (source === 1) {
+      title = article.title;
+      name = article.source.name;
+      description = article.description;
+      author = article.author;
+      urlToImage = article.urlToImage;
+      url = article.url;
+      publishedAt = article.publishedAt;
+    }
+    else if (source === 2) {
+      title = article.title;
+      name = article.source?.name;
+      description = article.description;
+      author = article.source?.name;
+      urlToImage = article.image;
+      url = article.url;
+      publishedAt = article.publishedAt;
+    }
+
+    div.innerHTML = `
+            <h2>${title}</h2>
+            <div class="news-article-header">
+              <p><strong>By:</strong> ${author ?? 'Unknown'}</p>
+              <p><strong>Source:</strong> ${name}</p>
+            </div>
+            
+            <p class="news-description">${description}</p>
+            <img src="${urlToImage}" alt="Image for ${title}">
+            <p><a href="${url}" target="_blank" class="news-article-read-more">Read more</a></p>
             <p><small>Published at: ${new Date(
-							article.publishedAt
-						).toLocaleString()}</small></p>
+              publishedAt
+            ).toLocaleString()}</small></p>
         `;
 
 		container.appendChild(div);
 	});
 }
+
+
 export default News;
