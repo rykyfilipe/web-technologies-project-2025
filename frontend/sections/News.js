@@ -47,7 +47,7 @@ async function loadNews(newsDiv, selectedSource) {
       let url;
       let source;
       if (selectedSource === 'newsapi') {
-        url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${API_KEYS.newsapi}`;
+        url = `https://web-technologies-project-2025-production.up.railway.app/news?query=${query}`;
         source = 1;
       } else if (selectedSource === 'gnews') {
         url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=${API_KEYS.gnews}`;

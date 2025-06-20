@@ -1,104 +1,133 @@
 /** @format */
 
-const http = require("http");
+const http = require('http');
 const port = process.env.API_PORT || 3001;
-const mysql = require("./models/init_models.cjs");
-const auth = require("./controllers/authController.cjs");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const { interpretData } = require("./controllers/dataController.cjs");
-const { uniqueActors } = require("./data/data.cjs");
+const mysql = require('./models/init_models.cjs');
+const auth = require('./controllers/authController.cjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const { interpretData } = require('./controllers/dataController.cjs');
+const { uniqueActors } = require('./data/data.cjs');
 
 dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY || "super_secret_key";
+const SECRET_KEY = process.env.SECRET_KEY || 'super_secret_key';
 const connection = mysql.createConnectionToDatabase();
+const API_KEY =  '77874b8dcba14e28be6f852835919719';
 mysql.connectToDataBase(connection);
 
 const server = http.createServer(async (req, res) => {
-	const { method, url } = req;
+  const { method, url } = req;
+  const parsedUrl = url.parse(req.url, true);
 
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-	if (method === "OPTIONS") {
-		res.writeHead(204);
-		res.end();
-		return;
-	}
+  if (method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
 
-	res.setHeader("Content-Type", "application/json");
+  res.setHeader('Content-Type', 'application/json');
 
-	if (method === "GET" && url === "/hello") {
-		const authHeader = req.headers["authorization"];
+  if (method === 'GET' && url === '/hello') {
+    const authHeader = req.headers['authorization'];
 
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
-			res.writeHead(401);
-			res.end("Token lipsă sau invalid");
-			return;
-		}
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.writeHead(401);
+      res.end('Token lipsă sau invalid');
+      return;
+    }
 
-		const token = authHeader.split(" ")[1];
+    const token = authHeader.split(' ')[1];
 
-		try {
-			const decoded = jwt.verify(token, SECRET_KEY);
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ mesaj: "Acces permis", user: decoded }));
-		} catch (err) {
-			res.writeHead(403);
-			res.end("Token invalid sau expirat");
-		}
-	} else if (method === "POST" && url === "/login") {
-		auth.resolve_login(req, res, connection);
-	} else if (method === "POST" && url === "/register-user") {
-		auth.resolve_register_user(req, res, connection);
-	} else if (method === "GET" && url === "/get-data") {
-		try {
-			const data = await interpretData();
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ mesaj: 'Acces permis', user: decoded }));
+    } catch (err) {
+      res.writeHead(403);
+      res.end('Token invalid sau expirat');
+    }
+  } else if (method === 'POST' && url === '/login') {
+    auth.resolve_login(req, res, connection);
+  } else if (method === 'POST' && url === '/register-user') {
+    auth.resolve_register_user(req, res, connection);
+  } else if (method === 'GET' && url === '/get-data') {
+    try {
+      const data = await interpretData();
 
-			if (data === null) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare la procesarea datelor" }));
-				return;
-			}
+      if (data === null) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare la procesarea datelor' }));
+        return;
+      }
 
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
-		} catch (error) {
-			console.error("Eroare în server:", error);
-			if (!res.headersSent) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare internă server" }));
-			}
-		}
-	} else if (method === "GET" && url === "/unique-actors") {
-		try {
-			const data = await uniqueActors();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  } else if (method === 'GET' && url === '/unique-actors') {
+    try {
+      const data = await uniqueActors();
 
-			if (data === null) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare la procesarea datelor" }));
-				return;
-			}
+      if (data === null) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare la procesarea datelor' }));
+        return;
+      }
 
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
-		} catch (error) {
-			console.error("Eroare în server:", error);
-			if (!res.headersSent) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare internă server" }));
-			}
-		}
-	} else {
-		res.writeHead(404);
-		res.end(JSON.stringify({ message: "Not found" }));
-	}
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  }
+  if (url === '/news' && req.method === 'GET') {
+    const actorQuery = parsedUrl.query.query;
+    if (!actorQuery) {
+      res.writeHead(400);
+      res.end(JSON.stringify({ error: 'Query parameter missing' }));
+      return;
+    }
+
+    const newsApiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(
+      actorQuery
+    )}&apiKey=${NEWSAPI_KEY}`;
+
+    https
+      .get(newsApiUrl, (apiRes) => {
+        let data = '';
+        apiRes.on('data', (chunk) => (data += chunk));
+        apiRes.on('end', () => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(data);
+        });
+      })
+      .on('error', (err) => {
+        console.error(err);
+        res.writeHead(500);
+        res.end(JSON.stringify({ error: 'Eroare la apelarea NewsAPI' }));
+      });
+  } else {
+    res.writeHead(404);
+    res.end(JSON.stringify({ message: 'Not found' }));
+  }
 });
 
 server.listen(port, (error) => {
-	if (error) {
-		console.log(error);
-	}
-	console.log("The server lisens at port: " + port);
+  if (error) {
+    console.log(error);
+  }
+  console.log('The server lisens at port: ' + port);
 });
