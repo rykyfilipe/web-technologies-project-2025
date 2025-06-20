@@ -4,7 +4,8 @@ import "../styles/Login.css";
 import "../styles/index.css";
 import Login from "./Login.js";
 
-const url_prefix = process.env.BACKEND_URL;
+const url_prefix =
+	"https://web-technologies-project-2025-production.up.railway.app";
 
 const RegisterUser = (container) => {
 	console.log("FUNCTIA REGISTER USER SE APELEAZA");

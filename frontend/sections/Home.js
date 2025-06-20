@@ -19,7 +19,7 @@ import {
 
 const loadData = async () => {
 	try {
-		const URL = process.env.BACKEND_URL;
+		const URL = import.meta.env.BACKEND_URL || "http://localhost:3001";
 		const response = await fetch(`${URL}/get-data`);
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
