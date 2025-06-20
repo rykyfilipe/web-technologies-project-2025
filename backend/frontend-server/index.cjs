@@ -3,10 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const compression = require("compression");
 
-dotenv.config({
-	path: "../../.env",
-});
-
 const PORT = process.env.PORT || 3000;
 const rootDir = path.join(__dirname, "../../dist");
 const mimeTypes = {

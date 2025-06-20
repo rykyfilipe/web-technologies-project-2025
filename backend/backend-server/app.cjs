@@ -9,19 +9,15 @@ const dotenv = require("dotenv");
 const { interpretData } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
-dotenv.config({
-	path: "../../.env",
-});
-console.log("backend");
+dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY || "super_secret_key";
-console.log("Secret key:", SECRET_KEY);
 const connection = mysql.createConnectionToDatabase();
 mysql.connectToDataBase(connection);
 
 const server = http.createServer(async (req, res) => {
 	const { method, url } = req;
 
-	res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 	res.setHeader("Access-Control-Allow-Credentials", "true");
