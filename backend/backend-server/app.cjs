@@ -12,7 +12,7 @@ const { uniqueActors } = require('./data/data.cjs');
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY || 'super_secret_key';
 const connection = mysql.createConnectionToDatabase();
-const API_KEY =  '77874b8dcba14e28be6f852835919719';
+const NEWSAPI_KEY = '77874b8dcba14e28be6f852835919719';
 mysql.connectToDataBase(connection);
 
 const server = http.createServer(async (req, res) => {
