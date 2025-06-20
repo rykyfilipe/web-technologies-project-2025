@@ -30,12 +30,8 @@ const Navbar = (container) => {
 	toggleBtn.innerHTML = "☰";
 	container.append(toggleBtn);
 
-	const h2 = document.createElement("h2");
-	h2.textContent = "MENU";
-	menu.append(h2);
-
 	navItems.forEach((navItem) => {
-		NavItem(menu, navItem);
+		NavItem(nav, navItem);
 	});
 
 	nav.append(menu);
