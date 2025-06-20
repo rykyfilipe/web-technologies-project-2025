@@ -28,10 +28,19 @@ const Navbar = (container) => {
 	const toggleBtn = document.createElement("button");
 	toggleBtn.classList.add("hamburger");
 	toggleBtn.innerHTML = "☰";
-	container.append(toggleBtn);
+	nav.append(toggleBtn); // atașez butonul în navbar pentru structură
 
+	// Creează containerul pentru meniul de navigare
+	const menu = document.createElement("div");
+	menu.classList.add("nav-menu");
+
+	const h2 = document.createElement("h2");
+	h2.textContent = "MENU";
+	menu.append(h2);
+
+	// Adaugă itemii de navigare în meniu
 	navItems.forEach((navItem) => {
-		NavItem(nav, navItem);
+		NavItem(menu, navItem);
 	});
 
 	nav.append(menu);
@@ -39,7 +48,7 @@ const Navbar = (container) => {
 
 	// Toggle pentru afișare/ascundere meniu
 	toggleBtn.addEventListener("click", () => {
-		menu.classList.toggle("show");
+		nav.classList.toggle("show"); // clasa .show controlează navbar-ul
 	});
 };
 

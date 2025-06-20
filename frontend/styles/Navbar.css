@@ -138,7 +138,11 @@ h2 {
 .hamburger:hover {
 	background-color: var(--navbar-hover-fill-color);
 }
-
+.nav-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
 /* Responsive - afișare buton hamburger pe mobil */
 @media (max-width: 800px) {
 	.hamburger {
