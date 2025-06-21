@@ -57,10 +57,14 @@
 }
 
 @media (max-width: 640px) {
+	.char-wrapper {
+		width: 100vw;
+		padding: 20px;
+	}
 	.chart-container {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 2/1;
+		padding: 10px;
 	}
 }
 .canvas {

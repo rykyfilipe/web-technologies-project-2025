@@ -177,12 +177,7 @@
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 }
-
 @media (max-width: 1000px) {
-	/* .chart-wrapper {
-		display: flex;
-		flex-direction: column;
-	} */
 	.home {
 		overflow-y: scroll;
 	}
@@ -192,18 +187,28 @@
 	.home {
 		padding: 1rem;
 	}
-
 	.summary-stats {
 		grid-template-columns: 1fr;
 		gap: 1rem;
 	}
-
 	.stat-item {
 		padding: 1rem;
 	}
-
 	.stat-value {
 		font-size: 1.875rem;
+	}
+}
+
+@media (max-width: 640px) {
+	.chart-wrapper {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	.chart-container {
+		aspect-ratio: unset;
+		height: auto;
+		padding: 1rem;
 	}
 }
 
@@ -211,7 +216,6 @@
 	.home {
 		padding: 0.5rem;
 	}
-
 	.data-summary {
 		padding: 1.5rem;
 	}
