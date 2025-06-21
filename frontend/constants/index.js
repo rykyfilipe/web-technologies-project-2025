@@ -47,10 +47,6 @@ export const navItems = [
 			const container = getContainer("root");
 			container.innerHTML = " ";
 
-			const navbar = document.querySelector(".navbar");
-
-			if (navbar.classList.contains(".show")) navbar.classList.remove(".show");
-
 			Login(container);
 		},
 	},

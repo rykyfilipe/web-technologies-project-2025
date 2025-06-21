@@ -39,7 +39,7 @@ const RegisterUser = (container) => {
 	submitButton.classList.add("form-button");
 	registerForm.appendChild(submitButton);
 
-	const loginLink = document.createElement("a");
+	const loginLink = document.createElement("button");
 	loginLink.textContent = "Already have an account?";
 	loginLink.classList.add("form-a");
 	loginLink.addEventListener("click", async function () {

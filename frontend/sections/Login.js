@@ -39,7 +39,7 @@ const Login = (container) => {
 	submitButton.classList.add("form-button");
 	loginForm.appendChild(submitButton);
 
-	const registerLink = document.createElement("a");
+	const registerLink = document.createElement("button");
 	registerLink.textContent = "Create new account?";
 	registerLink.classList.add("form-a");
 	registerLink.addEventListener("click", async function () {
