@@ -2,6 +2,10 @@ import Actor from "../components/Actor.js";
 import "../styles/Actor.css";
 
 const Actors = async (container) => {
+	const navbar = document.querySelector(".navbar");
+
+	if (navbar.classList.contains("show")) navbar.classList.remove("show");
+
 	let currentPage = 1;
 	const options = {
 		method: "GET",
