@@ -40,7 +40,7 @@ const Login = (container) => {
 	loginForm.appendChild(submitButton);
 
 	const registerLink = document.createElement("a");
-	registerLink.textContent = "Already have an account?";
+	registerLink.textContent = "Create new account?";
 	registerLink.classList.add("form-a");
 	registerLink.addEventListener("click", async function () {
 		loginForm.remove();
