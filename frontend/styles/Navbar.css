@@ -150,7 +150,6 @@ h2 {
 		opacity: 0;
 	}
 
-	/* Navbar vizibil când are clasa 'show' */
 	.navbar.show {
 		transform: translateX(0);
 		visibility: visible;
