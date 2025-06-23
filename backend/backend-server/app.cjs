@@ -20,6 +20,12 @@ mysql.connectToDataBase(connection);
 const server = http.createServer(async (req, res) => {
   const { method, url } = req;
   const parsedUrl = urlModule.parse(req.url, true);
+  const pathname = parsedUrl.pathname.replace(/\/+$/, '');
+
+  if (method === 'GET' && pathname === '/get-data') {
+    // acum merge și cu /get-data și cu /get-data/
+  }
+
 
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -82,9 +88,16 @@ const server = http.createServer(async (req, res) => {
     auth.resolve_login(req, res, connection);
   } else if (method === 'POST' && url === '/register-user') {
     auth.resolve_register_user(req, res, connection);
-  } else if (method === 'GET' && url === '/get-data') {
+  } else if (method === 'GET' && pathname === '/get-data') {
+
+    const an = Number(parsedUrl.query.an);
+    if (!an || an < 0 || an < 2000) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ "message": "Anul pe care l ai dat nu e bun." }));
+    }
+
     try {
-      const data = await interpretData();
+      const data = await interpretData(an);
 
       if (data === null) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -120,8 +133,7 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ message: 'Eroare internă server' }));
       }
     }
-  }
-  else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
+  } else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
     const actorQuery = parsedUrl.query.query;
     if (!actorQuery) {
       res.writeHead(400);
