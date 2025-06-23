@@ -17,10 +17,9 @@ import {
 	showLoadingState,
 } from "../components/utils.js";
 
-const loadData = async () => {
+const loadData = async (an) => {
 	try {
 		const userDataRaw = localStorage.getItem("w-user");
-
 		const userData = JSON.parse(userDataRaw);
 		const authToken = userData.token;
 
@@ -30,12 +29,15 @@ const loadData = async () => {
 
 		const URL =
 			"https://web-technologies-project-2025-production.up.railway.app";
-		const response = await fetch(`${URL}/get-data`, {
+
+		const response = await fetch(`${URL}/get-data?an=${an}`, {
 			headers: { Authorization: `Bearer ${authToken}` },
 		});
+
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
+
 		const data = await response.json();
 
 		if (!Array.isArray(data)) {
@@ -51,6 +53,7 @@ const loadData = async () => {
 
 const Home = async (container) => {
 	const navbar = document.querySelector(".navbar");
+	let selectedYear = 2010;
 
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
 
@@ -58,7 +61,7 @@ const Home = async (container) => {
 		console.error("Dashboard: container is null or undefined.");
 		return;
 	}
-	container.innerHTML = " ";
+	container.innerHTML = "";
 
 	const existingHome = document.getElementById("home");
 	if (existingHome) {
@@ -70,17 +73,52 @@ const Home = async (container) => {
 	section.id = "home";
 	container.appendChild(section);
 
-	showLoadingState(section);
+	// Year Input + Button
+	const filterContainer = document.createElement("div");
+	filterContainer.classList.add("filter-container");
 
-	try {
-		const data = await loadData();
+	const input = document.createElement("input");
+	input.type = "number";
+	input.min = "0";
+	input.placeholder = "Enter year";
+	input.classList.add("year-input");
+	input.value = selectedYear;
+
+	const button = document.createElement("button");
+	button.textContent = "Load Data";
+	button.classList.add("year-btn");
+
+	button.addEventListener("click", async () => {
+		const yearValue = parseInt(input.value);
+		if (isNaN(yearValue) || yearValue < 0) {
+			alert("Please enter a valid positive year.");
+			return;
+		}
+		selectedYear = yearValue;
+		await loadCharts();
+	});
+
+	filterContainer.appendChild(input);
+	filterContainer.appendChild(button);
+	section.appendChild(filterContainer);
+
+	const loadCharts = async () => {
+		// 🔁 Elimina grafice și summary vechi
+		const oldWrapper = section.querySelector(".chart-wrapper");
+		if (oldWrapper) oldWrapper.remove();
+
+		const oldSummary = section.querySelector(".data-summary");
+		if (oldSummary) oldSummary.remove();
+
+		showLoadingState(section);
+
+		const data = await loadData(selectedYear);
 		removeLoadingState();
 
 		if (!data || data.length === 0) {
 			showErrorState(section, "No data available for charts.");
 			return;
 		}
-
 		const categoryWinsData = createCategoryWinsData(data);
 		const timeSeriesData = createTimeSeriesData(data);
 		const nominalizationData = createNominalizationShowData(data);
@@ -111,6 +149,7 @@ const Home = async (container) => {
 
 		const summary = document.createElement("div");
 		summary.className = "data-summary";
+
 		const totalNominations = data.length;
 		const totalWins = data.filter((item) => item.won).length;
 		const winRate =
@@ -134,8 +173,12 @@ const Home = async (container) => {
 				</div>
 			</div>
 		`;
-		section.prepend(summary);
-		section.append(div);
+
+		section.append(summary, div);
+	};
+
+	try {
+		await loadCharts();
 	} catch (error) {
 		console.error("Error creating dashboard:", error);
 		removeLoadingState();

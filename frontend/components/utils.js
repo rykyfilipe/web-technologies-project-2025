@@ -1,6 +1,11 @@
 /** @format */
 
 export const showLoadingState = (container) => {
+	if (document.getElementById("loading-state")) return;
+	if (document.querySelector(".error-state")) {
+		document.querySelector(".error-state").remove();
+	}
+
 	const loadingDiv = document.createElement("div");
 	loadingDiv.id = "loading-state";
 	loadingDiv.className = "loading-state";
@@ -19,6 +24,7 @@ export const removeLoadingState = () => {
 };
 
 export const showErrorState = (container, message) => {
+	if (document.querySelector(".error-state")) return;
 	const errorDiv = document.createElement("div");
 	errorDiv.className = "error-state";
 	errorDiv.innerHTML = `

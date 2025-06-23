@@ -1,10 +1,5 @@
 /** @format */
 
-export const extractYear = (yearString) => {
-	if (!yearString || typeof yearString !== "string") return null;
-	return yearString.split(" ")[0];
-};
-
 export const createCategoryWinsData = (data) => {
 	const categoryWins = {};
 
@@ -23,13 +18,13 @@ export const createTimeSeriesData = (data) => {
 	const yearData = new Map();
 
 	data.forEach((item) => {
-		const year = extractYear(item.year);
+		const year = item.year;
+
 		if (!year) return;
 
 		if (!yearData.has(year)) {
 			yearData.set(year, { nominations: 0, wins: 0 });
 		}
-
 		const currentYearData = yearData.get(year);
 		currentYearData.nominations++;
 		if (item.won) {

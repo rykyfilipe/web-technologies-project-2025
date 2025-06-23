@@ -19,6 +19,23 @@ const downloadCSV = (chartInfo) => {
 	link.download = `${chartInfo.id}.csv`;
 	link.click();
 };
+const downloadJSON = (canvas, chartInfo) => {
+	const relevantData = {
+		labels: chartInfo.data.labels,
+		datasets: chartInfo.data.datasets.map((dataset) => ({
+			label: dataset.label,
+			data: dataset.data,
+		})),
+	};
+
+	const blob = new Blob([JSON.stringify(relevantData, null, 2)], {
+		type: "application/json",
+	});
+	const link = document.createElement("a");
+	link.href = URL.createObjectURL(blob);
+	link.download = `${canvas.id}.json`;
+	link.click();
+};
 
 const downloadWebP = (canvas, id) => {
 	const link = document.createElement("a");
@@ -58,6 +75,8 @@ const ChartBuilder = (container, chartInfo) => {
 		<button class="export-btn" data-type="csv">📄 CSV</button>
 		<button class="export-btn" data-type="webp">🖼️ WebP</button>
 		<button class="export-btn" data-type="pdf">📑 PDF</button>
+		<button class="export-btn" data-type="json">JSON </button>
+
 	`;
 
 	toggleButton.addEventListener("click", () => {
@@ -81,6 +100,8 @@ const ChartBuilder = (container, chartInfo) => {
 		downloadWebP(chartCanvas, chartInfo.id);
 	exportButtons.querySelector('[data-type="pdf"]').onclick = () =>
 		downloadPDF(chartCanvas, chartInfo.title);
+	exportButtons.querySelector('[data-type="json"]').onclick = () =>
+		downloadJSON(chartCanvas, chartInfo);
 };
 
 export default ChartBuilder;
