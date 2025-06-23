@@ -37,6 +37,28 @@ const server = http.createServer(async (req, res) => {
 
   res.setHeader('Content-Type', 'application/json');
 
+  if (url !== '/login' && url !== '/register-user') {
+    
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ error: 'Token lipsă sau invalid' }));
+      return;
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+    } catch (err) {
+      res.writeHead(403);
+      res.end(JSON.stringify({ error: 'Token invalid sau expirat' }));
+      return;
+    }
+
+  }
+
   if (method === 'GET' && url === '/hello') {
     const authHeader = req.headers['authorization'];
 

@@ -6,6 +6,11 @@ Aceasta este o aplicație web dezvoltată ca parte a proiectului pentru cursul d
 🔗 **Site live:**  
 👉 [https://web-technologies-project-2025-eta.vercel.app/](https://web-technologies-project-2025-eta.vercel.app/)
 
+🔗** c4 Diagram **
+👉[https://app.diagrams.net/#G1Wiw_E68IFFvdTh3Nxjm4ZIcTwA1J1JoS#%7B%22pageId%22%3A%228LEbyJDZ149q0Q5UMYN_%22%7D](https://app.diagrams.net/#G1Wiw_E68IFFvdTh3Nxjm4ZIcTwA1J1JoS#%7B%22pageId%22%3A%228LEbyJDZ149q0Q5UMYN_%22%7D)
+
+🔗** UI Design : **
+👉[https://www.figma.com/design/GlmVUr0bJVS9tcVApjFG3r/Untitled?node-id=0-1&p=f&t=bfDSUneqKR66Anm3-0](https://www.figma.com/design/GlmVUr0bJVS9tcVApjFG3r/Untitled?node-id=0-1&p=f&t=bfDSUneqKR66Anm3-0)
 ---
 
 ## Descriere
