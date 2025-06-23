@@ -69,7 +69,7 @@ const Login = (container) => {
 
 		if (response.ok) {
 			loginForm.remove();
-			localStorage.setItem("w-user", JSON.stringify({ serverData }));
+			localStorage.setItem("w-user", JSON.stringify({ token: serverData.token }));
 
 			Navbar(container);
 			Dashboard(container);

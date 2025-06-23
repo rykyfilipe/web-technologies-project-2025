@@ -1,113 +1,124 @@
 /** @format */
 
-import "../styles/Home.css";
-import ChartBuilder from "../components/ChartBuilder.js";
+import '../styles/Home.css';
+import ChartBuilder from '../components/ChartBuilder.js';
 import {
-	createCategoryWinsChart,
-	createCategoryWinsData,
-	createTimeSeriesChart,
-	createTimeSeriesData,
-	createNominalizationShowData,
-	createShowNominalizationChart,
-} from "../constants/chartInfo.js";
+  createCategoryWinsChart,
+  createCategoryWinsData,
+  createTimeSeriesChart,
+  createTimeSeriesData,
+  createNominalizationShowData,
+  createShowNominalizationChart,
+} from '../constants/chartInfo.js';
 
 import {
-	showErrorState,
-	removeLoadingState,
-	showLoadingState,
-} from "../components/utils.js";
+  showErrorState,
+  removeLoadingState,
+  showLoadingState,
+} from '../components/utils.js';
 
 const loadData = async () => {
-	try {
-		const URL =
-			"https://web-technologies-project-2025-production.up.railway.app";
-		const response = await fetch(`${URL}/get-data`);
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
-		}
-		const data = await response.json();
+  try {
+    const userDataRaw = localStorage.getItem('w-user');
 
-		if (!Array.isArray(data)) {
-			throw new Error("Invalid data format: expected array");
-		}
+    const userData = JSON.parse(userDataRaw);
+    const authToken = userData.token;
 
-		return data;
-	} catch (error) {
-		console.error("Error fetching dashboard data:", error);
-		return null;
-	}
+    if (!authToken) {
+      console.log('Nu exista access token');
+    }
+
+    const URL =
+      'https://web-technologies-project-2025-production.up.railway.app';
+    const response = await fetch(`${URL}/get-data`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error('Invalid data format: expected array');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error);
+    return null;
+  }
 };
 
 const Home = async (container) => {
-	const navbar = document.querySelector(".navbar");
+  const navbar = document.querySelector('.navbar');
 
-	if (navbar.classList.contains("show")) navbar.classList.remove("show");
+  if (navbar.classList.contains('show')) navbar.classList.remove('show');
 
-	if (!container) {
-		console.error("Dashboard: container is null or undefined.");
-		return;
-	}
-	container.innerHTML = " ";
+  if (!container) {
+    console.error('Dashboard: container is null or undefined.');
+    return;
+  }
+  container.innerHTML = ' ';
 
-	const existingHome = document.getElementById("home");
-	if (existingHome) {
-		existingHome.remove();
-	}
+  const existingHome = document.getElementById('home');
+  if (existingHome) {
+    existingHome.remove();
+  }
 
-	const section = document.createElement("section");
-	section.classList.add("home");
-	section.id = "home";
-	container.appendChild(section);
+  const section = document.createElement('section');
+  section.classList.add('home');
+  section.id = 'home';
+  container.appendChild(section);
 
-	showLoadingState(section);
+  showLoadingState(section);
 
-	try {
-		const data = await loadData();
-		removeLoadingState();
+  try {
+    const data = await loadData();
+    removeLoadingState();
 
-		if (!data || data.length === 0) {
-			showErrorState(section, "No data available for charts.");
-			return;
-		}
+    if (!data || data.length === 0) {
+      showErrorState(section, 'No data available for charts.');
+      return;
+    }
 
-		const categoryWinsData = createCategoryWinsData(data);
-		const timeSeriesData = createTimeSeriesData(data);
-		const nominalizationData = createNominalizationShowData(data);
+    const categoryWinsData = createCategoryWinsData(data);
+    const timeSeriesData = createTimeSeriesData(data);
+    const nominalizationData = createNominalizationShowData(data);
 
-		if (categoryWinsData.length === 0 && timeSeriesData.length === 0) {
-			showErrorState(section, "No valid data found for visualization.");
-			return;
-		}
+    if (categoryWinsData.length === 0 && timeSeriesData.length === 0) {
+      showErrorState(section, 'No valid data found for visualization.');
+      return;
+    }
 
-		const div = document.createElement("div");
-		div.classList.add("chart-wrapper");
+    const div = document.createElement('div');
+    div.classList.add('chart-wrapper');
 
-		if (categoryWinsData.length > 0) {
-			const categoryChart = createCategoryWinsChart(categoryWinsData);
-			ChartBuilder(div, categoryChart);
-		}
+    if (categoryWinsData.length > 0) {
+      const categoryChart = createCategoryWinsChart(categoryWinsData);
+      ChartBuilder(div, categoryChart);
+    }
 
-		if (timeSeriesData.length > 0) {
-			const timeSeriesChart = createTimeSeriesChart(timeSeriesData);
-			ChartBuilder(div, timeSeriesChart);
-		}
+    if (timeSeriesData.length > 0) {
+      const timeSeriesChart = createTimeSeriesChart(timeSeriesData);
+      ChartBuilder(div, timeSeriesChart);
+    }
 
-		if (nominalizationData.length > 0) {
-			const nominalizationChartData =
-				createShowNominalizationChart(nominalizationData);
-			ChartBuilder(div, nominalizationChartData);
-		}
+    if (nominalizationData.length > 0) {
+      const nominalizationChartData =
+        createShowNominalizationChart(nominalizationData);
+      ChartBuilder(div, nominalizationChartData);
+    }
 
-		const summary = document.createElement("div");
-		summary.className = "data-summary";
-		const totalNominations = data.length;
-		const totalWins = data.filter((item) => item.won).length;
-		const winRate =
-			totalNominations > 0
-				? ((totalWins / totalNominations) * 100).toFixed(1)
-				: 0;
+    const summary = document.createElement('div');
+    summary.className = 'data-summary';
+    const totalNominations = data.length;
+    const totalWins = data.filter((item) => item.won).length;
+    const winRate =
+      totalNominations > 0
+        ? ((totalWins / totalNominations) * 100).toFixed(1)
+        : 0;
 
-		summary.innerHTML = `
+    summary.innerHTML = `
 			<div class="summary-stats">
 				<div class="stat-item">
 					<span class="stat-value">${totalNominations.toLocaleString()}</span>
@@ -123,16 +134,16 @@ const Home = async (container) => {
 				</div>
 			</div>
 		`;
-		section.prepend(summary);
-		section.append(div);
-	} catch (error) {
-		console.error("Error creating dashboard:", error);
-		removeLoadingState();
-		showErrorState(
-			section,
-			"An unexpected error occurred while loading the dashboard."
-		);
-	}
+    section.prepend(summary);
+    section.append(div);
+  } catch (error) {
+    console.error('Error creating dashboard:', error);
+    removeLoadingState();
+    showErrorState(
+      section,
+      'An unexpected error occurred while loading the dashboard.'
+    );
+  }
 };
 
 export default Home;
