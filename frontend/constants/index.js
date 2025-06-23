@@ -4,11 +4,13 @@ import Actors from "../sections/Actors.js";
 import Home from "../sections/Home.js";
 import Movies from "../sections/Movies.js";
 import News from "../sections/News.js";
+import Documentation from "../sections/Documentation.js";
 import dashboard from "../assets/icons/dashboard.svg";
 import profile from "../assets/icons/profile.svg";
 import movie from "../assets/icons/movie.svg";
 import news from "../assets/icons/news.svg";
 import exit from "../assets/icons/exit.svg";
+import doc from "../assets/icons/doc.svg";
 
 import Login from "../sections/Login.js";
 import { getContainer } from "../utils/components-functions.js";
@@ -37,6 +39,12 @@ export const navItems = [
 		name: "News",
 		icon: news,
 		callBack: News,
+	},
+	{
+		id: 6,
+		name: "Documentation",
+		icon: doc,
+		callBack: Documentation,
 	},
 	{
 		id: 5,

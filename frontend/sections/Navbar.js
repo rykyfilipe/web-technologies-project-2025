@@ -9,7 +9,7 @@ const Navbar = (container) => {
 	const toggleBtn = document.createElement("button");
 	toggleBtn.classList.add("hamburger");
 	toggleBtn.innerHTML = "☰";
-	container.append(toggleBtn); // Adaugă butonul direct în container
+	container.append(toggleBtn);
 
 	const nav = document.createElement("nav");
 	nav.classList.add("navbar");

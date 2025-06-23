@@ -1,4 +1,8 @@
 /** @format */
+canvas {
+	padding-bottom: 40px;
+}
+
 .chart-container {
 	width: 100%;
 	aspect-ratio: 2/1;
@@ -8,6 +12,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
 	flex-grow: 1;
 	flex-shrink: 1;
 
@@ -16,9 +21,6 @@
 	border-radius: 16px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 	border: 1px solid rgba(0, 0, 0, 0.05);
-
-	padding: 24px;
-	padding-bottom: 50px;
 
 	position: relative;
 	overflow: hidden;
@@ -56,15 +58,18 @@
 	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 640px) {
-	.char-wrapper {
-		width: 100vw;
-		padding: 20px;
+@media (max-width: 800px) {
+	.chart-wrapper {
+		width: 100%;
+	}
+
+	.chart-container h2 {
+		font-size: 16px;
 	}
 	.chart-container {
 		width: 100%;
-		height: auto;
-		padding: 20px;
+		height: max-content;
+		padding: 0px;
 	}
 }
 .canvas {

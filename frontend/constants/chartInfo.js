@@ -88,7 +88,7 @@ export const createCategoryWinsChart = (chartData) => ({
 	},
 	options: {
 		responsive: true,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 		plugins: {
 			legend: {
 				display: false,
@@ -149,7 +149,7 @@ export const createCategoryWinsChart = (chartData) => ({
 						size: 12,
 						weight: "500",
 					},
-					padding: 12,
+
 					stepSize: 1,
 				},
 			},
@@ -159,6 +159,7 @@ export const createCategoryWinsChart = (chartData) => ({
 				right: 24,
 				bottom: 16,
 				left: 16,
+				top: 20,
 			},
 		},
 	},
@@ -178,11 +179,11 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 				borderColor: "rgba(59, 130, 246, 1)",
 				borderWidth: 3,
 				tension: 0.4,
-				pointRadius: 6,
-				pointHoverRadius: 8,
+				pointRadius: 1,
+				pointHoverRadius: 2,
 				pointBackgroundColor: "rgba(59, 130, 246, 1)",
 				pointBorderColor: "#FFFFFF",
-				pointBorderWidth: 2,
+				pointBorderWidth: 0,
 				fill: true,
 			},
 			{
@@ -192,8 +193,8 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 				borderColor: "rgba(16, 185, 129, 1)",
 				borderWidth: 3,
 				tension: 0.4,
-				pointRadius: 6,
-				pointHoverRadius: 8,
+				pointRadius: 1,
+				pointHoverRadius: 2,
 				pointBackgroundColor: "rgba(16, 185, 129, 1)",
 				pointBorderColor: "#FFFFFF",
 				pointBorderWidth: 2,
@@ -203,7 +204,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 	},
 	options: {
 		responsive: true,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 		plugins: {
 			legend: {
 				display: true,
@@ -267,12 +268,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 					drawBorder: false,
 				},
 				ticks: {
-					color: "#6B7280",
-					font: {
-						size: 12,
-						weight: "500",
-					},
-					maxTicksLimit: 8,
+					display: false, // Asta elimină complet textul de pe axa X
 				},
 			},
 			y: {
@@ -292,6 +288,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 				},
 			},
 		},
+
 		layout: {
 			padding: {
 				right: 24,
