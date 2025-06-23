@@ -49,6 +49,12 @@ const Navbar = (container) => {
 	toggleBtn.addEventListener("click", () => {
 		nav.classList.toggle("show"); // clasa .show controlează navbar-ul
 	});
+
+	window.addEventListener("resize", () => {
+		if (window.innerWidth > 800) {
+			nav.classList.remove("show"); // Elimină .show dacă trece de 800px
+		}
+	});
 };
 
 export default Navbar;

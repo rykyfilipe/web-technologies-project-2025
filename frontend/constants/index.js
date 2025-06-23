@@ -7,6 +7,9 @@ import News from "../sections/News.js";
 import dashboard from "../assets/icons/dashboard.svg";
 import profile from "../assets/icons/profile.svg";
 import movie from "../assets/icons/movie.svg";
+import news from "../assets/icons/news.svg";
+import exit from "../assets/icons/exit.svg";
+
 import Login from "../sections/Login.js";
 import { getContainer } from "../utils/components-functions.js";
 
@@ -32,17 +35,18 @@ export const navItems = [
 	{
 		id: 4,
 		name: "News",
-
+		icon: news,
 		callBack: News,
 	},
 	{
 		id: 5,
 		name: "Logout",
-
+		icon: exit,
 		callBack: () => {
 			localStorage.removeItem("w-user");
 			const container = getContainer("root");
 			container.innerHTML = " ";
+
 			Login(container);
 		},
 	},

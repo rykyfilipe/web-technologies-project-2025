@@ -1,56 +1,56 @@
 @import "./setup.css";
 
 .login-form {
-    background-color: var(--navbar-fill-color);
+	background-color: var(--navbar-fill-color);
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
 
-    width: var(--login-form-width);
-    height: var(--login-form-height);
+	width: var(--login-form-width);
+	height: var(--login-form-height);
 
-    border-radius: 20px;
-    text-align: center;
-
+	border-radius: 20px;
+	text-align: center;
 }
 .form-button {
-    width: 40%;
-    height: 35px;
+	width: 40%;
+	height: 35px;
 
-    background-color: var( --nav-item-fill-color);
+	background-color: var(--nav-item-fill-color);
 
-    border: none;
-    border-radius: 10px;
-
-
+	border: none;
+	border-radius: 10px;
 }
 .form-input {
-    width: 70%;
-    height: 35px;
+	width: 70%;
+	height: 35px;
 
-    background-color: var(--nav-icon-fill-color);
-    border: none;
-    border-radius: 10px;
+	background-color: var(--nav-icon-fill-color);
+	border: none;
+	border-radius: 10px;
 
-    padding-left: 10px;
+	padding-left: 10px;
 }
 
 .login-form h2 {
-    text-align: center;
+	text-align: center;
 
-    color: var(--logo-text-color);
-    font-size: var(--font-size-large);
-    margin: 0;
+	color: var(--logo-text-color);
+	font-size: var(--font-size-large);
+	margin: 0;
 }
 
 .form-a {
-    text-decoration: none;
-    color:var(--logo-text-color);
-    font-size: 20px;
-    cursor: pointer;
+	border: none;
+	padding: 5px;
+	background: transparent;
+
+	color: var(--logo-text-color);
+	font-size: 15px;
+	cursor: pointer;
 }
 .form-a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }

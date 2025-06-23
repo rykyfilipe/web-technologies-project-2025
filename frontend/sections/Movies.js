@@ -25,6 +25,10 @@ const loadData = async (page) => {
 	return data.results;
 };
 export default async function Movies(container) {
+	const navbar = document.querySelector(".navbar");
+
+	if (navbar.classList.contains("show")) navbar.classList.remove("show");
+
 	let currentPage = 1;
 	container.innerHTML = "";
 

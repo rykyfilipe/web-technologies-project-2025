@@ -39,6 +39,10 @@ const loadData = async () => {
 };
 
 const Home = async (container) => {
+	const navbar = document.querySelector(".navbar");
+
+	if (navbar.classList.contains("show")) navbar.classList.remove("show");
+
 	if (!container) {
 		console.error("Dashboard: container is null or undefined.");
 		return;
