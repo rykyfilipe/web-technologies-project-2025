@@ -41,6 +41,19 @@
 
 @media (max-width: 1024px) {
 	.dashboard {
+		width: 90%;
+	}
+}
+
+@media (max-width: 600px) {
+	.dashboard {
+		width: 100%;
+		min-width: 90%;
+	}
+}
+
+@media (max-width: 1024px) {
+	.dashboard {
 		width: 100vw;
 	}
 }
