@@ -2,7 +2,7 @@
 
 const http = require('http');
 const urlModule = require('url');
-const https = require("https");
+const https = require('https');
 const port = process.env.API_PORT || 3001;
 const mysql = require('./models/init_models.cjs');
 const auth = require('./controllers/authController.cjs');
@@ -26,17 +26,16 @@ const server = http.createServer(async (req, res) => {
     // acum merge și cu /get-data și cu /get-data/
   }
 
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (method === 'OPTIONS') {
-	res.writeHead(204, {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  });
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    });
     res.end();
     return;
   }
@@ -44,7 +43,6 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   if (url !== '/login' && url !== '/register-user') {
-    
     const authHeader = req.headers['authorization'];
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -62,7 +60,6 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ error: 'Token invalid sau expirat' }));
       return;
     }
-
   }
 
   if (method === 'GET' && url === '/hello') {
@@ -89,11 +86,12 @@ const server = http.createServer(async (req, res) => {
   } else if (method === 'POST' && url === '/register-user') {
     auth.resolve_register_user(req, res, connection);
   } else if (method === 'GET' && pathname === '/get-data') {
-
     const an = Number(parsedUrl.query.an);
-    if (!an || an < 0 || an < 2000) {
+    if (!an) {
+      an = 0;
+    } else if ( an < 1950) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ "message": "Anul pe care l ai dat nu e bun." }));
+      res.end(JSON.stringify({ message: 'Anul pe care l ai dat nu e bun.' }));
     }
 
     try {
@@ -170,7 +168,6 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(404);
     res.end(JSON.stringify({ message: 'Not found' }));
   }
-	
 });
 
 server.listen(port, (error) => {

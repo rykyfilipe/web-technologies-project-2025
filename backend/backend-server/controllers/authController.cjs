@@ -17,7 +17,12 @@ function resolve_login(req, res, db) {
       res.end(JSON.stringify({ message: 'Body is not JSON valid' }));
     }
 
-    if (!data.username || !data.password) {
+    if (
+      !data.username ||
+      !data.password ||
+      typeof data.username !== 'string' ||
+      typeof data.password !== 'string'
+    ) {
       res.writeHead(400);
       res.end(
         JSON.stringify({
@@ -77,7 +82,12 @@ function resolve_register_user(req, res, db) {
       res.end(JSON.stringify({ message: 'Body is not JOSN valid' }));
     }
 
-    if (!data.username || !data.password) {
+    if (
+      !data.username ||
+      !data.password ||
+      typeof data.username !== 'string' ||
+      typeof data.password !== 'string'
+    ) {
       res.writeHead(400);
       res.end(
         JSON.stringify({ message: 'Username and password are not optional' })
@@ -109,7 +119,7 @@ function resolve_register_user(req, res, db) {
                 res.writeHead(201);
                 res.end(
                   JSON.stringify({
-                    'message': 'User succefully created',
+                    message: 'User succefully created',
                     token: token,
                   })
                 );
