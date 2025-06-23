@@ -1,4 +1,8 @@
 /** @format */
+canvas {
+	padding-bottom: 40px;
+}
+
 .chart-container {
 	width: 100%;
 	aspect-ratio: 2/1;
@@ -17,8 +21,6 @@
 	border-radius: 16px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 	border: 1px solid rgba(0, 0, 0, 0.05);
-
-	padding: 24px;
 
 	position: relative;
 	overflow: hidden;
@@ -57,8 +59,12 @@
 }
 
 @media (max-width: 800px) {
-	.char-wrapper {
-		width: 100vw;
+	.chart-wrapper {
+		width: 100%;
+	}
+
+	.chart-container h2 {
+		font-size: 16px;
 	}
 	.chart-container {
 		width: 100%;

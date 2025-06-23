@@ -88,7 +88,7 @@ export const createCategoryWinsChart = (chartData) => ({
 	},
 	options: {
 		responsive: true,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 		plugins: {
 			legend: {
 				display: false,
@@ -149,7 +149,7 @@ export const createCategoryWinsChart = (chartData) => ({
 						size: 12,
 						weight: "500",
 					},
-					padding: 12,
+
 					stepSize: 1,
 				},
 			},
@@ -204,7 +204,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 	},
 	options: {
 		responsive: true,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 		plugins: {
 			legend: {
 				display: true,
@@ -268,12 +268,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 					drawBorder: false,
 				},
 				ticks: {
-					color: "#6B7280",
-					font: {
-						size: 12,
-						weight: "500",
-					},
-					maxTicksLimit: 8,
+					display: false, // Asta elimină complet textul de pe axa X
 				},
 			},
 			y: {
@@ -293,6 +288,7 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 				},
 			},
 		},
+
 		layout: {
 			padding: {
 				right: 24,
