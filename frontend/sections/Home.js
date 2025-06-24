@@ -77,6 +77,9 @@ const Home = async (container) => {
 	const filterContainer = document.createElement("div");
 	filterContainer.classList.add("filter-container");
 
+	const wrapper = document.createElement("div");
+	wrapper.classList.add("wrapper");
+
 	const input = document.createElement("input");
 	input.type = "number";
 	input.min = "0";
@@ -98,8 +101,9 @@ const Home = async (container) => {
 		await loadCharts();
 	});
 
-	filterContainer.appendChild(input);
-	filterContainer.appendChild(button);
+	wrapper.appendChild(input);
+	wrapper.appendChild(button);
+	filterContainer.append(wrapper);
 	section.appendChild(filterContainer);
 
 	const loadCharts = async () => {
