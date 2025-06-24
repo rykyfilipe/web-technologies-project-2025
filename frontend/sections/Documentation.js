@@ -77,6 +77,13 @@ export default async function Documentation(container) {
     </p>
   </section>
 
+ <div class="video-container">
+  <video src="calea-catre-video.mp4" controls autoplay muted loop>
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+
     `;
 
 	container.appendChild(documentation);
