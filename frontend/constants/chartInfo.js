@@ -294,18 +294,40 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 	},
 });
 
-export const createNominalizationShowData = (data) => {
+export const createNominalizationShowData = async (data) => {
 	const showNominalization = {};
-	data.forEach((item) => {
-		if (!item.won && item.movie_id) {
-			showNominalization[item.movie_id] =
-				(showNominalization[item.movie_id] || 0) + 1;
+	const userDataRaw = localStorage.getItem("w-user");
+	const userData = JSON.parse(userDataRaw);
+	const authToken = userData.token;
+
+	for (const item of data) {
+		const URL =
+			"https://web-technologies-project-2025-production.up.railway.app";
+
+		try {
+			const response = await fetch(`${URL}/get-movie?id=${item.movie_id}`, {
+				headers: { Authorization: `Bearer ${authToken}` },
+			});
+
+			if (!response.ok) throw new Error("erore la fetch");
+
+			const movieData = await response.json();
+
+			if (!movieData) throw new Error("eroare la parsarea raspunsului");
+
+			if (!item.won) {
+				showNominalization[movieData[0].title] =
+					(showNominalization[movieData[0].title] || 0) + 1;
+			}
+		} catch (error) {
+			console.log(error);
 		}
-	});
+	}
 
 	const sortData = Object.entries(showNominalization)
 		.map(([show, count]) => ({ show, count }))
 		.sort((a, b) => b.count - a.count);
+
 	return sortData.slice(0, 10);
 };
 

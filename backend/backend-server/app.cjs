@@ -93,11 +93,11 @@ const server = http.createServer(async (req, res) => {
 			return;
 		} else {
 			try {
-				const data = await getMovie(req, res, connection, id);
+				const data = await getMovie(connection, id);
 
 				if (!data || data.length === 0) {
 					res.writeHead(404, { "Content-Type": "application/json" });
-					res.end(JSON.stringify({ message: "Niciun film gasit găsită" }));
+					res.end(JSON.stringify({ message: "Niciun film găsit" }));
 					return;
 				}
 
