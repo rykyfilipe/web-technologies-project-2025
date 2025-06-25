@@ -3,15 +3,27 @@ import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
 import "../styles/index.css";
 import RegisterUser from "./RegisterUser.js";
+import { Admin } from "./Admin.js";
 
 const url_prefix =
 	"https://web-technologies-project-2025-production.up.railway.app";
 
 const Login = (container) => {
-	console.log("FUNCTIA LOGIN SE APLELEAZA");
+	container.innerHTML = " ";
 
 	const loginForm = document.createElement("form");
 	loginForm.classList.add("login-form");
+
+	const adminButton = document.createElement("button");
+	adminButton.textContent = "Admin";
+	adminButton.classList.add("admin-button");
+	adminButton.addEventListener("click", () => {
+		loginForm.remove();
+		adminButton.remove();
+		Admin(container);
+	});
+
+	container.append(adminButton);
 
 	const title = document.createElement("h2");
 	title.textContent = "Login";
@@ -33,6 +45,23 @@ const Login = (container) => {
 	passwordInput.classList.add("form-input");
 	loginForm.appendChild(passwordInput);
 
+	const select = document.createElement("select");
+	select.classList.add("role-select");
+
+	// Creează opțiunea "user"
+	const optionUser = document.createElement("option");
+	optionUser.value = "user";
+	optionUser.textContent = "User";
+	select.appendChild(optionUser);
+
+	// Creează opțiunea "admin"
+	const optionAdmin = document.createElement("option");
+	optionAdmin.value = "admin";
+	optionAdmin.textContent = "Admin";
+	select.appendChild(optionAdmin);
+
+	loginForm.appendChild(select);
+
 	const submitButton = document.createElement("button");
 	submitButton.type = "submit";
 	submitButton.textContent = "Login";
@@ -43,7 +72,6 @@ const Login = (container) => {
 	registerLink.textContent = "Create new account?";
 	registerLink.classList.add("form-a");
 	registerLink.addEventListener("click", async function () {
-		loginForm.remove();
 		RegisterUser(container);
 	});
 
@@ -69,7 +97,10 @@ const Login = (container) => {
 
 		if (response.ok) {
 			loginForm.remove();
-			localStorage.setItem("w-user", JSON.stringify({ token: serverData.token }));
+			localStorage.setItem(
+				"w-user",
+				JSON.stringify({ token: serverData.token })
+			);
 
 			Navbar(container);
 			Dashboard(container);

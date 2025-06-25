@@ -26,6 +26,7 @@ const Navbar = (container) => {
 
 	const img = document.createElement("img");
 	img.src = logo_src;
+	img.alt = logoInfo.icon;
 	logo.prepend(img);
 	nav.append(logo);
 

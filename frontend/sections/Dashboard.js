@@ -10,7 +10,7 @@ const Dashboard = async (container) => {
 		return;
 	}
 
-	const section = document.createElement("section");
+	const section = document.createElement("div");
 	section.classList.add("dashboard");
 	section.id = "dashboard";
 

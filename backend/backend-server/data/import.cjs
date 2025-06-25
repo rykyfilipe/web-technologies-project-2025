@@ -3,14 +3,13 @@ const path = require("path");
 const mysql = require("mysql2/promise");
 
 const dbConfig = {
-	host: process.env.HOST,
-		user: process.env.USER,
-		password: process.env.PASSWORD,
-		database: "wt_project",
-		ssl: {
-			rejectUnauthorized: false,
-		},
-	});
+	host: "aws.connect.psdb.cloud",
+	user: "8w0mtjokm2li9rhrsjrm",
+	password: "pscale_pw_GeKhKf2YyJhzdFtHfyVy51dkADhXp1pwJevUyvlK3qO",
+	database: "wt_project",
+	ssl: {
+		rejectUnauthorized: false,
+	},
 };
 
 async function getOrCreateActor(conn, name) {
@@ -40,7 +39,10 @@ async function getOrCreateMovie(conn, title) {
 	]);
 	return result.insertId;
 }
-
+function extractYear(text) {
+	const match = text.match(/\d{4}/);
+	return match ? parseInt(match[0], 10) : null;
+}
 async function importNominations() {
 	const filePath = path.join(__dirname, "data.csv");
 
@@ -48,13 +50,13 @@ async function importNominations() {
 
 	try {
 		const data = await fs.readFile(filePath, "utf8");
-		const lines = data.trim().split("\n");
+		const lines = data.trim().split("\n").slice(2474);
 
 		for (let i = 1; i < lines.length; i++) {
 			const line = lines[i];
 			const parts = line.split(",");
 
-			const year = parts[0].trim();
+			const year = extractYear(parts[0].trim());
 			const category = parts[1]?.trim() || null;
 			const full_name = parts[2]?.trim() || null;
 			const show = parts[3]?.trim() || null;

@@ -18,6 +18,7 @@ yarn-error.log*
 .env
 .env.*.local
 
+backend/backend-server/data/import.cjs
 # IDE/Editor files
 .vscode/
 .idea/
