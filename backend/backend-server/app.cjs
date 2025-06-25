@@ -86,20 +86,21 @@ const server = http.createServer(async (req, res) => {
 	} else if (method === "POST" && url === "/register-user") {
 		auth.resolve_register_user(req, res, connection);
 	} else if (method === "GET" && pathname === "/get-data") {
-		const an = Number(parsedUrl.query.an);
+		let an = Number(parsedUrl.query.an);
 		if (!an) {
 			an = 0;
 		} else if (an < 1950) {
 			res.writeHead(400, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ message: "Anul pe care l ai dat nu e bun." }));
+			res.end(JSON.stringify({ message: "Anul pe care l-ai dat nu e bun." }));
+			return;
 		}
 
 		try {
 			const data = await interpretData(req, res, connection, an);
 
-			if (data === null) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare la procesarea datelor" }));
+			if (!data || data.length === 0) {
+				res.writeHead(404, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Nicio nominalizare găsită" }));
 				return;
 			}
 

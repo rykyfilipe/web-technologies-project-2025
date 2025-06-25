@@ -1,45 +1,36 @@
-/** @format */
-
-const fs = require("fs").promises;
-const path = require("path");
-
 async function interpretData(req, res, connection, an) {
-	let body = "";
+	return new Promise((resolve, reject) => {
+		let body = "";
 
-	req.on("data", (chunk) => {
-		body += chunk.toString();
-	});
+		req.on("data", (chunk) => {
+			body += chunk.toString();
+		});
 
-	req.on("end", () => {
-		try {
-			const data = JSON.parse(body);
-		} catch (error) {}
-
-		connection.query(
-			"SELECT * FROM nominations WHERE year = ?",
-			[an],
-			(err, result) => {
-				if (err) {
-					console.error(err);
-					res.writeHead(500);
-					res.end(JSON.stringify({ message: "Server error" }));
-					return;
-				}
-
-				if (result.length === 0) {
-					res.writeHead(404);
-					res.end(
-						JSON.stringify({ message: "No nominations found for this year" })
-					);
-				} else {
-					res.writeHead(200, { "Content-Type": "application/json" });
-					res.end(JSON.stringify(result));
-				}
+		req.on("end", () => {
+			// Dacă nu folosești body pentru nimic, poți să ignori parsatul
+			try {
+				JSON.parse(body);
+			} catch (error) {
+				// Nu faci nimic, body probabil nu e relevant aici
 			}
-		);
+
+			connection.query(
+				"SELECT * FROM nominations WHERE year = ?",
+				[an],
+				(err, result) => {
+					if (err) {
+						console.error(err);
+						// Folosește reject ca să semnalezi eroarea
+						return reject(err);
+					}
+
+					resolve(result); // returnezi rezultatul query-ului
+				}
+			);
+		});
+
+		req.on("error", (err) => {
+			reject(err);
+		});
 	});
 }
-
-module.exports = {
-	interpretData,
-};
