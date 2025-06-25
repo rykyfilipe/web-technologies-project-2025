@@ -3,9 +3,9 @@ const path = require("path");
 const mysql = require("mysql2/promise");
 
 const dbConfig = {
-	host: "aws.connect.psdb.cloud",
-	user: "8w0mtjokm2li9rhrsjrm",
-	password: "pscale_pw_GeKhKf2YyJhzdFtHfyVy51dkADhXp1pwJevUyvlK3qO",
+	host: "",
+	user: "",
+	password: "",
 	database: "wt_project",
 	ssl: {
 		rejectUnauthorized: false,
