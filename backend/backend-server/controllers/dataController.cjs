@@ -1,4 +1,4 @@
-async function interpretData(req, res, connection, an) {
+export async function interpretData(req, res, connection, an) {
 	return new Promise((resolve, reject) => {
 		let body = "";
 
