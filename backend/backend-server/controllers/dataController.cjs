@@ -1,53 +1,45 @@
 /** @format */
 
-const fs = require('fs').promises;
-const path = require('path');
+const fs = require("fs").promises;
+const path = require("path");
 
-async function interpretData(an) {
-  const filePath = path.join(__dirname, '..', 'data', 'data.csv');
-  try {
-    const data = await fs.readFile(filePath, 'utf8');
-    const lines = data.trim().split('\n');
-    const headers = lines[0].split(',');
+async function interpretData(req, res, connection, an) {
+	let body = "";
 
-    const results = lines.slice(1).map((line) => {
-      const values = line.split(',');
-      const obj = {};
-      headers.forEach((header, index) => {
-        obj[header.trim()] = values[index]?.trim() || null;
-      });
+	req.on("data", (chunk) => {
+		body += chunk.toString();
+	});
 
-      // Convertim "won" în boolean
-      if (obj['won'] === 'True') obj['won'] = true;
-      else if (obj['won'] === 'False') obj['won'] = false;
+	req.on("end", () => {
+		try {
+			const data = JSON.parse(body);
+		} catch (error) {}
 
-      // Convertim "an" în număr, dacă există
-      let firstColumn = obj[headers[0]]; // adică prima coloană
+		connection.query(
+			"SELECT * FROM nominations WHERE year = ?",
+			[an],
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					res.writeHead(500);
+					res.end(JSON.stringify({ message: "Server error" }));
+					return;
+				}
 
-      if (firstColumn) {
-        yearMatch = firstColumn.match(/^(\d{4})/);
-      }
-      if (yearMatch) {
-        obj['year'] = Number(yearMatch[1]);
-      } else {
-        obj['year'] = null;
-      }
-
-      return obj;
-    });
-
-    // 🔍 Filtrare: doar înregistrările cu an >= parametrul dat
-    const filteredResults = results.filter((obj) => {
-      return typeof obj['year'] === 'number' && obj['year'] >= an;
-    });
-
-    return filteredResults;
-  } catch (err) {
-    console.error('Eroare la citirea sau parsarea fișierului:', err);
-    return null;
-  }
+				if (result.length === 0) {
+					res.writeHead(404);
+					res.end(
+						JSON.stringify({ message: "No nominations found for this year" })
+					);
+				} else {
+					res.writeHead(200, { "Content-Type": "application/json" });
+					res.end(JSON.stringify(result));
+				}
+			}
+		);
+	});
 }
 
 module.exports = {
-  interpretData,
+	interpretData,
 };

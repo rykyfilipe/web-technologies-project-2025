@@ -95,7 +95,7 @@ const server = http.createServer(async (req, res) => {
 		}
 
 		try {
-			const data = await interpretData(an);
+			const data = await interpretData(req, res, connection, an);
 
 			if (data === null) {
 				res.writeHead(500, { "Content-Type": "application/json" });
