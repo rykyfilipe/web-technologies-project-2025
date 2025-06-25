@@ -11,6 +11,7 @@ const dotenv = require("dotenv");
 const {
 	interpretData,
 	getMovies,
+  getActors,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -156,43 +157,64 @@ const server = http.createServer(async (req, res) => {
 				res.end(JSON.stringify({ message: "Eroare internă server" }));
 			}
 		}
-	} else if (parsedUrl.pathname === "/news" && req.method === "GET") {
-		const actorQuery = parsedUrl.query.query;
-		if (!actorQuery) {
-			res.writeHead(400);
-			res.end(JSON.stringify({ error: "Query parameter missing" }));
-			return;
-		}
+	} else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
+    const actorQuery = parsedUrl.query.query;
+    if (!actorQuery) {
+      res.writeHead(400);
+      res.end(JSON.stringify({ error: 'Query parameter missing' }));
+      return;
+    }
 
-		const options = {
-			hostname: "newsapi.org",
-			path: `/v2/everything?q=${encodeURIComponent(
-				actorQuery
-			)}&apiKey=${NEWSAPI_KEY}`,
-			method: "GET",
-			headers: {
-				"User-Agent": "web-tech-project/1.0 (Eduard O.)",
-			},
-		};
+    const options = {
+      hostname: 'newsapi.org',
+      path: `/v2/everything?q=${encodeURIComponent(
+        actorQuery
+      )}&apiKey=${NEWSAPI_KEY}`,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'web-tech-project/1.0 (Eduard O.)',
+      },
+    };
 
-		https
-			.get(options, (apiRes) => {
-				let data = "";
-				apiRes.on("data", (chunk) => (data += chunk));
-				apiRes.on("end", () => {
-					res.writeHead(200, { "Content-Type": "application/json" });
-					res.end(data);
-				});
-			})
-			.on("error", (err) => {
-				console.error(err);
-				res.writeHead(500);
-				res.end(JSON.stringify({ error: "Eroare la apelarea NewsAPI" }));
-			});
-	} else {
-		res.writeHead(404);
-		res.end(JSON.stringify({ message: "Not found" }));
-	}
+    https
+      .get(options, (apiRes) => {
+        let data = '';
+        apiRes.on('data', (chunk) => (data += chunk));
+        apiRes.on('end', () => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(data);
+        });
+      })
+      .on('error', (err) => {
+        console.error(err);
+        res.writeHead(500);
+        res.end(JSON.stringify({ error: 'Eroare la apelarea NewsAPI' }));
+      });
+  } else if (method === 'GET' && url === '/actors') {
+    let id = Number(parsedUrl.query.id);
+
+    try {
+      const data = await getActors(connection);
+
+      if (!data || data.length === 0) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Niciun film găsit' }));
+        return;
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  } else {
+    res.writeHead(404);
+    res.end(JSON.stringify({ message: 'Not found' }));
+  }
 });
 
 server.listen(port, (error) => {

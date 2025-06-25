@@ -45,4 +45,20 @@ async function getMovies(connection) {
 	});
 }
 
-module.exports = { interpretData, getMovies };
+async function getActors(connection) {
+  return new Promise((resolve, reject) => {
+    connection.query('SELECT * FROM actors', (err, result) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+        return;
+      }
+      if (result.length === 0) {
+        resolve(null);
+        return;
+      }
+      resolve(result);
+    });
+  });
+}
+module.exports = { interpretData, getMovies , getActors};
