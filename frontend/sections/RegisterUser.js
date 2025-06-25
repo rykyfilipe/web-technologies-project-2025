@@ -94,6 +94,8 @@ const RegisterUser = (container) => {
 
 		if (response.ok) {
 			registerForm.remove();
+			adminButton.remove();
+
 			localStorage.setItem(
 				"w-user",
 				JSON.stringify({ token: serverData.token })

@@ -97,6 +97,7 @@ const Login = (container) => {
 
 		if (response.ok) {
 			loginForm.remove();
+			adminButton.remove();
 			localStorage.setItem(
 				"w-user",
 				JSON.stringify({ token: serverData.token })
