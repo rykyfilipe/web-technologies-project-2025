@@ -26,5 +26,30 @@ async function interpretData(req, res, connection, an) {
 		);
 	});
 }
+async function getMovie(req, res, connection, id) {
+	return new Promise((resolve, reject) => {
+		connection.query(
+			"SELECT * FROM movies WHERE id = ?",
+			[id],
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					res.writeHead(500, { "Content-Type": "application/json" });
+					res.end(JSON.stringify({ message: "Server error" }));
+					return reject(err);
+				}
 
-module.exports = { interpretData };
+				if (result.length === 0) {
+					res.writeHead(404, { "Content-Type": "application/json" });
+					res.end(JSON.stringify({ message: "No movie found for id" }));
+					return resolve(null);
+				}
+
+				res.writeHead(200, { "Content-Type": "application/json" });
+				res.end(JSON.stringify(result));
+				resolve(result);
+			}
+		);
+	});
+}
+module.exports = { interpretData, getMovie };

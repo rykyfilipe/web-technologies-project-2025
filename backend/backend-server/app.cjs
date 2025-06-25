@@ -8,7 +8,7 @@ const mysql = require("./models/init_models.cjs");
 const auth = require("./controllers/authController.cjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const { interpretData } = require("./controllers/dataController.cjs");
+const { interpretData, getMovie } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
 dotenv.config();
@@ -85,6 +85,32 @@ const server = http.createServer(async (req, res) => {
 		auth.resolve_login(req, res, connection);
 	} else if (method === "POST" && url === "/register-user") {
 		auth.resolve_register_user(req, res, connection);
+	} else if (method === "GET" && url === "/get-movie") {
+		let id = Number(parsedUrl.query.id);
+		if (!id) {
+			res.writeHead(400, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ message: "Id invalid !" }));
+			return;
+		} else {
+			try {
+				const data = await getMovie(req, res, connection, id);
+
+				if (!data || data.length === 0) {
+					res.writeHead(404, { "Content-Type": "application/json" });
+					res.end(JSON.stringify({ message: "Niciun film gasit găsită" }));
+					return;
+				}
+
+				res.writeHead(200, { "Content-Type": "application/json" });
+				res.end(JSON.stringify(data));
+			} catch (error) {
+				console.error("Eroare în server:", error);
+				if (!res.headersSent) {
+					res.writeHead(500, { "Content-Type": "application/json" });
+					res.end(JSON.stringify({ message: "Eroare internă server" }));
+				}
+			}
+		}
 	} else if (method === "GET" && pathname === "/get-data") {
 		let an = Number(parsedUrl.query.an);
 		if (!an) {

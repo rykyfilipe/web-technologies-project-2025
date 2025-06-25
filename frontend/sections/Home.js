@@ -144,6 +144,7 @@ const Home = async (container) => {
 			const timeSeriesChart = createTimeSeriesChart(timeSeriesData);
 			ChartBuilder(div, timeSeriesChart);
 		}
+		console.log(nominalizationData);
 
 		if (nominalizationData.length > 0) {
 			const nominalizationChartData =

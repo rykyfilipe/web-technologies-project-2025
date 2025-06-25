@@ -296,10 +296,10 @@ export const createTimeSeriesChart = (timeSeriesData) => ({
 
 export const createNominalizationShowData = (data) => {
 	const showNominalization = {};
-
 	data.forEach((item) => {
-		if (!item.won && item.show) {
-			showNominalization[item.show] = (showNominalization[item.show] || 0) + 1;
+		if (!item.won && item.movie_id) {
+			showNominalization[item.movie_id] =
+				(showNominalization[item.movie_id] || 0) + 1;
 		}
 	});
 
