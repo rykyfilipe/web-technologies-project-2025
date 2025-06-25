@@ -1,7 +1,7 @@
 async function interpretData(req, res, connection, an) {
 	return new Promise((resolve, reject) => {
 		connection.query(
-			"SELECT * FROM nominations WHERE year = ?",
+			"SELECT * FROM nominations WHERE year >= ?",
 			[an],
 			(err, result) => {
 				if (err) {
