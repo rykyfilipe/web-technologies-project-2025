@@ -26,27 +26,23 @@ async function interpretData(req, res, connection, an) {
 		);
 	});
 }
-async function getMovie(connection, id) {
+async function getMovies(connection) {
 	return new Promise((resolve, reject) => {
-		connection.query(
-			"SELECT * FROM movies WHERE id = ?",
-			[id],
-			(err, result) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-					return;
-				}
-
-				if (result.length === 0) {
-					resolve(null);
-					return;
-				}
-
-				resolve(result);
+		connection.query("SELECT * FROM movies", (err, result) => {
+			if (err) {
+				console.error(err);
+				reject(err);
+				return;
 			}
-		);
+
+			if (result.length === 0) {
+				resolve(null);
+				return;
+			}
+
+			resolve(result);
+		});
 	});
 }
 
-module.exports = { interpretData, getMovie };
+module.exports = { interpretData, getMovies };
