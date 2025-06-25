@@ -1,4 +1,4 @@
-export async function interpretData(req, res, connection, an) {
+async function interpretData(req, res, connection, an) {
 	return new Promise((resolve, reject) => {
 		connection.query(
 			"SELECT * FROM nominations WHERE year = ?",
@@ -26,3 +26,5 @@ export async function interpretData(req, res, connection, an) {
 		);
 	});
 }
+
+module.exports = { interpretData };
