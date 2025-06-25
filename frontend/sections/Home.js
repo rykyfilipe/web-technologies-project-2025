@@ -125,7 +125,7 @@ const Home = async (container) => {
 		}
 		const categoryWinsData = createCategoryWinsData(data);
 		const timeSeriesData = createTimeSeriesData(data);
-		const nominalizationData = createNominalizationShowData(data);
+		const nominalizationData = await createNominalizationShowData(data);
 
 		if (categoryWinsData.length === 0 && timeSeriesData.length === 0) {
 			showErrorState(section, "No valid data found for visualization.");

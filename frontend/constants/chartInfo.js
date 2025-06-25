@@ -318,20 +318,21 @@ export const createNominalizationShowData = async (data) => {
 		const movieData = await response.json();
 
 		if (!movieData) throw new Error("eroare la parsarea raspunsului");
+		for (const item of data) {
+			if (!item.won) {
+				const movie = movieData.find((m) => m.id === item.movie_id);
+				showNominalization[movie.title] =
+					(showNominalization[movie.title] || 0) + 1;
+			}
+		}
 	} catch (error) {
 		console.log(error);
-	}
-	for (const item of data) {
-		if (!item.won) {
-			showNominalization[item.movie_id] =
-				(showNominalization[item.movie_id] || 0) + 1;
-		}
 	}
 
 	const sortData = Object.entries(showNominalization)
 		.map(([show, count]) => ({ show, count }))
 		.sort((a, b) => b.count - a.count);
-
+	console.log(sortData);
 	return sortData.slice(0, 10);
 };
 
