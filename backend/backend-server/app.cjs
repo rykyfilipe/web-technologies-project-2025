@@ -1,163 +1,170 @@
 /** @format */
 
-const http = require("http");
-const urlModule = require("url");
-const https = require("https");
+const http = require('http');
+const urlModule = require('url');
+const https = require('https');
 const port = process.env.API_PORT || 3001;
-const mysql = require("./models/init_models.cjs");
-const auth = require("./controllers/authController.cjs");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+const mysql = require('./models/init_models.cjs');
+const auth = require('./controllers/authController.cjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const {
-	interpretData,
-	getMovies,
+  interpretData,
+  getMovies,
   getActors,
-} = require("./controllers/dataController.cjs");
-const { uniqueActors } = require("./data/data.cjs");
+  addActor,
+  removeActor,
+} = require('./controllers/dataController.cjs');
+const { uniqueActors } = require('./data/data.cjs');
 
 dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY || "super_secret_key";
+const SECRET_KEY = process.env.SECRET_KEY || 'super_secret_key';
 const connection = mysql.createConnectionToDatabase();
-const NEWSAPI_KEY = "77874b8dcba14e28be6f852835919719";
+const NEWSAPI_KEY = '77874b8dcba14e28be6f852835919719';
 mysql.connectToDataBase(connection);
 
 const server = http.createServer(async (req, res) => {
-	const { method, url } = req;
-	const parsedUrl = urlModule.parse(req.url, true);
-	const pathname = parsedUrl.pathname.replace(/\/+$/, "");
+  const { method, url } = req;
+  const parsedUrl = urlModule.parse(req.url, true);
+  const pathname = parsedUrl.pathname.replace(/\/+$/, '');
 
-	if (method === "GET" && pathname === "/get-data") {
-		// acum merge și cu /get-data și cu /get-data/
-	}
+  const matchActor = pathname.match(/^\/actors\/(\d+)$/);
 
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  //const matchMovie = path.match(/^\/movies\/(\d+)$/); pt /movies/id
+  //const matchUser = path.match(/^\/users\/(\d+)$/); pt /users/id
 
-	if (method === "OPTIONS") {
-		res.writeHead(204, {
-			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-			"Access-Control-Allow-Headers": "Content-Type, Authorization",
-		});
-		res.end();
-		return;
-	}
+  if (method === 'GET' && pathname === '/get-data') {
+    // acum merge și cu /get-data și cu /get-data/
+  }
 
-	res.setHeader("Content-Type", "application/json");
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-	if (url !== "/login" && url !== "/register-user") {
-		const authHeader = req.headers["authorization"];
+  if (method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    });
+    res.end();
+    return;
+  }
 
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
-			res.writeHead(401);
-			res.end(JSON.stringify({ error: "Token lipsă sau invalid" }));
-			return;
-		}
+  res.setHeader('Content-Type', 'application/json');
 
-		const token = authHeader.split(" ")[1];
+  if (url !== '/login' && url !== '/register-user') {
+    const authHeader = req.headers['authorization'];
 
-		try {
-			const decoded = jwt.verify(token, SECRET_KEY);
-		} catch (err) {
-			res.writeHead(403);
-			res.end(JSON.stringify({ error: "Token invalid sau expirat" }));
-			return;
-		}
-	}
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ error: 'Token lipsă sau invalid' }));
+      return;
+    }
 
-	if (method === "GET" && url === "/hello") {
-		const authHeader = req.headers["authorization"];
+    const token = authHeader.split(' ')[1];
 
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
-			res.writeHead(401);
-			res.end("Token lipsă sau invalid");
-			return;
-		}
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+    } catch (err) {
+      res.writeHead(403);
+      res.end(JSON.stringify({ error: 'Token invalid sau expirat' }));
+      return;
+    }
+  }
 
-		const token = authHeader.split(" ")[1];
+  if (method === 'GET' && url === '/hello') {
+    const authHeader = req.headers['authorization'];
 
-		try {
-			const decoded = jwt.verify(token, SECRET_KEY);
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ mesaj: "Acces permis", user: decoded }));
-		} catch (err) {
-			res.writeHead(403);
-			res.end("Token invalid sau expirat");
-		}
-	} else if (method === "POST" && url === "/login") {
-		auth.resolve_login(req, res, connection);
-	} else if (method === "POST" && url === "/register-user") {
-		auth.resolve_register_user(req, res, connection);
-	} else if (method === "GET" && url === "/get-movies") {
-		let id = Number(parsedUrl.query.id);
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.writeHead(401);
+      res.end('Token lipsă sau invalid');
+      return;
+    }
 
-		try {
-			const data = await getMovies(connection);
+    const token = authHeader.split(' ')[1];
 
-			if (!data || data.length === 0) {
-				res.writeHead(404, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Niciun film găsit" }));
-				return;
-			}
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ mesaj: 'Acces permis', user: decoded }));
+    } catch (err) {
+      res.writeHead(403);
+      res.end('Token invalid sau expirat');
+    }
+  } else if (method === 'POST' && url === '/login') {
+    auth.resolve_login(req, res, connection);
+  } else if (method === 'POST' && url === '/register-user') {
+    auth.resolve_register_user(req, res, connection);
+  } else if (method === 'GET' && url === '/get-movies') {
+    let id = Number(parsedUrl.query.id);
 
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
-		} catch (error) {
-			console.error("Eroare în server:", error);
-			if (!res.headersSent) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare internă server" }));
-			}
-		}
-	} else if (method === "GET" && pathname === "/get-data") {
-		let an = Number(parsedUrl.query.an);
-		if (!an) {
-			an = 0;
-		} else if (an < 1950) {
-			res.writeHead(400, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ message: "Anul pe care l-ai dat nu e bun." }));
-			return;
-		}
+    try {
+      const data = await getMovies(connection);
 
-		try {
-			const data = await interpretData(req, res, connection, an);
+      if (!data || data.length === 0) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Niciun film găsit' }));
+        return;
+      }
 
-			if (!data || data.length === 0) {
-				res.writeHead(404, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Nicio nominalizare găsită" }));
-				return;
-			}
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  } else if (method === 'GET' && pathname === '/get-data') {
+    let an = Number(parsedUrl.query.an);
+    if (!an) {
+      an = 0;
+    } else if (an < 1950) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Anul pe care l-ai dat nu e bun.' }));
+      return;
+    }
 
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
-		} catch (error) {
-			console.error("Eroare în server:", error);
-			if (!res.headersSent) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare internă server" }));
-			}
-		}
-	} else if (method === "GET" && url === "/unique-actors") {
-		try {
-			const data = await uniqueActors();
+    try {
+      const data = await interpretData(req, res, connection, an);
 
-			if (data === null) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare la procesarea datelor" }));
-				return;
-			}
+      if (!data || data.length === 0) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Nicio nominalizare găsită' }));
+        return;
+      }
 
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
-		} catch (error) {
-			console.error("Eroare în server:", error);
-			if (!res.headersSent) {
-				res.writeHead(500, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Eroare internă server" }));
-			}
-		}
-	} else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  } else if (method === 'GET' && url === '/unique-actors') {
+    try {
+      const data = await uniqueActors();
+
+      if (data === null) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare la procesarea datelor' }));
+        return;
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error('Eroare în server:', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Eroare internă server' }));
+      }
+    }
+  } else if (parsedUrl.pathname === '/news' && req.method === 'GET') {
     const actorQuery = parsedUrl.query.query;
     if (!actorQuery) {
       res.writeHead(400);
@@ -191,14 +198,12 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: 'Eroare la apelarea NewsAPI' }));
       });
   } else if (method === 'GET' && url === '/actors') {
-    let id = Number(parsedUrl.query.id);
-
     try {
       const data = await getActors(connection);
 
       if (!data || data.length === 0) {
         res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Niciun film găsit' }));
+        res.end(JSON.stringify({ message: 'Niciun actor găsit' }));
         return;
       }
 
@@ -211,6 +216,11 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ message: 'Eroare internă server' }));
       }
     }
+  } else if (method === 'POST' && url === '/actors') {
+    addActor(req, res, connection);
+  } else if (method === 'DELETE' && matchActor) {
+    const actorId = parseInt(matchActor[1], 10);
+    removeActor(req, res, connection, actorId);
   } else {
     res.writeHead(404);
     res.end(JSON.stringify({ message: 'Not found' }));
@@ -218,8 +228,8 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, (error) => {
-	if (error) {
-		console.log(error);
-	}
-	console.log("The server lisens at port: " + port);
+  if (error) {
+    console.log(error);
+  }
+  console.log('The server lisens at port: ' + port);
 });
