@@ -88,7 +88,7 @@ const Login = (container) => {
 			password: password,
 			role: role,
 		};
-		print(payload)
+		console.log(payload);
 
 		const response = await fetch(url_prefix + "/login", {
 			method: "POST",
