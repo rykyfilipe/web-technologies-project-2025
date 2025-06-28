@@ -81,11 +81,14 @@ const Login = (container) => {
 		e.preventDefault();
 		const username = usernameInput.value;
 		const password = passwordInput.value;
+		const role = select.value;
 
 		const payload = {
 			username: username,
 			password: password,
+			role: role,
 		};
+		print(payload)
 
 		const response = await fetch(url_prefix + "/login", {
 			method: "POST",

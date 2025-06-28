@@ -77,10 +77,12 @@ const RegisterUser = (container) => {
 		e.preventDefault();
 		const username = usernameInput.value;
 		const password = passwordInput.value;
+		const role = select.role;
 
 		const payload = {
 			username: username,
 			password: password,
+			role: role,
 		};
 
 		const response = await fetch(url_prefix + "/register-user", {
