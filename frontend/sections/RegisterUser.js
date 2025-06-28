@@ -1,9 +1,8 @@
 import Navbar from "./Navbar.js";
 import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
-import { Admin } from "./Admin.js";
 import "../styles/index.css";
-import Login from "./Login.js";
+import { Admin } from "./admin-panel/Admin.js";
 
 const url_prefix =
 	"https://web-technologies-project-2025-production.up.railway.app";

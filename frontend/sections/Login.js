@@ -3,7 +3,7 @@ import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
 import "../styles/index.css";
 import RegisterUser from "./RegisterUser.js";
-import { Admin } from "./Admin.js";
+import { Admin } from "./admin-panel/Admin.js";
 
 const url_prefix =
 	"https://web-technologies-project-2025-production.up.railway.app";

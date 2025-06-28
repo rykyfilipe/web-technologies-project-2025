@@ -1,6 +1,6 @@
 /** @format */
 
-import "../styles/Documentation.css";
+import "../../styles/Documentation.css";
 
 export default async function Documentation(container) {
 	const navbar = document.querySelector(".navbar");

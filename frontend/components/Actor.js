@@ -1,4 +1,4 @@
-import ActorProfilePage from "../sections/ActorProfilePage.js";
+import ActorProfilePage from "../sections/user/ActorProfilePage.js";
 
 const Actor = (containter, actorInfo) => {
 	const name = actorInfo.name;

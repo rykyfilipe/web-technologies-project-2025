@@ -2,7 +2,7 @@
 
 import { getContainer } from "../utils/components-functions.js";
 import "../styles/Dashboard.css";
-import Home from "./Home.js";
+import Home from "./user/Home.js";
 
 const Dashboard = async (container) => {
 	if (!container) {

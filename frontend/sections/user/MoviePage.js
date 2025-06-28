@@ -1,5 +1,5 @@
 /** @format */
-import "../styles/MoviePage.css";
+import "../../styles/MoviePage.css";
 
 export default function MoviePage(data) {
 	const container = document.getElementById("dashboard");

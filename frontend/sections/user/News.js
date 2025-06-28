@@ -1,4 +1,4 @@
-import "../styles/News.css";
+import "../../styles/News.css";
 const API_KEYS = {
 	newsapi: "77874b8dcba14e28be6f852835919719",
 	gnews: "32c3c615b227d0dabc009d3b45b37f7e",

@@ -1,5 +1,15 @@
 /** @format */
 
+* {
+	overflow: auto;
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
 :root {
 	--navbar-width: 250px;
 	--dashboard-width: calc(100vw - var(--navbar-width) - 50px);

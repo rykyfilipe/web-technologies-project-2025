@@ -1,7 +1,7 @@
 /** @format */
 
-import "../styles/Home.css";
-import ChartBuilder from "../components/ChartBuilder.js";
+import "../../styles/Home.css";
+import ChartBuilder from "../../components/ChartBuilder.js";
 import {
 	createCategoryWinsChart,
 	createCategoryWinsData,
@@ -9,13 +9,13 @@ import {
 	createTimeSeriesData,
 	createNominalizationShowData,
 	createShowNominalizationChart,
-} from "../constants/chartInfo.js";
+} from "../../constants/chartInfo.js";
 
 import {
 	showErrorState,
 	removeLoadingState,
 	showLoadingState,
-} from "../components/utils.js";
+} from "../../components/utils.js";
 
 const loadData = async (an) => {
 	try {

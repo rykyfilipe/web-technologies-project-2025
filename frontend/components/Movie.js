@@ -1,6 +1,6 @@
 /** @format */
 
-import MoviePage from "../sections/MoviePage.js";
+import MoviePage from "../sections/user/MoviePage.js";
 import { showErrorState } from "./utils.js";
 
 export default function Movies(container, data) {

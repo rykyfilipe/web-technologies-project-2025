@@ -1,12 +1,12 @@
 /** @format */
 
-import Movie from "../components/Movie.js";
-import "../styles/Movie.css";
+import Movie from "../../components/Movie.js";
+import "../../styles/Movie.css";
 import {
 	showErrorState,
 	showLoadingState,
 	removeLoadingState,
-} from "../components/utils.js";
+} from "../../components/utils.js";
 
 const loadData = async (page) => {
 	const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;

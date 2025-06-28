@@ -1,10 +1,9 @@
 /** @format */
-import { navItems } from "../constants/index.js";
 import NavItem from "../components/NavItem.js";
 import "../styles/Navbar.css";
 import logo_src from "../assets/icons/logo.svg";
 
-const Navbar = (container) => {
+const Navbar = (container, navItems, logoInfo) => {
 	// Creează butonul hamburger ÎNAINTEA navbar-ului
 	const toggleBtn = document.createElement("button");
 	toggleBtn.classList.add("hamburger");
@@ -13,11 +12,6 @@ const Navbar = (container) => {
 
 	const nav = document.createElement("nav");
 	nav.classList.add("navbar");
-
-	const logoInfo = {
-		name: "Actor Awards Vizualizer",
-		icon: "ACA-logo",
-	};
 
 	// Creează logo
 	const logo = document.createElement("button");

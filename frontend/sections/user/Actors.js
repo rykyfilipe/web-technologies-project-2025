@@ -1,5 +1,5 @@
-import Actor from "../components/Actor.js";
-import "../styles/Actor.css";
+import Actor from "../../components/Actor.js";
+import "../../styles/Actor.css";
 
 const Actors = async (container) => {
 	const navbar = document.querySelector(".navbar");
