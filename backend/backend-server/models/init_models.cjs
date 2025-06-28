@@ -4,11 +4,11 @@ const mysql = require("mysql2");
 
 function createConnectionToDatabase() {
 	const connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: 'Eduard12ios@',
-		database: 'wt_project',
-	  });
+		host: process.env.HOST,
+		user: process.env.USER,
+		password: process.env.PASSWORD,
+		database: "wt_project",
+	});
 	return connection;
 }
 

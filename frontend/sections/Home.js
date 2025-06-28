@@ -179,12 +179,6 @@ const Home = async (container) => {
 			</div>
 		`;
 
-		// Exemplu imagine cu atribut alt
-		const icon = document.createElement("img");
-		icon.src = "./assets/trophy.png";
-		icon.alt = "Trophy Icon";
-		summary.appendChild(icon);
-
 		section.append(summary, div);
 	};
 
