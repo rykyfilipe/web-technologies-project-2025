@@ -4,12 +4,17 @@
 	height: 100vh;
 	overflow-y: scroll;
 	font-family: sans-serif;
+
+	display: flex;
+	flex-direction: column;
+	align-items: start;
 }
 
 .admin-header-wrapper {
 	width: 100%;
 
 	margin-top: 30px;
+	margin-bottom: 30px;
 
 	display: flex;
 	justify-content: space-between;
@@ -68,4 +73,10 @@
 	justify-content: end;
 
 	cursor: pointer;
+}
+
+@media (max-width: 800px) {
+	#admin-panel {
+		align-items: center;
+	}
 }
