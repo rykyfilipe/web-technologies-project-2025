@@ -8,6 +8,9 @@ function createConnectionToDatabase() {
 		user: process.env.USER,
 		password: process.env.PASSWORD,
 		database: "wt_project",
+		ssl: {
+			rejectUnauthorized: false,
+		},
 	});
 	return connection;
 }
