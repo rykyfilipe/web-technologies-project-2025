@@ -3,6 +3,7 @@ import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
 import "../styles/index.css";
 import { Admin } from "./admin-panel/Admin.js";
+import Login from "./Login.js"
 
 const url_prefix =
 	"https://web-technologies-project-2025-production.up.railway.app";
@@ -77,13 +78,15 @@ const RegisterUser = (container) => {
 		e.preventDefault();
 		const username = usernameInput.value;
 		const password = passwordInput.value;
-		const role = select.role;
+		const role = select.value;
 
 		const payload = {
 			username: username,
 			password: password,
 			role: role,
 		};
+
+		console.log(payload);
 
 		const response = await fetch(url_prefix + "/register-user", {
 			method: "POST",
