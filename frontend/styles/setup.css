@@ -1,15 +1,28 @@
 /** @format */
 
-* {
+.home,
+#admin-panel,
+.actors,
+.movies-grid,
+.news,
+.documentation,
+.dashboard {
 	overflow: auto;
 
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 }
 
-*::-webkit-scrollbar {
+.home,
+#admin-panel,
+.actors,
+.movies-grid,
+.news,
+.documentation,
+.dashboard::-webkit-scrollbar {
 	display: none;
 }
+
 :root {
 	--navbar-width: 250px;
 	--dashboard-width: calc(100vw - var(--navbar-width) - 50px);

@@ -16,11 +16,11 @@ const Navbar = (container, navItems, logoInfo) => {
 	// Creează logo
 	const logo = document.createElement("button");
 	logo.classList.add("logo");
-	logo.textContent = logoInfo.name;
+	logo.textContent = logoInfo?.name;
 
 	const img = document.createElement("img");
 	img.src = logo_src;
-	img.alt = logoInfo.icon;
+	img.alt = logoInfo?.icon;
 	logo.prepend(img);
 	nav.append(logo);
 
@@ -33,7 +33,7 @@ const Navbar = (container, navItems, logoInfo) => {
 	menu.append(h2);
 
 	// Adaugă itemii de navigare în meniu
-	navItems.forEach((navItem) => {
+	navItems?.forEach((navItem) => {
 		NavItem(menu, navItem);
 	});
 

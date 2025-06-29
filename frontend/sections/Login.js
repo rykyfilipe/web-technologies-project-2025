@@ -4,6 +4,7 @@ import "../styles/Login.css";
 import "../styles/index.css";
 import RegisterUser from "./RegisterUser.js";
 import { Admin } from "./admin-panel/Admin.js";
+import { navItems } from "../constants/index.js";
 
 const url_prefix =
 	"https://web-technologies-project-2025-production.up.railway.app";
@@ -13,17 +14,6 @@ const Login = (container) => {
 
 	const loginForm = document.createElement("form");
 	loginForm.classList.add("login-form");
-
-	const adminButton = document.createElement("button");
-	adminButton.textContent = "Admin";
-	adminButton.classList.add("admin-button");
-	adminButton.addEventListener("click", () => {
-		loginForm.remove();
-		adminButton.remove();
-		Admin(container);
-	});
-
-	container.append(adminButton);
 
 	const title = document.createElement("h2");
 	title.textContent = "Login";
@@ -100,14 +90,21 @@ const Login = (container) => {
 
 		if (response.ok) {
 			loginForm.remove();
-			adminButton.remove();
 			localStorage.setItem(
 				"w-user",
-				JSON.stringify({ token: serverData.token })
+				JSON.stringify({ token: serverData.token, role: serverData.role })
 			);
+			if (role === "user" || serverData.role === "user") {
+				const logoInfo = {
+					name: "Actor Awards Vizualizer",
+					icon: "ACA-logo",
+				};
 
-			Navbar(container);
-			Dashboard(container);
+				Navbar(container, navItems, logoInfo);
+				Dashboard(container);
+			} else {
+				Admin(container);
+			}
 		} else {
 			alert("Something incorect");
 		}

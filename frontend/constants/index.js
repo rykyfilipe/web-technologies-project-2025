@@ -15,7 +15,6 @@ import users from "../assets/icons/users.svg";
 
 import Login from "../sections/Login.js";
 import { getContainer } from "../utils/components-functions.js";
-import Users from "../sections/admin-panel/Users.js";
 import ActorsPanel from "../sections/admin-panel/Actors.js";
 import UsersPanel from "../sections/admin-panel/Users.js";
 import MoviesPanel from "../sections/admin-panel/Movies.js";
