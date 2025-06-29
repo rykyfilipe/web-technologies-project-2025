@@ -332,7 +332,6 @@ export const createNominalizationShowData = async (data) => {
 	const sortData = Object.entries(showNominalization)
 		.map(([show, count]) => ({ show, count }))
 		.sort((a, b) => b.count - a.count);
-	console.log(sortData);
 	return sortData.slice(0, 10);
 };
 
