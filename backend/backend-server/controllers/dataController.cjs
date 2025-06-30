@@ -45,9 +45,11 @@ async function getMovies(connection) {
   });
 }
 
-async function getActors(connection) {
+async function getActors(connection, page) {
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM actors', (err, result) => {
+    const limit = 20;
+    const offset = (page - 1) * limit;
+    connection.query(`SELECT * FROM actors LIMIT ${limit} OFFSET ${offset}`, (err, result) => {
       if (err) {
         console.error(err);
         reject(err);
@@ -74,6 +76,8 @@ async function addActor(req, res, connection) {
     } catch (error) {
       res.writeHead(400);
       res.end(JSON.stringify({ message: 'Body is not JSON valid' }));
+      return;
+
     }
 
     if (!data.name) {

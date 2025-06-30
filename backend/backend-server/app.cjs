@@ -197,9 +197,10 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(500);
         res.end(JSON.stringify({ error: 'Eroare la apelarea NewsAPI' }));
       });
-  } else if (method === 'GET' && url === '/actors') {
+  } else if (method === 'GET' && pathname === '/actors') {
+    const page = parsedUrl.query.page;
     try {
-      const data = await getActors(connection);
+      const data = await getActors(connection, page);
 
       if (!data || data.length === 0) {
         res.writeHead(404, { 'Content-Type': 'application/json' });
