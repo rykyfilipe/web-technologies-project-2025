@@ -38,13 +38,13 @@ const server = http.createServer(async (req, res) => {
 	}
 
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS,DELETE");
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
 	if (method === "OPTIONS") {
 		res.writeHead(204, {
 			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+			"Access-Control-Allow-Methods": "GET, POST, OPTIONS, DELETE",
 			"Access-Control-Allow-Headers": "Content-Type, Authorization",
 		});
 		res.end();
