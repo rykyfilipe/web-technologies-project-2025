@@ -97,20 +97,12 @@ const Actors = async (container) => {
       } else {
         console.log('Nu s-au găsit rezultate în TMDb pentru:', actor.name);
       }
-    });
+	});
+	actorsDiv.appendChild(sentinel);
+
   }
 
-  // data.results.forEach((actor) => {
-  // 	const info = {
-  // 		id: actor.id,
-  // 		name: actor.name,
-  // 		popularity: actor.popularity,
-  // 		imgUrl: actor.profile_path,
-  // 		known_for: actor.known_for,
-  // 	};
-  // 	Actor(actorsDiv, info);
-  // });
-  actorsDiv.appendChild(sentinel);
+//   actorsDiv.appendChild(sentinel);
 
   await loadPage(currentPage);
 
@@ -123,27 +115,6 @@ const Actors = async (container) => {
   });
 
   observer.observe(sentinel);
-
-  //   const response = await fetch(
-  //     `https://web-technologies-project-2025-production.up.railway.app/actors`,
-  //     optionsBackend
-  //   );
-  //   const data = await response.json();
-  //   //console.log(data);
-
-  //   for (const actor of data) {
-  //     const promises = data.map(async (actor) => {
-  //       const actorName = encodeURIComponent(actor.name);
-  //       const responseTMDB = await fetch(
-  //         `https://api.themoviedb.org/3/search/person?query=${actorName}`,
-  //         options
-  //       );
-  //       return await responseTMDB.json();
-  //     });
-
-  //     const results = await Promise.all(promises);
-  //     console.log(results);
-  //   }
 };
 
 export default Actors;
