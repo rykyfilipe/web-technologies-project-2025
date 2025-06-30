@@ -3,8 +3,13 @@ import "../../styles/Admin.css";
 import deletebutton from "../../assets/icons/delete-button.svg";
 
 const userDataRaw = localStorage.getItem("w-user");
-const userData = JSON.parse(userDataRaw);
-const authToken = userData.token;
+const userData = userDataRaw ? JSON.parse(userDataRaw) : null;
+
+if (!userData) {
+	console.error("User data not found in localStorage");
+}
+
+const authToken = userData?.token || "";
 let page = 1;
 
 const optionsBackend = {
@@ -55,7 +60,6 @@ const createActorRow = (user, section, table, p) => {
 
 	deleteButton.append(img);
 	deleteButton.addEventListener("click", async () => {
-		console.log(user.id);
 		const response = await fetch(
 			`https://web-technologies-project-2025-production.up.railway.app/actors/${user.id}`,
 			{
@@ -65,7 +69,7 @@ const createActorRow = (user, section, table, p) => {
 		);
 
 		if (response.ok) {
-			await loadData(p, section, table, ""); // Reload current page
+			await loadData(p, section, table, "");
 		}
 	});
 
@@ -78,9 +82,19 @@ const loadData = async (p, section, table, op) => {
 		page -= 1;
 	} else if (op === "+") {
 		page += 1;
-	}
 
-	p.textContent = page;
+		const response = await fetch(
+			`https://web-technologies-project-2025-production.up.railway.app/actors?page=${page}`,
+			optionsBackend
+		);
+
+		if (!response.ok) {
+			page -= 1;
+			return;
+		}
+	}
+	if (!p) return;
+	else p.textContent = page;
 
 	const response = await fetch(
 		`https://web-technologies-project-2025-production.up.railway.app/actors?page=${page}`,
@@ -97,6 +111,56 @@ const loadData = async (p, section, table, op) => {
 	});
 };
 
+const addActor = (container) => {
+	const wrapper = document.createElement("div");
+	wrapper.classList.add("add-actor-wrapper");
+
+	const input = document.createElement("input");
+	input.type = "text";
+	input.placeholder = "Actor name";
+	input.classList.add("actor-input");
+
+	const button = document.createElement("button");
+	button.textContent = "Add Actor";
+	button.classList.add("add-actor-button");
+
+	const cancelButton = document.createElement("button");
+	cancelButton.textContent = "Cancel";
+	cancelButton.classList.add("cancel-button");
+	cancelButton.addEventListener("click", () => wrapper.remove());
+
+	button.addEventListener("click", async () => {
+		const actorName = input.value.trim();
+		if (actorName === "") {
+			alert("Please enter a name.");
+			return;
+		}
+
+		const response = await fetch(
+			`https://web-technologies-project-2025-production.up.railway.app/actors`,
+			{
+				method: "POST",
+				headers: {
+					...optionsBackend.headers,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name: actorName }),
+			}
+		);
+
+		if (response.ok) {
+			alert("Actor added successfully!");
+			input.value = "";
+			wrapper.remove();
+		} else {
+			alert("Failed to add actor.");
+		}
+	});
+
+	wrapper.append(input, cancelButton, button);
+	container.append(wrapper);
+};
+
 async function ActorsPanel() {
 	const navbar = document.querySelector(".navbar");
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
@@ -106,6 +170,7 @@ async function ActorsPanel() {
 		optionsBackend
 	);
 	const actors = await response.json();
+	console.log(actors);
 
 	const container = getContainer("dashboard");
 	container.innerHTML = " ";
@@ -122,6 +187,7 @@ async function ActorsPanel() {
 	const addButton = document.createElement("button");
 	addButton.textContent = "Add new actor";
 	addButton.classList.add("add-button");
+	addButton.addEventListener("click", () => addActor(section));
 
 	headerWrapper.append(title, addButton);
 	section.append(headerWrapper);
