@@ -45,6 +45,7 @@
 .table {
 	display: inline-grid;
 	gap: 10px;
+	max-height: 500px;
 }
 
 .head-row,
@@ -81,4 +82,21 @@
 	#admin-panel {
 		align-items: center;
 	}
+}
+
+.table-button {
+	border: none;
+	cursor: pointer;
+	background: transparent;
+}
+
+.table-button:hover {
+	border-bottom: 1px solid black;
+}
+
+.button-wrapper {
+	padding: 5px 10px;
+
+	display: flex;
+	gap: 10px;
 }

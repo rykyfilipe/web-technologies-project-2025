@@ -6,7 +6,8 @@
 .movies-grid,
 .news,
 .documentation,
-.dashboard {
+.dashboard,
+.table {
 	overflow: auto;
 
 	scrollbar-width: none;
@@ -19,7 +20,8 @@
 .movies-grid,
 .news,
 .documentation,
-.dashboard::-webkit-scrollbar {
+.dashboard::-webkit-scrollbar,
+.table {
 	display: none;
 }
 
