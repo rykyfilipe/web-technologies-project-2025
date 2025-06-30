@@ -102,9 +102,9 @@ const Actors = async (container) => {
 
   }
 
-//   actorsDiv.appendChild(sentinel);
-
   await loadPage(currentPage);
+  actorsDiv.appendChild(sentinel);
+
 
   const observer = new IntersectionObserver(async (entries) => {
     console.log('SANTINEL II VAZUT');
