@@ -29,8 +29,7 @@ const server = http.createServer(async (req, res) => {
 	const pathname = parsedUrl.pathname.replace(/\/+$/, "");
 
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
-
-	//const matchMovie = path.match(/^\/movies\/(\d+)$/); pt /movies/id
+  const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	//const matchUser = path.match(/^\/users\/(\d+)$/); pt /users/id
 
 	if (method === "GET" && pathname === "/get-data") {

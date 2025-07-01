@@ -59,7 +59,7 @@ async function getActors(connection, page) {
         resolve(null);
         return;
       }
-      resolve(result);
+      resolve(result);  
     });
   });
 }
