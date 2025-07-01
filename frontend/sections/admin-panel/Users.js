@@ -134,10 +134,20 @@ const addUser = (container, p, section, table) => {
 	passwordInput.placeholder = "Password";
 	passwordInput.classList.add("actor-input");
 
-	const roleInput = document.createElement("input");
-	roleInput.type = "text";
-	roleInput.placeholder = "Role";
-	roleInput.classList.add("actor-input");
+	const select = document.createElement("select");
+	select.classList.add("role-select");
+
+	// Creează opțiunea "user"
+	const optionUser = document.createElement("option");
+	optionUser.value = "user";
+	optionUser.textContent = "User";
+	select.appendChild(optionUser);
+
+	// Creează opțiunea "admin"
+	const optionAdmin = document.createElement("option");
+	optionAdmin.value = "admin";
+	optionAdmin.textContent = "Admin";
+	select.appendChild(optionAdmin);
 
 	const button = document.createElement("button");
 	button.textContent = "Add User";
@@ -151,7 +161,7 @@ const addUser = (container, p, section, table) => {
 	button.addEventListener("click", async () => {
 		const username = usernameInput.value.trim();
 		const password = passwordInput.value.trim();
-		const role = roleInput.value.trim();
+		const role = select.value.trim();
 
 		if (username === "" || password === "" || role === "") {
 			alert("Please fill in all fields.");
@@ -179,7 +189,7 @@ const addUser = (container, p, section, table) => {
 		}
 	});
 
-	wrapper.append(usernameInput, passwordInput, roleInput, cancelButton, button);
+	wrapper.append(usernameInput, passwordInput, select, cancelButton, button);
 	container.append(wrapper);
 };
 

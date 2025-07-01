@@ -70,6 +70,8 @@ const createActorRow = (user, section, table, p) => {
 
 		if (response.ok) {
 			await loadData(p, section, table, "");
+		} else {
+			alert("Failed to delete actor.");
 		}
 	});
 
@@ -111,7 +113,7 @@ const loadData = async (p, section, table, op) => {
 	});
 };
 
-const addActor = (container) => {
+const addActor = (container, p, section, table) => {
 	const wrapper = document.createElement("div");
 	wrapper.classList.add("add-actor-wrapper");
 
@@ -150,8 +152,8 @@ const addActor = (container) => {
 
 		if (response.ok) {
 			alert("Actor added successfully!");
-			input.value = "";
 			wrapper.remove();
+			await loadData(p, section, table, "");
 		} else {
 			alert("Failed to add actor.");
 		}
@@ -170,7 +172,6 @@ async function ActorsPanel() {
 		optionsBackend
 	);
 	const actors = await response.json();
-	console.log(actors);
 
 	const container = getContainer("dashboard");
 	container.innerHTML = " ";
@@ -184,10 +185,15 @@ async function ActorsPanel() {
 	const title = document.createElement("h1");
 	title.textContent = "Actors";
 
+	const p = document.createElement("p");
+	p.textContent = page;
+
 	const addButton = document.createElement("button");
 	addButton.textContent = "Add new actor";
 	addButton.classList.add("add-button");
-	addButton.addEventListener("click", () => addActor(section));
+	addButton.addEventListener("click", () =>
+		addActor(section, p, section, table)
+	);
 
 	headerWrapper.append(title, addButton);
 	section.append(headerWrapper);
@@ -197,14 +203,11 @@ async function ActorsPanel() {
 	table.append(createHeaderRow());
 
 	actors.forEach((user) => {
-		const row = createActorRow(user, section, table, null);
+		const row = createActorRow(user, section, table, p);
 		table.append(row);
 	});
 
 	section.append(table);
-
-	const p = document.createElement("p");
-	p.textContent = page;
 
 	const previousButton = document.createElement("button");
 	previousButton.classList.add("table-button");
