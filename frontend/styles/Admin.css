@@ -115,7 +115,7 @@
 
 	max-width: 400px;
 	width: 80%;
-	height: 120px;
+	height: max-content;
 
 	gap: 10px;
 

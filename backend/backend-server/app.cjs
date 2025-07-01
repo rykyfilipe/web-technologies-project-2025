@@ -247,7 +247,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} else if (method === "POST" && url === "/users") {
 		addUser(req, res, connection);
-	} else if (method === "DELETE" && matchActor) {
+	} else if (method === "DELETE" && matchUser) {
 		const userId = parseInt(matchUser[1], 10);
 		removeUser(req, res, connection, userId);
 	} else {
