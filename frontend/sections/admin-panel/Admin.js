@@ -1,5 +1,6 @@
 import { navAdminItems } from "../../constants/index.js";
 import Navbar from "../Navbar.js";
+import UsersPanel from "./Users.js";
 
 export function Admin(container) {
 	container.innerHTML = " ";
@@ -18,5 +19,7 @@ export function Admin(container) {
 	section.classList.add("dashboard");
 	section.id = "dashboard";
 	section.textContent = "Admin Panel";
+
+	UsersPanel(section);
 	container.append(section);
 }
