@@ -27,19 +27,23 @@ const createHeaderRow = () => {
 	id.classList.add("id");
 	id.textContent = "ID";
 
-	const name = document.createElement("div");
-	name.classList.add("name");
-	name.textContent = "NAME";
+	const username = document.createElement("div");
+	username.classList.add("username");
+	username.textContent = "USERNAME";
+
+	const role = document.createElement("div");
+	role.classList.add("role");
+	role.textContent = "ROLE";
 
 	const action = document.createElement("div");
 	action.classList.add("action");
 	action.textContent = "ACTION";
 
-	div.append(id, name, action);
+	div.append(id, username, role, action);
 	return div;
 };
 
-const createActorRow = (user, section, table, p) => {
+const createUserRow = (user, section, table, p) => {
 	const div = document.createElement("div");
 	div.classList.add("row");
 
@@ -47,9 +51,13 @@ const createActorRow = (user, section, table, p) => {
 	id.classList.add("id");
 	id.textContent = user.id;
 
-	const name = document.createElement("div");
-	name.classList.add("name");
-	name.textContent = user.name;
+	const username = document.createElement("div");
+	username.classList.add("username");
+	username.textContent = user.username;
+
+	const role = document.createElement("div");
+	role.classList.add("role");
+	role.textContent = user.role;
 
 	const deleteButton = document.createElement("button");
 	deleteButton.classList.add("delete-button");
@@ -61,7 +69,7 @@ const createActorRow = (user, section, table, p) => {
 	deleteButton.append(img);
 	deleteButton.addEventListener("click", async () => {
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/actors/${user.id}`,
+			`https://web-technologies-project-2025-production.up.railway.app/users/${user.id}`,
 			{
 				method: "DELETE",
 				...optionsBackend,
@@ -73,7 +81,7 @@ const createActorRow = (user, section, table, p) => {
 		}
 	});
 
-	div.append(id, name, deleteButton);
+	div.append(id, username, role, deleteButton);
 	return div;
 };
 
@@ -84,7 +92,7 @@ const loadData = async (p, section, table, op) => {
 		page += 1;
 
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/actors?page=${page}`,
+			`https://web-technologies-project-2025-production.up.railway.app/users?page=${page}`,
 			optionsBackend
 		);
 
@@ -97,31 +105,41 @@ const loadData = async (p, section, table, op) => {
 	else p.textContent = page;
 
 	const response = await fetch(
-		`https://web-technologies-project-2025-production.up.railway.app/actors?page=${page}`,
+		`https://web-technologies-project-2025-production.up.railway.app/users?page=${page}`,
 		optionsBackend
 	);
 
-	const actors = await response.json();
+	const users = await response.json();
 	table.innerHTML = " ";
 	table.append(createHeaderRow());
 
-	actors.forEach((user) => {
-		const row = createActorRow(user, section, table, p);
+	users.forEach((user) => {
+		const row = createUserRow(user, section, table, p);
 		table.append(row);
 	});
 };
 
-const addActor = (container) => {
+const addUser = (container) => {
 	const wrapper = document.createElement("div");
 	wrapper.classList.add("add-actor-wrapper");
 
-	const input = document.createElement("input");
-	input.type = "text";
-	input.placeholder = "Actor name";
-	input.classList.add("actor-input");
+	const usernameInput = document.createElement("input");
+	usernameInput.type = "text";
+	usernameInput.placeholder = "Username";
+	usernameInput.classList.add("actor-input");
+
+	const passwordInput = document.createElement("input");
+	passwordInput.type = "password";
+	passwordInput.placeholder = "Password";
+	passwordInput.classList.add("actor-input");
+
+	const roleInput = document.createElement("input");
+	roleInput.type = "text";
+	roleInput.placeholder = "Role";
+	roleInput.classList.add("actor-input");
 
 	const button = document.createElement("button");
-	button.textContent = "Add Actor";
+	button.textContent = "Add User";
 	button.classList.add("add-actor-button");
 
 	const cancelButton = document.createElement("button");
@@ -130,47 +148,49 @@ const addActor = (container) => {
 	cancelButton.addEventListener("click", () => wrapper.remove());
 
 	button.addEventListener("click", async () => {
-		const actorName = input.value.trim();
-		if (actorName === "") {
-			alert("Please enter a name.");
+		const username = usernameInput.value.trim();
+		const password = passwordInput.value.trim();
+		const role = roleInput.value.trim();
+
+		if (username === "" || password === "" || role === "") {
+			alert("Please fill in all fields.");
 			return;
 		}
 
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/actors`,
+			`https://web-technologies-project-2025-production.up.railway.app/users`,
 			{
 				method: "POST",
 				headers: {
 					...optionsBackend.headers,
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ name: actorName }),
+				body: JSON.stringify({ username, password, role }),
 			}
 		);
 
 		if (response.ok) {
-			alert("Actor added successfully!");
-			input.value = "";
+			alert("User added successfully!");
 			wrapper.remove();
 		} else {
-			alert("Failed to add actor.");
+			alert("Failed to add user.");
 		}
 	});
 
-	wrapper.append(input, cancelButton, button);
+	wrapper.append(usernameInput, passwordInput, roleInput, cancelButton, button);
 	container.append(wrapper);
 };
 
-async function ActorsPanel() {
+async function UsersPanel() {
 	const navbar = document.querySelector(".navbar");
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
 
 	const response = await fetch(
-		`https://web-technologies-project-2025-production.up.railway.app/actors?page=${page}`,
+		`https://web-technologies-project-2025-production.up.railway.app/users?page=${page}`,
 		optionsBackend
 	);
-	const actors = await response.json();
-	console.log(actors);
+	const users = await response.json();
+	console.log(users);
 
 	const container = getContainer("dashboard");
 	container.innerHTML = " ";
@@ -182,12 +202,12 @@ async function ActorsPanel() {
 	headerWrapper.classList.add("admin-header-wrapper");
 
 	const title = document.createElement("h1");
-	title.textContent = "Actors";
+	title.textContent = "Users";
 
 	const addButton = document.createElement("button");
-	addButton.textContent = "Add new actor";
+	addButton.textContent = "Add new user";
 	addButton.classList.add("add-button");
-	addButton.addEventListener("click", () => addActor(section));
+	addButton.addEventListener("click", () => addUser(section));
 
 	headerWrapper.append(title, addButton);
 	section.append(headerWrapper);
@@ -196,8 +216,8 @@ async function ActorsPanel() {
 	table.classList.add("table");
 	table.append(createHeaderRow());
 
-	actors.forEach((user) => {
-		const row = createActorRow(user, section, table, null);
+	users.forEach((user) => {
+		const row = createUserRow(user, section, table, null);
 		table.append(row);
 	});
 
@@ -226,4 +246,4 @@ async function ActorsPanel() {
 	container.append(section);
 }
 
-export default ActorsPanel;
+export default UsersPanel;
