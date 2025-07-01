@@ -14,6 +14,8 @@ const {
 	getActors,
 	addActor,
 	removeActor,
+  removeMovie,
+  addMovie,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -29,12 +31,9 @@ const server = http.createServer(async (req, res) => {
 	const pathname = parsedUrl.pathname.replace(/\/+$/, "");
 
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
-  const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
+  const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	//const matchUser = path.match(/^\/users\/(\d+)$/); pt /users/id
 
-	if (method === "GET" && pathname === "/get-data") {
-		// acum merge și cu /get-data și cu /get-data/
-	}
 
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
@@ -95,11 +94,11 @@ const server = http.createServer(async (req, res) => {
 		auth.resolve_login(req, res, connection);
 	} else if (method === "POST" && url === "/register-user") {
 		auth.resolve_register_user(req, res, connection);
-	} else if (method === "GET" && url === "/get-movies") {
-		let id = Number(parsedUrl.query.id);
+	} else if (method === "GET" && pathname === "/movies") {
+		const page = parsedUrl.query.page;
 
 		try {
-			const data = await getMovies(connection);
+			const data = await getMovies(connection, page);
 
 			if (!data || data.length === 0) {
 				res.writeHead(404, { "Content-Type": "application/json" });
@@ -221,7 +220,13 @@ const server = http.createServer(async (req, res) => {
 	} else if (method === "DELETE" && matchActor) {
 		const actorId = parseInt(matchActor[1], 10);
 		removeActor(req, res, connection, actorId);
-	} else {
+  } else if (method === "DELETE" && matchMovie) {
+    const movieId = parseInt(matchMovie[1], 10);
+    removeMovie(req, res, connection, movieId);
+  } else if (method === "POST" && url === "/movies") {
+    addMovie(req, res, connection);
+   }
+  else {
 		res.writeHead(404);
 		res.end(JSON.stringify({ message: "Not found" }));
 	}

@@ -26,9 +26,11 @@ async function interpretData(req, res, connection, an) {
     );
   });
 }
-async function getMovies(connection) {
+async function getMovies(connection, page) {
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM movies', (err, result) => {
+    const limit = 20;
+    const offset = (page - 1) * limit;
+    connection.query(`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `, (err, result) => {
       if (err) {
         console.error(err);
         reject(err);
@@ -107,7 +109,7 @@ async function addActor(req, res, connection) {
 function removeActor(req, res, connection, actorId) {
 	console.log(actorId);
 	if (!actorId) {
-		console.log('asdflasdfasdfasdf');
+		
     res.writeHead(400);
 	  res.end(JSON.stringify({ message: 'Invalid request' }));
 	  return;
@@ -149,6 +151,88 @@ function removeActor(req, res, connection, actorId) {
   );
 }
 
+function removeMovie(req, res, connection, movieId) {
+  console.log(movieId);
+  if (!movieId) {
+    res.writeHead(400);
+    res.end(JSON.stringify({ message: 'Invalid request' }));
+    return;
+  }
+
+  connection.query(
+    'SELECT * FROM movies WHERE id = ?',
+    [movieId],
+    (err, result) => {
+      if (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ message: 'Database error' }));
+        return;
+      }
+
+      if (result.length === 0) {
+        res.writeHead(404);
+        res.end(JSON.stringify({ message: 'Movie not found' }));
+        return;
+      }
+
+      connection.query(
+        'DELETE FROM movies WHERE id = ?',
+        [movieId],
+        (err, deleteResult) => {
+          if (err) {
+            res.writeHead(500);
+            res.end(JSON.stringify({ message: 'Delete error' }));
+            return;
+          }
+
+          res.writeHead(200);
+          res.end(
+            JSON.stringify({ message: `Movie with id ${movieId} deleted.` })
+          );
+        }
+      );
+    }
+  );
+}
 
 
-module.exports = { interpretData, getMovies, getActors, addActor, removeActor };
+async function addMovie(req, res, connection) {
+  let body = '';
+  let data = '';
+  req.on('data', (chunk) => {
+    body += chunk;
+  });
+  req.on('end', () => {
+    try {
+      data = JSON.parse(body);
+    } catch (error) {
+      res.writeHead(400);
+      res.end(JSON.stringify({ message: 'Body is not JSON valid' }));
+      return;
+    }
+
+    if (!data.title) {
+      res.writeHead(400);
+      res.end(JSON.stringify({ message: 'Invalid format' }));
+
+      return 0;
+    }
+
+    connection.query(
+      'INSERT INTO movies (title) VALUES (?)',
+      [data.title],
+      (err, result) => {
+        if (err) {
+          throw err;
+        }
+
+        res.writeHead(201);
+        res.end(
+          JSON.stringify({ message: `Succefully added movie: ${data.title}` })
+        );
+      }
+    );
+  });
+}
+
+module.exports = { interpretData, getMovies, getActors, addActor, removeActor, removeMovie , addMovie};
