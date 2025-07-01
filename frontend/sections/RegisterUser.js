@@ -1,4 +1,5 @@
 import Navbar from "./Navbar.js";
+import NavItem from '../components/NavItem.js';
 import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
 import "../styles/index.css";
