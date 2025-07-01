@@ -37,8 +37,8 @@ const server = http.createServer(async (req, res) => {
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
-	const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
-	const matchUser = path.match(/^\/users\/(\d+)$/);
+	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
+	const matchUser = pathname.match(/^\/users\/(\d+)$/);
 
 	if (method === "GET" && pathname === "/get-data") {
 		// acum merge și cu /get-data și cu /get-data/
