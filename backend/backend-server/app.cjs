@@ -31,6 +31,11 @@ const server = http.createServer(async (req, res) => {
 	const parsedUrl = urlModule.parse(req.url, true);
 	const pathname = parsedUrl.pathname.replace(/\/+$/, "");
 
+	// CORS se setează IMEDIAT
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
 	const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = path.match(/^\/users\/(\d+)$/);
@@ -38,10 +43,6 @@ const server = http.createServer(async (req, res) => {
 	if (method === "GET" && pathname === "/get-data") {
 		// acum merge și cu /get-data și cu /get-data/
 	}
-
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
 	if (method === "OPTIONS") {
 		res.writeHead(204, {
