@@ -292,7 +292,9 @@ async function addUser(req, res, connection) {
 
 				res.writeHead(201);
 				res.end(
-					JSON.stringify({ message: `Succefully added actor: ${data.name}` })
+					JSON.stringify({
+						message: `Succefully added actor: ${data.username}`,
+					})
 				);
 			}
 		);
@@ -334,7 +336,7 @@ async function removeUser(req, res, connection, userId) {
 
 					res.writeHead(200);
 					res.end(
-						JSON.stringify({ message: `User with id ${actorId} deleted.` })
+						JSON.stringify({ message: `User with id ${userId} deleted.` })
 					);
 				}
 			);

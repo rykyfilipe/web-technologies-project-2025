@@ -78,6 +78,8 @@ const createUserRow = (user, section, table, p) => {
 
 		if (response.ok) {
 			await loadData(p, section, table, "");
+		} else {
+			alert("Failed to delete user.");
 		}
 	});
 
@@ -101,8 +103,7 @@ const loadData = async (p, section, table, op) => {
 			return;
 		}
 	}
-	if (!p) return;
-	else p.textContent = page;
+	if (p) p.textContent = page;
 
 	const response = await fetch(
 		`https://web-technologies-project-2025-production.up.railway.app/users?page=${page}`,
@@ -119,7 +120,7 @@ const loadData = async (p, section, table, op) => {
 	});
 };
 
-const addUser = (container) => {
+const addUser = (container, p, section, table) => {
 	const wrapper = document.createElement("div");
 	wrapper.classList.add("add-actor-wrapper");
 
@@ -133,20 +134,10 @@ const addUser = (container) => {
 	passwordInput.placeholder = "Password";
 	passwordInput.classList.add("actor-input");
 
-	const select = document.createElement("select");
-	select.classList.add("role-select");
-
-	// Creează opțiunea "user"
-	const optionUser = document.createElement("option");
-	optionUser.value = "user";
-	optionUser.textContent = "User";
-	select.appendChild(optionUser);
-
-	// Creează opțiunea "admin"
-	const optionAdmin = document.createElement("option");
-	optionAdmin.value = "admin";
-	optionAdmin.textContent = "Admin";
-	select.appendChild(optionAdmin);
+	const roleInput = document.createElement("input");
+	roleInput.type = "text";
+	roleInput.placeholder = "Role";
+	roleInput.classList.add("actor-input");
 
 	const button = document.createElement("button");
 	button.textContent = "Add User";
@@ -160,7 +151,7 @@ const addUser = (container) => {
 	button.addEventListener("click", async () => {
 		const username = usernameInput.value.trim();
 		const password = passwordInput.value.trim();
-		const role = select.value.trim();
+		const role = roleInput.value.trim();
 
 		if (username === "" || password === "" || role === "") {
 			alert("Please fill in all fields.");
@@ -182,12 +173,13 @@ const addUser = (container) => {
 		if (response.ok) {
 			alert("User added successfully!");
 			wrapper.remove();
+			await loadData(p, section, table, "");
 		} else {
 			alert("Failed to add user.");
 		}
 	});
 
-	wrapper.append(usernameInput, passwordInput, select, cancelButton, button);
+	wrapper.append(usernameInput, passwordInput, roleInput, cancelButton, button);
 	container.append(wrapper);
 };
 
@@ -200,7 +192,6 @@ async function UsersPanel() {
 		optionsBackend
 	);
 	const users = await response.json();
-	console.log(users);
 
 	const container = getContainer("dashboard");
 	container.innerHTML = " ";
@@ -214,27 +205,29 @@ async function UsersPanel() {
 	const title = document.createElement("h1");
 	title.textContent = "Users";
 
-	const addButton = document.createElement("button");
-	addButton.textContent = "Add new user";
-	addButton.classList.add("add-button");
-	addButton.addEventListener("click", () => addUser(section));
-
-	headerWrapper.append(title, addButton);
-	section.append(headerWrapper);
+	const p = document.createElement("p");
+	p.textContent = page;
 
 	const table = document.createElement("div");
 	table.classList.add("table");
 	table.append(createHeaderRow());
 
 	users.forEach((user) => {
-		const row = createUserRow(user, section, table, null);
+		const row = createUserRow(user, section, table, p);
 		table.append(row);
 	});
 
-	section.append(table);
+	const addButton = document.createElement("button");
+	addButton.textContent = "Add new user";
+	addButton.classList.add("add-button");
+	addButton.addEventListener("click", () =>
+		addUser(section, p, section, table)
+	);
 
-	const p = document.createElement("p");
-	p.textContent = page;
+	headerWrapper.append(title, addButton);
+	section.append(headerWrapper);
+
+	section.append(table);
 
 	const previousButton = document.createElement("button");
 	previousButton.classList.add("table-button");
