@@ -255,6 +255,7 @@ const server = http.createServer(async (req, res) => {
 		addUser(req, res, connection);
 	} else if (method === "DELETE" && matchActor) {
 		const userId = parseInt(matchUser[1], 10);
+		console.log(userId);
 		removeUser(req, res, connection, userId);
 	} else if (method === "DELETE" && matchMovie) {
 		const movieId = parseInt(matchMovie[1], 10);

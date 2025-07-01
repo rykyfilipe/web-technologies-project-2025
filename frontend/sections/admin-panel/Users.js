@@ -68,7 +68,6 @@ const createUserRow = (user, section, table, p) => {
 
 	deleteButton.append(img);
 	deleteButton.addEventListener("click", async () => {
-		console.log(user.id);
 		const response = await fetch(
 			`https://web-technologies-project-2025-production.up.railway.app/users/${user.id}`,
 			{
