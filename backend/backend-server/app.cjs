@@ -14,6 +14,9 @@ const {
 	getActors,
 	addActor,
 	removeActor,
+	addUser,
+	getUsers,
+	removeUser,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -29,8 +32,8 @@ const server = http.createServer(async (req, res) => {
 	const pathname = parsedUrl.pathname.replace(/\/+$/, "");
 
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
-  const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
-	//const matchUser = path.match(/^\/users\/(\d+)$/); pt /users/id
+	const matchMovie = path.match(/^\/movies\/(\d+)$/); //pt /movies/id
+	const matchUser = path.match(/^\/users\/(\d+)$/);
 
 	if (method === "GET" && pathname === "/get-data") {
 		// acum merge și cu /get-data și cu /get-data/
@@ -221,6 +224,31 @@ const server = http.createServer(async (req, res) => {
 	} else if (method === "DELETE" && matchActor) {
 		const actorId = parseInt(matchActor[1], 10);
 		removeActor(req, res, connection, actorId);
+	} else if (method === "GET" && pathname === "/users") {
+		const page = parsedUrl.query.page;
+		try {
+			const data = await getUsers(connection, page);
+
+			if (!data || data.length === 0) {
+				res.writeHead(404, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Niciun actor găsit" }));
+				return;
+			}
+
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify(data));
+		} catch (error) {
+			console.error("Eroare în server:", error);
+			if (!res.headersSent) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare internă server" }));
+			}
+		}
+	} else if (method === "POST" && url === "/users") {
+		addUser(req, res, connection);
+	} else if (method === "DELETE" && matchActor) {
+		const userId = parseInt(matchUser[1], 10);
+		removeUser(req, res, connection, userId);
 	} else {
 		res.writeHead(404);
 		res.end(JSON.stringify({ message: "Not found" }));
