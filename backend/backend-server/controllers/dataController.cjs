@@ -300,7 +300,6 @@ async function addUser(req, res, connection) {
 }
 
 async function removeUser(req, res, connection, userId) {
-	console.log(userId);
 	if (!userId) {
 		res.writeHead(400);
 		res.end(JSON.stringify({ message: "Invalid request" }));
@@ -318,7 +317,7 @@ async function removeUser(req, res, connection, userId) {
 			}
 
 			if (result.length === 0) {
-				res.writeHead(404);
+				res.writeHead(405);
 				res.end(JSON.stringify({ message: "User not found" }));
 				return;
 			}
@@ -335,7 +334,7 @@ async function removeUser(req, res, connection, userId) {
 
 					res.writeHead(200);
 					res.end(
-						JSON.stringify({ message: `Actor with id ${actorId} deleted.` })
+						JSON.stringify({ message: `User with id ${actorId} deleted.` })
 					);
 				}
 			);
