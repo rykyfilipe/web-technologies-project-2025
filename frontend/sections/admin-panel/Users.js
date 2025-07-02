@@ -122,17 +122,17 @@ const loadData = async (p, section, table, op) => {
 
 const addUser = (container, p, section, table) => {
 	const wrapper = document.createElement("div");
-	wrapper.classList.add("add-actor-wrapper");
+	wrapper.classList.add("add-wrapper");
 
 	const usernameInput = document.createElement("input");
 	usernameInput.type = "text";
 	usernameInput.placeholder = "Username";
-	usernameInput.classList.add("actor-input");
+	usernameInput.classList.add("input");
 
 	const passwordInput = document.createElement("input");
 	passwordInput.type = "password";
 	passwordInput.placeholder = "Password";
-	passwordInput.classList.add("actor-input");
+	passwordInput.classList.add("input");
 
 	const select = document.createElement("select");
 	select.classList.add("role-select");
@@ -151,7 +151,7 @@ const addUser = (container, p, section, table) => {
 
 	const button = document.createElement("button");
 	button.textContent = "Add User";
-	button.classList.add("add-actor-button");
+	button.classList.add("add-button");
 
 	const cancelButton = document.createElement("button");
 	cancelButton.textContent = "Cancel";

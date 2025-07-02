@@ -71,11 +71,9 @@
 	background: #f0f0f0;
 }
 
-.row > button {
+.row .delete-button {
 	background: transparent;
 	border: none;
-	width: 20px;
-	height: 20px;
 
 	display: flex;
 	justify-content: end;
@@ -106,7 +104,7 @@
 	gap: 10px;
 }
 
-.add-actor-wrapper {
+.add-wrapper {
 	position: absolute;
 
 	display: flex;
@@ -129,7 +127,7 @@
 	box-shadow: 10px 10px 10px black;
 }
 
-.add-actor-wrapper input {
+.add-wrapper input {
 	width: 80%;
 	padding: 10px 15px;
 	font-size: 16px;
@@ -140,12 +138,12 @@
 	transition: border-color 0.3s ease;
 }
 
-.add-actor-wrapper input:focus {
+.add-wrapper input:focus {
 	border-color: #5e6063;
 	box-shadow: 0 0 5px rgba(193, 195, 196, 0.5);
 }
 
-.add-actor-wrapper button {
+.add-wrapper button {
 	padding: 10px 20px;
 	font-size: 16px;
 	background-color: black;
@@ -156,6 +154,6 @@
 	transition: background-color 0.3s ease;
 }
 
-.add-actor-wrapper button:hover {
+.add-wrapper button:hover {
 	background-color: #343537;
 }

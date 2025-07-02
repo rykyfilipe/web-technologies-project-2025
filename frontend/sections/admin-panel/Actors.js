@@ -115,16 +115,16 @@ const loadData = async (p, section, table, op) => {
 
 const addActor = (container, p, section, table) => {
 	const wrapper = document.createElement("div");
-	wrapper.classList.add("add-actor-wrapper");
+	wrapper.classList.add("add-wrapper");
 
 	const input = document.createElement("input");
 	input.type = "text";
 	input.placeholder = "Actor name";
-	input.classList.add("actor-input");
+	input.classList.add("input");
 
 	const button = document.createElement("button");
 	button.textContent = "Add Actor";
-	button.classList.add("add-actor-button");
+	button.classList.add("add-button");
 
 	const cancelButton = document.createElement("button");
 	cancelButton.textContent = "Cancel";

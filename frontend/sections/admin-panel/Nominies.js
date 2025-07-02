@@ -97,7 +97,7 @@ const createNominieRow = (nominie, section, table, p) => {
 
 	const id = document.createElement("div");
 	id.classList.add("id");
-	id.textContent = nominie.nomination_id;
+	id.textContent = nominie.id;
 
 	const year = document.createElement("div");
 	year.classList.add("year");
@@ -129,7 +129,7 @@ const createNominieRow = (nominie, section, table, p) => {
 	deleteButton.append(img);
 	deleteButton.addEventListener("click", async () => {
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/raw-nominies/${nominie.id}`,
+			`https://web-technologies-project-2025-production.up.railway.app/nominies/${nominie.id}`,
 			{
 				method: "DELETE",
 				...optionsBackend,
@@ -147,20 +147,20 @@ const createNominieRow = (nominie, section, table, p) => {
 
 const addNominie = (container) => {
 	const wrapper = document.createElement("div");
-	wrapper.classList.add("add-nominie-wrapper");
+	wrapper.classList.add("add-wrapper");
 
 	const yearInput = document.createElement("input");
 	yearInput.type = "number";
 	yearInput.placeholder = "Year";
-	yearInput.classList.add("nominie-input");
+	yearInput.classList.add("input");
 
 	const categoryInput = document.createElement("input");
 	categoryInput.type = "text";
 	categoryInput.placeholder = "Category";
-	categoryInput.classList.add("nominie-input");
+	categoryInput.classList.add("input");
 
 	const wonInput = document.createElement("select");
-	wonInput.classList.add("nominie-input");
+	wonInput.classList.add("input");
 	const optionYes = document.createElement("option");
 	optionYes.value = "1";
 	optionYes.textContent = "Won";
@@ -172,16 +172,16 @@ const addNominie = (container) => {
 	const actorIdInput = document.createElement("input");
 	actorIdInput.type = "number";
 	actorIdInput.placeholder = "Actor ID";
-	actorIdInput.classList.add("nominie-input");
+	actorIdInput.classList.add("input");
 
 	const movieIdInput = document.createElement("input");
 	movieIdInput.type = "number";
 	movieIdInput.placeholder = "Movie ID";
-	movieIdInput.classList.add("nominie-input");
+	movieIdInput.classList.add("input");
 
 	const addButton = document.createElement("button");
 	addButton.textContent = "Add Nomination";
-	addButton.classList.add("add-nominie-button");
+	addButton.classList.add("add-button");
 
 	const cancelButton = document.createElement("button");
 	cancelButton.textContent = "Cancel";
@@ -273,7 +273,6 @@ async function NominiesPanel() {
 	const table = document.createElement("div");
 	table.classList.add("table");
 	table.append(createHeaderRow());
-	console.log(nominies);
 	nominies.forEach((nominie) => {
 		const row = createNominieRow(nominie, section, table, null);
 		table.append(row);
