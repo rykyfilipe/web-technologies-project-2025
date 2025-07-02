@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard.js";
 import "../styles/Login.css";
 import "../styles/index.css";
 import { Admin } from "./admin-panel/Admin.js";
+import { navItems } from '../constants/index.js';
 import Login from "./Login.js";
 
 const url_prefix =
