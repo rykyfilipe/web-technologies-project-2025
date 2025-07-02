@@ -1,101 +1,105 @@
 .actorPage {
-  width: 100%;
-  height: 100vh;
-  padding: 1rem;
-  box-sizing: border-box;
+	width: 100%;
+	height: 100vh;
+	padding: 1rem;
+	box-sizing: border-box;
 
-  overflow-y: scroll;
+	overflow-y: scroll;
 }
 .headder {
-  height: auto;
-  margin-bottom: 20px;
+	height: auto;
+	margin-bottom: 20px;
 }
 .middle {
-  display: flex;
-  align-items: start;
+	display: flex;
+	align-items: start;
 
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  border-radius: 1rem;
+	border-radius: 1rem;
 }
 .middle:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 .imgDiv {
-  width: 300px;
-  height: 450px;
-  margin: 10px;
+	width: 300px;
+	height: 450px;
+	margin: 10px;
 }
 .imgDiv img {
-  width: 100%;
-  border-radius: 10px;
+	width: 100%;
+	border-radius: 10px;
 }
 .headder h2 {
-  font-size: 32px;
-  color: black;
-  font-weight: bold;
+	font-size: 32px;
+	color: black;
+	font-weight: bold;
 }
 .headder p {
-  font-size: 20px;
+	font-size: 20px;
 }
 .headder p,
 .headder h2 {
-  text-align: center;
+	text-align: center;
 }
 .biography {
-  width: 65%;
-  overflow-wrap: break-word;
+	width: 65%;
+	overflow-wrap: break-word;
 }
 
 .known-forDiv {
-  width: 90%;
-  height: auto;
+	width: 90%;
+	height: auto;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  gap: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 .known-forDiv img {
-  width: 50px;
-  border-radius: 5px;
+	width: 50px;
+	border-radius: 5px;
 }
 .poster-card {
-  padding: 10px;
-  width: 300px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-direction: row;
+	padding: 10px;
+	width: 300px;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-direction: row;
 
-  background-color: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	background-color: #ffffff;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  border-radius: 1rem;
-  text-wrap: nowrap;
+	border-radius: 1rem;
+	text-wrap: nowrap;
 }
 .poster-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 .poster-card div {
-  height: 100%;
+	height: 100%;
+	margin-left: 10px;
+}
+.poster-card h3 {
+	max-width: 100%;
+	text-wrap: wrap;
 }
 .known-for-h {
-  color: black;
-  font-size: 24px;
-  font-weight: bold;
+	color: black;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 @media (max-width: 500px) {
-  .middle {
-    flex-direction: column;
-    align-items: center;
-    
-  }
+	.middle {
+		flex-direction: column;
+		align-items: center;
+	}
 }
