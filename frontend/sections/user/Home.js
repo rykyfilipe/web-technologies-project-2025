@@ -30,7 +30,7 @@ const loadData = async (an) => {
 		const URL =
 			"https://web-technologies-project-2025-production.up.railway.app";
 
-		const response = await fetch(`${URL}/get-data?an=${an}`, {
+		const response = await fetch(`${URL}/data?an=${an}`, {
 			headers: { Authorization: `Bearer ${authToken}` },
 		});
 

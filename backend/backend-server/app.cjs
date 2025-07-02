@@ -83,10 +83,6 @@ const server = http.createServer(async (req, res) => {
 	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = pathname.match(/^\/users\/(\d+)$/);
 
-	if (method === "GET" && pathname === "/get-data") {
-		// acum merge și cu /get-data și cu /get-data/
-	}
-
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -193,7 +189,7 @@ const server = http.createServer(async (req, res) => {
 				res.end(JSON.stringify({ message: "Eroare internă server" }));
 			}
 		}
-	} else if (method === "GET" && pathname === "/get-data") {
+	} else if (method === "GET" && pathname === "/data") {
 		// Sanitizare parametru an
 		let an = Number(sanitizeInput(parsedUrl.query.an));
 		if (!an) {
