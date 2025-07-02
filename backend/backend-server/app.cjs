@@ -143,15 +143,14 @@ const server = http.createServer(async (req, res) => {
 			res.end("Token invalid sau expirat");
 		}
 	} else if (method === "GET" && pathname === "/nominies") {
-		// Sanitizare parametru page
-		const page = sanitizeInput(parsedUrl.query.page);
+		const page = sanitizeInput(parsedUrl.query.id);
 
 		try {
-			const data = await getNomin(connection, page);
+			const data = await getNomin(connection, id);
 
 			if (!data || data.length === 0) {
 				res.writeHead(404, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Niciun film găsit" }));
+				res.end(JSON.stringify({ message: "Nicio nominalizare găsita" }));
 				return;
 			}
 
