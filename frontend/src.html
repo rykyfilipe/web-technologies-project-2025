@@ -1,0 +1,84 @@
+<html lang="ro" prefix="schema: http://schema.org/ bibo: http://purl.org/ontology/bibo/">
+<head>
+  <meta charset="UTF-8" />
+  <title>Specificație Cerințe - Aplicație Nominalizări Filme</title>
+  <link rel="stylesheet" href="https://w3c.github.io/scholarly-html/css/scholarly.min.css">
+</head>
+<body typeof="schema:TechArticle" resource="#doc" id="doc">
+
+  <h1 property="schema:name">Specificație a Cerințelor Software (SRS)</h1>
+  <p property="schema:author">Autor: Eduard Ozarchevici,Bondor Ricardo Filipe</p>
+  <p>Proiect: Aplicație Web - Nominalizări filme, actori și voturi</p>
+
+  <!-- 1. Introducere -->
+  <section id="intro" typeof="bibo:Chapter" resource="#intro" property="bibo:hasPart">
+    <h2 property="schema:name">1. Introducere</h2>
+    <p>Acest document descrie cerințele software pentru aplicația web dedicată gestionării nominalizărilor de filme și actori. Aplicația permite utilizatorilor să consulte informații despre filme și actori, să vizualizeze nomin. Este compusă din două componente: un frontend (client) și un backend REST API.</p>
+  </section>
+
+  <!-- 2. Cerințe principale -->
+  <section id="requirements" typeof="bibo:Chapter" resource="#requirements" property="bibo:hasPart">
+    <h2 property="schema:name">2. Cerințe principale</h2>
+
+    <!-- 2.1 Funcționalități esențiale -->
+    <section id="essential-functions" typeof="bibo:Section" resource="#essential-functions" property="bibo:hasPart">
+      <h3 property="schema:name">2.1 Funcționalități esențiale</h3>
+      <ul>
+        <li>Autentificare și înregistrare utilizatori (JWT token).</li>
+        <li>Vizualizare listă actori, filme și detalii individuale.</li>
+        <li>Vizualizare nominalizări active (ex: pentru Oscar, Globuri de Aur etc.).</li>
+        <li>Vot pentru actori și filme din partea utilizatorilor logați.</li>
+        <li>Adăugare/editare/ștergere filme, actori, nominalizări (doar pentru admin).</li>
+        <li>Filtrare, sortare și căutare în listă filme/actori.</li>
+      </ul>
+    </section>
+
+    <!-- 2.2 Interacțiunea cu utilizatorul -->
+    <section id="user-interaction" typeof="bibo:Section" resource="#user-interaction" property="bibo:hasPart">
+      <h3 property="schema:name">2.2 Interacțiunea cu utilizatorul</h3>
+      <p>Interfața utilizator oferă o experiență prietenoasă și responsive. Utilizatorul accesează aplicația prin browser și are acces la un dashboard cu filme, actori și nominalizări. După autentificare, poate vota sau nominaliza, iar administratorii pot adăuga sau edita informații. Toate acțiunile oferă feedback vizual clar (confirmări, erori, avertismente).</p>
+    </section>
+  </section>
+
+  <!-- 3. Interfețe externe -->
+  <section id="external-interfaces" typeof="bibo:Chapter" resource="#external-interfaces" property="bibo:hasPart">
+    <h2 property="schema:name">3. Cerințe de interfațare externă</h2>
+
+    <!-- 3.1 Interfața cu utilizatorul -->
+    <section id="ui-interface" typeof="bibo:Section" resource="#ui-interface" property="bibo:hasPart">
+      <h3 property="schema:name">3.1 Interfața cu utilizatorul</h3>
+      <p>Frontend-ul este realizat cu HTML, CSS și JavaScript, fiind livrat dintr-un server separat. Interacțiunea se realizează prin apeluri AJAX către API-ul backend. Aplicația este compatibilă cu dispozitive mobile și desktop, urmând principiile de design responsive.</p>
+    </section>
+
+    <!-- 3.2 Interfața software (API-ul) -->
+    <section id="software-interface" typeof="bibo:Section" resource="#software-interface" property="bibo:hasPart">
+      <h3 property="schema:name">3.2 Interfața software (API)</h3>
+      <p>API-ul este de tip REST și oferă următoarele endpoint-uri principale:</p>
+      <ul>
+        <li><code>POST /auth/register</code> – înregistrare utilizator</li>
+        <li><code>POST /auth/login</code> – autentificare și obținere JWT</li>
+        <li><code>GET /movies</code> – listă filme</li>
+        <li><code>GET /actors</code> – listă actori</li>
+        <li><code>GET /nominations</code> – listă nominalizări</li>
+        <li><code>POST /votes</code> – trimitere vot pentru actor/film</li>
+        <li><code>POST /movies</code> – adăugare film (admin)</li>
+        <li><code>PUT /actors/:id</code> – modificare actor (admin)</li>
+        <li><code>DELETE /nominations/:id</code> – ștergere nominalizare (admin)</li>
+      </ul>
+      <p>API-ul returnează date în format JSON și necesită autentificare prin token JWT pentru acțiunile protejate.</p>
+    </section>
+  </section>
+
+  <!-- 4. Cerințe non-funcționale -->
+  <section id="nonfunctional" typeof="bibo:Chapter" resource="#nonfunctional" property="bibo:hasPart">
+    <h2 property="schema:name">4. Cerințe non-funcționale</h2>
+    <ul>
+      <li><strong>Performanță:</strong> Răspunsurile API-ului trebuie să fie livrate în max. 1s pentru 90% dintre cereri.</li>
+      <li><strong>Securitate:</strong> Autentificare bazată pe JWT, protecție la SQL Injection (prepared statements), CORS configurat corect.</li>
+      <li><strong>Disponibilitate:</strong> Serverul trebuie să funcționeze 24/7 și să răspundă la cereri concurente.</li>
+      <li><strong>Scalabilitate:</strong> Structura permite adăugarea de noi tipuri de conținut (ex: regizori, categorii de premii etc.).</li>
+    </ul>
+  </section>
+
+</body>
+</html>

@@ -47,7 +47,7 @@ async function loadNews(newsDiv, selectedSource) {
 			{ headers: { Authorization: `Bearer ${authToken}` } }
 		);
 		const data = await response.json();
-		const actors = data?.slice(0, 10); // doar primul actor
+		const actors = data?.slice(0, 3); 
 
 		if (!actors || actors.length === 0) {
 			console.warn("Nu s-au găsit actori.");
@@ -77,6 +77,7 @@ async function loadNews(newsDiv, selectedSource) {
 				newsResp = await fetch(url);
 			}
 			const data = await newsResp.json();
+			console.log(data);
 
 			const articles = data.articles?.slice(0, 3);
 			if (articles) addNews(newsDiv, articles, source);

@@ -58,6 +58,9 @@ export const navItems = [
 		name: "Documentation",
 		icon: doc,
 		callBack: Documentation,
+		// callBack: () => {
+		// 	window.location.href = '../../src.html';
+		// }
 	},
 	{
 		id: 5,
