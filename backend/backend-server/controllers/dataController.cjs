@@ -402,7 +402,116 @@ async function getNomin(connection, id) {
 		});
 	});
 }
+async function getNominies(connection, page) {
+	return new Promise((resolve, reject) => {
+		const limit = 20;
+		const offset = (page - 1) * limit;
+		connection.query(
+			`SELECT * FROM nominations LIMIT ${limit} OFFSET ${offset}`,
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					reject(err);
+					return;
+				}
+				if (result.length === 0) {
+					resolve(null);
+					return;
+				}
+				resolve(result);
+			}
+		);
+	});
+}
 
+async function addNominie(req, res, connection) {
+	let body = "";
+	let data = "";
+	req.on("data", (chunk) => {
+		body += chunk;
+	});
+	req.on("end", () => {
+		try {
+			data = JSON.parse(body);
+		} catch (error) {
+			res.writeHead(400);
+			res.end(JSON.stringify({ message: "Body is not JSON valid" }));
+			return;
+		}
+
+		if (
+			!data.actor_id ||
+			!data.movie_id ||
+			!data.year ||
+			!data.category ||
+			!data.won
+		) {
+			res.writeHead(400);
+			res.end(JSON.stringify({ message: "Invalid format" }));
+
+			return 0;
+		}
+
+		connection.query(
+			`INSERT INTO nominations (actor_id, movie_id, year, category, won)
+         VALUES (?, ?, ?, ?, ?)`,
+			[data.actor_id, data.movie_id, data.year, data.category, data.won],
+			(err, result) => {
+				if (err) {
+					throw err;
+				}
+
+				res.writeHead(201);
+				res.end(
+					JSON.stringify({ message: `Succefully added actor: ${data.name}` })
+				);
+			}
+		);
+	});
+}
+
+function removeNominie(req, res, connection, nominieId) {
+	if (!nominieId) {
+		res.writeHead(400);
+		res.end(JSON.stringify({ message: "Invalid request" }));
+		return;
+	}
+
+	connection.query(
+		"SELECT * FROM nominations WHERE id = ?",
+		[nominieId],
+		(err, result) => {
+			if (err) {
+				res.writeHead(500);
+				res.end(JSON.stringify({ message: "Database error" }));
+				return;
+			}
+
+			if (result.length === 0) {
+				res.writeHead(404);
+				res.end(JSON.stringify({ message: "Actor not found" }));
+				return;
+			}
+
+			connection.query(
+				"DELETE FROM nominations WHERE id = ?",
+				[nominieId],
+				(err, deleteResult) => {
+					if (err) {
+						res.writeHead(500);
+						res.end(JSON.stringify({ message: "Delete error" }));
+						return;
+					}
+
+					res.writeHead(200);
+					res.end(
+						JSON.stringify({ message: `Actor with id ${nominieId} deleted.` })
+					);
+				}
+			);
+		}
+	);
+}
 module.exports = {
 	interpretData,
 	getNomin,
@@ -416,4 +525,7 @@ module.exports = {
 	removeMovie,
 	addMovie,
 	getAllMovies,
+	getNominies,
+	addNominie,
+	removeNominie,
 };

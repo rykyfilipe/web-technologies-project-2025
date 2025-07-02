@@ -21,6 +21,9 @@ const {
 	getNomin,
 	addMovie,
 	getAllMovies,
+	getNominies,
+	addNominie,
+	removeNominie,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -83,6 +86,7 @@ const server = http.createServer(async (req, res) => {
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
 	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = pathname.match(/^\/users\/(\d+)$/);
+	const matchNominie = pathname.match(/^\/nominies\/(\d+)$/);
 
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
@@ -342,7 +346,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} else if (method === "POST" && url === "/users") {
 		addUser(req, res, connection);
-	} else if (method === "DELETE" && matchActor) {
+	} else if (method === "DELETE" && matchUser) {
 		const userId = parseInt(matchUser[1], 10);
 		removeUser(req, res, connection, userId);
 	} else if (method === "DELETE" && matchMovie) {
@@ -350,6 +354,33 @@ const server = http.createServer(async (req, res) => {
 		removeMovie(req, res, connection, movieId);
 	} else if (method === "POST" && url === "/movies") {
 		addMovie(req, res, connection);
+	} else if (method === "GET" && pathname === "/nominies") {
+		const page = sanitizeInput(parsedUrl.query.page);
+		try {
+			const data = await getNominies(connection, page);
+
+			if (!data || data.length === 0) {
+				res.writeHead(404, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Niciun actor găsit" }));
+				return;
+			}
+
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify(sanitizedData));
+		} catch (error) {
+			console.error("Eroare în server:", error);
+			if (!res.headersSent) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare internă server" }));
+			}
+		}
+	} else if (method === "POST" && url === "/nominies") {
+		addNominie(req, res, connection);
+	} else if (method === "DELETE" && matchNominie) {
+		const nominieId = parseInt(matchNominie[1], 10);
+		removeNominie(req, res, connection, nominieId);
 	} else {
 		res.writeHead(404);
 		res.end(JSON.stringify({ message: "Not found" }));

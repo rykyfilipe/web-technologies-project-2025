@@ -20,7 +20,7 @@ import { getContainer } from "../utils/components-functions.js";
 import ActorsPanel from "../sections/admin-panel/Actors.js";
 import UsersPanel from "../sections/admin-panel/Users.js";
 import MoviesPanel from "../sections/admin-panel/Movies.js";
-import NewsPanel from "../sections/admin-panel/News.js";
+import NominiesPanel from "../sections/admin-panel/Nominies.js";
 
 export const navItems = [
 	{
@@ -94,9 +94,9 @@ export const navAdminItems = [
 	},
 	{
 		id: 4,
-		name: "News",
+		name: "Nominies",
 		icon: news,
-		callBack: NewsPanel,
+		callBack: NominiesPanel,
 	},
 
 	{
