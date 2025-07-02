@@ -41,7 +41,6 @@ const server = http.createServer(async (req, res) => {
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
 	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = pathname.match(/^\/users\/(\d+)$/);
-	pt / users / id;
 
 	if (method === "GET" && pathname === "/get-data") {
 		// acum merge și cu /get-data și cu /get-data/
