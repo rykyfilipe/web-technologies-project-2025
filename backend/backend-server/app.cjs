@@ -18,6 +18,7 @@ const {
 	getUsers,
 	removeUser,
 	removeMovie,
+	getNomin,
 	addMovie,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
@@ -27,6 +28,46 @@ const SECRET_KEY = process.env.SECRET_KEY || "super_secret_key";
 const connection = mysql.createConnectionToDatabase();
 const NEWSAPI_KEY = "77874b8dcba14e28be6f852835919719";
 mysql.connectToDataBase(connection);
+
+// Funcție de sanitizare împotriva XSS
+function sanitizeInput(input) {
+	if (typeof input !== "string") return input;
+
+	return input
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#x27;")
+		.replace(/\//g, "&#x2F;")
+		.replace(/`/g, "&#96;")
+		.replace(/=/g, "&#61;");
+}
+
+// Funcție pentru sanitizarea obiectelor
+function sanitizeObject(obj) {
+	if (obj === null || obj === undefined) return obj;
+
+	if (typeof obj === "string") {
+		return sanitizeInput(obj);
+	}
+
+	if (Array.isArray(obj)) {
+		return obj.map((item) => sanitizeObject(item));
+	}
+
+	if (typeof obj === "object") {
+		const sanitized = {};
+		for (const key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				sanitized[key] = sanitizeObject(obj[key]);
+			}
+		}
+		return sanitized;
+	}
+
+	return obj;
+}
 
 const server = http.createServer(async (req, res) => {
 	const { method, url } = req;
@@ -39,7 +80,7 @@ const server = http.createServer(async (req, res) => {
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
 	const matchActor = pathname.match(/^\/actors\/(\d+)$/);
-	const matchMovie = pathname.match(/^\/movies\/(\d+)$/);
+	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = pathname.match(/^\/users\/(\d+)$/);
 
 	if (method === "GET" && pathname === "/get-data") {
@@ -101,12 +142,37 @@ const server = http.createServer(async (req, res) => {
 			res.writeHead(403);
 			res.end("Token invalid sau expirat");
 		}
+	} else if (method === "GET" && pathname === "/nominies") {
+		// Sanitizare parametru page
+		const page = sanitizeInput(parsedUrl.query.page);
+
+		try {
+			const data = await getNomin(connection, page);
+
+			if (!data || data.length === 0) {
+				res.writeHead(404, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Niciun film găsit" }));
+				return;
+			}
+
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify(sanitizedData));
+		} catch (error) {
+			console.error("Eroare în server:", error);
+			if (!res.headersSent) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare internă server" }));
+			}
+		}
 	} else if (method === "POST" && url === "/login") {
 		auth.resolve_login(req, res, connection);
 	} else if (method === "POST" && url === "/register-user") {
 		auth.resolve_register_user(req, res, connection);
 	} else if (method === "GET" && pathname === "/movies") {
-		const page = parsedUrl.query.page;
+		// Sanitizare parametru page
+		const page = sanitizeInput(parsedUrl.query.page);
 
 		try {
 			const data = await getMovies(connection, page);
@@ -117,8 +183,10 @@ const server = http.createServer(async (req, res) => {
 				return;
 			}
 
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
+			res.end(JSON.stringify(sanitizedData));
 		} catch (error) {
 			console.error("Eroare în server:", error);
 			if (!res.headersSent) {
@@ -127,7 +195,8 @@ const server = http.createServer(async (req, res) => {
 			}
 		}
 	} else if (method === "GET" && pathname === "/get-data") {
-		let an = Number(parsedUrl.query.an);
+		// Sanitizare parametru an
+		let an = Number(sanitizeInput(parsedUrl.query.an));
 		if (!an) {
 			an = 0;
 		} else if (an < 1950) {
@@ -145,8 +214,10 @@ const server = http.createServer(async (req, res) => {
 				return;
 			}
 
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
+			res.end(JSON.stringify(sanitizedData));
 		} catch (error) {
 			console.error("Eroare în server:", error);
 			if (!res.headersSent) {
@@ -164,8 +235,10 @@ const server = http.createServer(async (req, res) => {
 				return;
 			}
 
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
+			res.end(JSON.stringify(sanitizedData));
 		} catch (error) {
 			console.error("Eroare în server:", error);
 			if (!res.headersSent) {
@@ -174,7 +247,8 @@ const server = http.createServer(async (req, res) => {
 			}
 		}
 	} else if (parsedUrl.pathname === "/news" && req.method === "GET") {
-		const actorQuery = parsedUrl.query.query;
+		// Sanitizare parametru query pentru news
+		const actorQuery = sanitizeInput(parsedUrl.query.query);
 		if (!actorQuery) {
 			res.writeHead(400);
 			res.end(JSON.stringify({ error: "Query parameter missing" }));
@@ -197,8 +271,20 @@ const server = http.createServer(async (req, res) => {
 				let data = "";
 				apiRes.on("data", (chunk) => (data += chunk));
 				apiRes.on("end", () => {
-					res.writeHead(200, { "Content-Type": "application/json" });
-					res.end(data);
+					try {
+						// Sanitizare date de la API înainte de trimitere
+						const parsedData = JSON.parse(data);
+						const sanitizedData = sanitizeObject(parsedData);
+						res.writeHead(200, { "Content-Type": "application/json" });
+						res.end(JSON.stringify(sanitizedData));
+					} catch (parseError) {
+						console.error(
+							"Eroare la parsarea datelor din NewsAPI:",
+							parseError
+						);
+						res.writeHead(500);
+						res.end(JSON.stringify({ error: "Eroare la procesarea datelor" }));
+					}
 				});
 			})
 			.on("error", (err) => {
@@ -207,7 +293,8 @@ const server = http.createServer(async (req, res) => {
 				res.end(JSON.stringify({ error: "Eroare la apelarea NewsAPI" }));
 			});
 	} else if (method === "GET" && pathname === "/actors") {
-		const page = parsedUrl.query.page;
+		// Sanitizare parametru page
+		const page = sanitizeInput(parsedUrl.query.page);
 		try {
 			const data = await getActors(connection, page);
 
@@ -217,8 +304,10 @@ const server = http.createServer(async (req, res) => {
 				return;
 			}
 
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
+			res.end(JSON.stringify(sanitizedData));
 		} catch (error) {
 			console.error("Eroare în server:", error);
 			if (!res.headersSent) {
@@ -232,7 +321,7 @@ const server = http.createServer(async (req, res) => {
 		const actorId = parseInt(matchActor[1], 10);
 		removeActor(req, res, connection, actorId);
 	} else if (method === "GET" && pathname === "/users") {
-		const page = parsedUrl.query.page;
+		const page = sanitizeInput(parsedUrl.query.page);
 		try {
 			const data = await getUsers(connection, page);
 
@@ -242,8 +331,10 @@ const server = http.createServer(async (req, res) => {
 				return;
 			}
 
+			// Sanitizare date înainte de trimitere
+			const sanitizedData = sanitizeObject(data);
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify(data));
+			res.end(JSON.stringify(sanitizedData));
 		} catch (error) {
 			console.error("Eroare în server:", error);
 			if (!res.headersSent) {
@@ -253,7 +344,7 @@ const server = http.createServer(async (req, res) => {
 		}
 	} else if (method === "POST" && url === "/users") {
 		addUser(req, res, connection);
-	} else if (method === "DELETE" && matchUser) {
+	} else if (method === "DELETE" && matchActor) {
 		const userId = parseInt(matchUser[1], 10);
 		removeUser(req, res, connection, userId);
 	} else if (method === "DELETE" && matchMovie) {

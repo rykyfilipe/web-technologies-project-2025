@@ -14,14 +14,14 @@
 	-ms-overflow-style: none;
 }
 
-.home,
-#admin-panel,
-.actors,
-.movies-grid,
-.news,
-.documentation,
+.home::-webkit-scrollbar,
+#admin-panel::-webkit-scrollbar,
+.actors::-webkit-scrollbar,
+.movies-grid::-webkit-scrollbar,
+.news::-webkit-scrollbar,
+.documentation::-webkit-scrollbar,
 .dashboard::-webkit-scrollbar,
-.table {
+.table::-webkit-scrollbar {
 	display: none;
 }
 

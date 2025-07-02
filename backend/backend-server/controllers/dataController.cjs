@@ -292,16 +292,15 @@ async function addUser(req, res, connection) {
 
 				res.writeHead(201);
 				res.end(
-					JSON.stringify({
-						message: `Succefully added actor: ${data.username}`,
-					})
+					JSON.stringify({ message: `Succefully added actor: ${data.name}` })
 				);
 			}
 		);
 	});
 }
 
-async function removeUser(req, res, connection, userId) {
+function removeUser(req, res, connection, userId) {
+	console.log(userId);
 	if (!userId) {
 		res.writeHead(400);
 		res.end(JSON.stringify({ message: "Invalid request" }));
@@ -319,8 +318,8 @@ async function removeUser(req, res, connection, userId) {
 			}
 
 			if (result.length === 0) {
-				res.writeHead(405);
-				res.end(JSON.stringify({ message: "User not found" }));
+				res.writeHead(404);
+				res.end(JSON.stringify({ message: "Actor not found" }));
 				return;
 			}
 
@@ -336,7 +335,7 @@ async function removeUser(req, res, connection, userId) {
 
 					res.writeHead(200);
 					res.end(
-						JSON.stringify({ message: `User with id ${userId} deleted.` })
+						JSON.stringify({ message: `Actor with id ${actorId} deleted.` })
 					);
 				}
 			);
@@ -344,8 +343,33 @@ async function removeUser(req, res, connection, userId) {
 	);
 }
 
+async function getNomin(connection, page) {
+	return new Promise((resolve, reject) => {
+		const limit = 20;
+		const offset = (page - 1) * limit;
+		connection.query(
+			`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					reject(err);
+					return;
+				}
+
+				if (result.length === 0) {
+					resolve(null);
+					return;
+				}
+
+				resolve(result);
+			}
+		);
+	});
+}
+
 module.exports = {
 	interpretData,
+	getNomin,
 	getMovies,
 	getActors,
 	addActor,
