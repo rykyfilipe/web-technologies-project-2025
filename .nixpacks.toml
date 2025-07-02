@@ -2,10 +2,7 @@
 nixPkgs = ["nodejs_18"]
 
 [phases.install]
-cmds = ["npm ci"]
-
-[phases.build]
-cmds = ["npm run build"]
+cmds = ["npm i"]
 
 [phases.start]
 cmd = "node backend/frontend-server/index.cjs"
