@@ -20,6 +20,7 @@ const {
 	removeMovie,
 	getNomin,
 	addMovie,
+	getAllMovies,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -83,10 +84,6 @@ const server = http.createServer(async (req, res) => {
 	const matchMovie = pathname.match(/^\/movies\/(\d+)$/); //pt /movies/id
 	const matchUser = pathname.match(/^\/users\/(\d+)$/);
 
-	if (method === "GET" && pathname === "/get-data") {
-		// acum merge și cu /get-data și cu /get-data/
-	}
-
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -143,15 +140,14 @@ const server = http.createServer(async (req, res) => {
 			res.end("Token invalid sau expirat");
 		}
 	} else if (method === "GET" && pathname === "/nominies") {
-		// Sanitizare parametru page
-		const page = sanitizeInput(parsedUrl.query.page);
+		const id = sanitizeInput(parsedUrl.query.id);
 
 		try {
-			const data = await getNomin(connection, page);
+			const data = await getNomin(connection, id);
 
 			if (!data || data.length === 0) {
 				res.writeHead(404, { "Content-Type": "application/json" });
-				res.end(JSON.stringify({ message: "Niciun film găsit" }));
+				res.end(JSON.stringify({ message: "Nicio nominalizare găsita" }));
 				return;
 			}
 
@@ -175,7 +171,9 @@ const server = http.createServer(async (req, res) => {
 		const page = sanitizeInput(parsedUrl.query.page);
 
 		try {
-			const data = await getMovies(connection, page);
+			let data;
+			if (!page) data = await getAllMovies(connection);
+			else data = await getMovies(connection, page);
 
 			if (!data || data.length === 0) {
 				res.writeHead(404, { "Content-Type": "application/json" });
@@ -194,7 +192,7 @@ const server = http.createServer(async (req, res) => {
 				res.end(JSON.stringify({ message: "Eroare internă server" }));
 			}
 		}
-	} else if (method === "GET" && pathname === "/get-data") {
+	} else if (method === "GET" && pathname === "/data") {
 		// Sanitizare parametru an
 		let an = Number(sanitizeInput(parsedUrl.query.an));
 		if (!an) {

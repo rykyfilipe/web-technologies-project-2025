@@ -50,6 +50,25 @@ async function getMovies(connection, page) {
 	});
 }
 
+async function getAllMovies(connection) {
+	return new Promise((resolve, reject) => {
+		connection.query(`SELECT * FROM movies`, (err, result) => {
+			if (err) {
+				console.error(err);
+				reject(err);
+				return;
+			}
+
+			if (result.length === 0) {
+				resolve(null);
+				return;
+			}
+
+			resolve(result);
+		});
+	});
+}
+
 async function getActors(connection, page) {
 	return new Promise((resolve, reject) => {
 		const limit = 20;
@@ -343,27 +362,44 @@ function removeUser(req, res, connection, userId) {
 	);
 }
 
-async function getNomin(connection, page) {
+async function getNomin(connection, id) {
+	console.log(id);
 	return new Promise((resolve, reject) => {
-		const limit = 20;
-		const offset = (page - 1) * limit;
-		connection.query(
-			`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
-			(err, result) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-					return;
-				}
+		const sql = `
+			SELECT 
+				nominations.id AS nomination_id,
+				nominations.year,
+				nominations.category,
+				nominations.won,
+				
+				movies.id AS movie_id,
+				movies.title,
+				movies.tmdb_id AS movie_tmdb_id,
+				
+				actors.id AS actor_id,
+				actors.name AS actor_name,
+				actors.tmdb_id AS actor_tmdb_id
+				
+			FROM nominations
+			LEFT JOIN movies ON nominations.movie_id = movies.id
+			LEFT JOIN actors ON nominations.actor_id = actors.id
+			WHERE nominations.id = ?
+		`;
 
-				if (result.length === 0) {
-					resolve(null);
-					return;
-				}
-
-				resolve(result);
+		connection.query(sql, [id], (err, result) => {
+			if (err) {
+				console.error(err);
+				reject(err);
+				return;
 			}
-		);
+
+			if (result.length === 0) {
+				resolve(null);
+				return;
+			}
+
+			resolve(result[0]);
+		});
 	});
 }
 
@@ -379,4 +415,5 @@ module.exports = {
 	removeUser,
 	removeMovie,
 	addMovie,
+	getAllMovies,
 };

@@ -303,7 +303,7 @@ export const createNominalizationShowData = async (data) => {
 	const URL = "https://web-technologies-project-2025-production.up.railway.app";
 
 	try {
-		const response = await fetch(`${URL}/get-movies`, {
+		const response = await fetch(`${URL}/movies`, {
 			headers: { Authorization: `Bearer ${authToken}` },
 		});
 		if (!response.ok) {
@@ -321,8 +321,8 @@ export const createNominalizationShowData = async (data) => {
 		for (const item of data) {
 			if (!item.won) {
 				const movie = movieData.find((m) => m.id === item.movie_id);
-				showNominalization[movie.title] =
-					(showNominalization[movie.title] || 0) + 1;
+				showNominalization[movie?.title] =
+					(showNominalization[movie?.title] || 0) + 1;
 			}
 		}
 	} catch (error) {
