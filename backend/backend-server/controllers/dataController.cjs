@@ -30,43 +30,42 @@ async function getMovies(connection, page) {
 	return new Promise((resolve, reject) => {
 		const limit = 20;
 		const offset = (page - 1) * limit;
-		if (!page) {
-			connection.query(
-				`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
-				(err, result) => {
-					if (err) {
-						console.error(err);
-						reject(err);
-						return;
-					}
-
-					if (result.length === 0) {
-						resolve(null);
-						return;
-					}
-
-					resolve(result);
+		connection.query(
+			`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					reject(err);
+					return;
 				}
-			);
-		} else {
-			connection.query(
-				`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
-				(err, result) => {
-					if (err) {
-						console.error(err);
-						reject(err);
-						return;
-					}
 
-					if (result.length === 0) {
-						resolve(null);
-						return;
-					}
-
-					resolve(result);
+				if (result.length === 0) {
+					resolve(null);
+					return;
 				}
-			);
-		}
+
+				resolve(result);
+			}
+		);
+	});
+}
+
+async function getAllMovies(connection) {
+	return new Promise((resolve, reject) => {
+		connection.query(`SELECT * FROM movies`, (err, result) => {
+			if (err) {
+				console.error(err);
+				reject(err);
+				return;
+			}
+
+			if (result.length === 0) {
+				resolve(null);
+				return;
+			}
+
+			resolve(result);
+		});
 	});
 }
 
@@ -415,4 +414,5 @@ module.exports = {
 	removeUser,
 	removeMovie,
 	addMovie,
+	getAllMovies,
 };

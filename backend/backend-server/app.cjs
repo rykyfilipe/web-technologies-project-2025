@@ -20,6 +20,7 @@ const {
 	removeMovie,
 	getNomin,
 	addMovie,
+	getAllMovies,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
 
@@ -170,7 +171,9 @@ const server = http.createServer(async (req, res) => {
 		const page = sanitizeInput(parsedUrl.query.page);
 
 		try {
-			const data = await getMovies(connection, page);
+			let data;
+			if (!page) data = await getAllMovies(connection);
+			else data = await getMovies(connection, page);
 
 			if (!data || data.length === 0) {
 				res.writeHead(404, { "Content-Type": "application/json" });
