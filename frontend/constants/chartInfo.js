@@ -303,7 +303,7 @@ export const createNominalizationShowData = async (data) => {
 	const URL = "https://web-technologies-project-2025-production.up.railway.app";
 
 	try {
-		const response = await fetch(`${URL}/get-movies`, {
+		const response = await fetch(`${URL}/movies`, {
 			headers: { Authorization: `Bearer ${authToken}` },
 		});
 		if (!response.ok) {
