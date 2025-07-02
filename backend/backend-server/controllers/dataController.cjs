@@ -30,7 +30,7 @@ async function getMovies(connection, page) {
 	return new Promise((resolve, reject) => {
 		const limit = 20;
 		const offset = (page - 1) * limit;
-		if(!page){
+		if (!page) {
 			connection.query(
 				`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
 				(err, result) => {
@@ -39,34 +39,34 @@ async function getMovies(connection, page) {
 						reject(err);
 						return;
 					}
-	
+
 					if (result.length === 0) {
 						resolve(null);
 						return;
 					}
-	
+
 					resolve(result);
 				}
+			);
+		} else {
+			connection.query(
+				`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
+				(err, result) => {
+					if (err) {
+						console.error(err);
+						reject(err);
+						return;
+					}
+
+					if (result.length === 0) {
+						resolve(null);
+						return;
+					}
+
+					resolve(result);
+				}
+			);
 		}
-		else{
-		connection.query(
-			`SELECT * FROM movies LIMIT ${limit} OFFSET ${offset} `,
-			(err, result) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-					return;
-				}
-
-				if (result.length === 0) {
-					resolve(null);
-					return;
-				}
-
-				resolve(result);
-			}
-		);
-	}
 	});
 }
 
