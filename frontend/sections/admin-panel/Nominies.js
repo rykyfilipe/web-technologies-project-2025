@@ -63,7 +63,7 @@ const loadData = async (p, section, table, op) => {
 		page += 1;
 
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/nominies?page=${page}`,
+			`https://web-technologies-project-2025-production.up.railway.app/raw-nominies?page=${page}`,
 			optionsBackend
 		);
 
@@ -77,7 +77,7 @@ const loadData = async (p, section, table, op) => {
 	else p.textContent = page;
 
 	const response = await fetch(
-		`https://web-technologies-project-2025-production.up.railway.app/nominies?page=${page}`,
+		`https://web-technologies-project-2025-production.up.railway.app/raw-nominies?page=${page}`,
 		optionsBackend
 	);
 
@@ -129,7 +129,7 @@ const createNominieRow = (nominie, section, table, p) => {
 	deleteButton.append(img);
 	deleteButton.addEventListener("click", async () => {
 		const response = await fetch(
-			`https://web-technologies-project-2025-production.up.railway.app/nominies/${nominie.nomination_id}`,
+			`https://web-technologies-project-2025-production.up.railway.app/raw-nominies/${nominie.id}`,
 			{
 				method: "DELETE",
 				...optionsBackend,
@@ -245,7 +245,7 @@ async function NominiesPanel() {
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
 
 	const response = await fetch(
-		`https://web-technologies-project-2025-production.up.railway.app/nominies?page=${page}`,
+		`https://web-technologies-project-2025-production.up.railway.app/raw-nominies?page=${page}`,
 		optionsBackend
 	);
 	const nominies = await response.json();
@@ -273,7 +273,7 @@ async function NominiesPanel() {
 	const table = document.createElement("div");
 	table.classList.add("table");
 	table.append(createHeaderRow());
-
+	console.log(nominies);
 	nominies.forEach((nominie) => {
 		const row = createNominieRow(nominie, section, table, null);
 		table.append(row);

@@ -354,7 +354,7 @@ const server = http.createServer(async (req, res) => {
 		removeMovie(req, res, connection, movieId);
 	} else if (method === "POST" && url === "/movies") {
 		addMovie(req, res, connection);
-	} else if (method === "GET" && pathname === "/nominies") {
+	} else if (method === "GET" && pathname === "/raw-nominies") {
 		const page = sanitizeInput(parsedUrl.query.page);
 		try {
 			const data = await getNominies(connection, page);
