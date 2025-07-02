@@ -1,0 +1,46 @@
+.slider-wrapper {
+	position: relative;
+	overflow: hidden;
+	width: 600px;
+	margin: 20px auto;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+}
+
+.slider {
+	display: flex;
+	transition: transform 0.3s ease-in-out;
+}
+
+.nomination-card {
+	min-width: 200px;
+	width: 100%;
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	background-color: #f9f9f9;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.slider-btn {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	margin: 10px;
+	cursor: pointer;
+	border-radius: 4px;
+	transition: background-color 0.2s;
+}
+
+.slider-btn:hover {
+	background-color: #0056b3;
+}
+
+@media (max-width: 800px) {
+	.slider-wrapper {
+		width: 100%;
+	}
+}

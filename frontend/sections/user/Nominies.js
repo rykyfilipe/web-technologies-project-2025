@@ -1,14 +1,13 @@
 /** @format */
 
-// import Nomination from "../../components/Nomination.js";
-import "../../styles/Movie.css";
+import "../../styles/Nominies.css";
 import {
 	showErrorState,
 	showLoadingState,
 	removeLoadingState,
 } from "../../components/utils.js";
 
-const loadData = async (page) => {
+const loadData = async (id) => {
 	try {
 		const userDataRaw = localStorage.getItem("w-user");
 		const userData = JSON.parse(userDataRaw);
@@ -20,7 +19,7 @@ const loadData = async (page) => {
 
 		const URL = `https://web-technologies-project-2025-production.up.railway.app`;
 
-		const response = await fetch(`${URL}/nominies?id=${page}`, {
+		const response = await fetch(`${URL}/nominies?id=${id}`, {
 			headers: { Authorization: `Bearer ${authToken}` },
 		});
 
@@ -30,15 +29,14 @@ const loadData = async (page) => {
 		}
 
 		const data = await response.json();
-		console.log(data);
 
-		if (!Array.isArray(data)) {
-			throw new Error("Invalid data format: expected array");
+		if (typeof data !== "object" || data === null) {
+			throw new Error("Invalid data format: expected object");
 		}
 
 		return data;
 	} catch (error) {
-		console.error("Error fetching nominations data:", error);
+		console.error("Error fetching nomination data:", error);
 		return null;
 	}
 };
@@ -47,42 +45,65 @@ export default async function Nominations(container) {
 	const navbar = document.querySelector(".navbar");
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
 
-	let currentPage = 1;
 	container.innerHTML = "";
 
-	const grid = document.createElement("div");
-	grid.className = "movies-grid";
-	grid.id = "nominations";
+	const sliderWrapper = document.createElement("div");
+	sliderWrapper.className = "slider-wrapper";
 
-	const sentinel = document.createElement("div");
-	sentinel.id = "sentinel";
+	const prevBtn = document.createElement("button");
+	prevBtn.className = "slider-btn prev-btn";
+	prevBtn.innerText = "Previous";
 
-	const loadPage = async (page) => {
-		showLoadingState(grid);
-		try {
-			const nominations = await loadData(page);
-			removeLoadingState();
+	const nextBtn = document.createElement("button");
+	nextBtn.className = "slider-btn next-btn";
+	nextBtn.innerText = "Next";
 
-			nominations.forEach((nomination) => {
-				// Nomination(grid, nomination);
-				console.log(nomination);
-			});
-			grid.append(sentinel);
-		} catch (error) {
-			showErrorState(grid, error);
+	const slider = document.createElement("div");
+	slider.className = "slider";
+
+	container.appendChild(prevBtn);
+	container.appendChild(sliderWrapper);
+	container.appendChild(nextBtn);
+
+	sliderWrapper.appendChild(slider);
+
+	let currentId = 1;
+
+	const loadNomination = async (id) => {
+		slider.innerHTML = "";
+		showLoadingState(sliderWrapper);
+
+		const nomination = await loadData(id);
+		removeLoadingState();
+
+		if (!nomination) {
+			showErrorState(sliderWrapper, "Failed to load nomination");
+			return;
 		}
+
+		const card = document.createElement("div");
+		card.className = "nomination-card";
+		card.innerHTML = `
+			<h3>${nomination.title || "Unknown Movie"}</h3>
+			<p><strong>Year:</strong> ${nomination.year}</p>
+			<p><strong>Category:</strong> ${nomination.category}</p>
+			<p><strong>Actor:</strong> ${nomination.actor_name || "N/A"}</p>
+			<p><strong>Won:</strong> ${nomination.won ? "Yes" : "No"}</p>
+		`;
+		slider.appendChild(card);
 	};
 
-	loadPage(currentPage);
+	loadNomination(currentId);
 
-	const observer = new IntersectionObserver(async (entries) => {
-		if (entries[0].isIntersecting) {
-			currentPage++;
-			await loadPage(currentPage);
+	prevBtn.addEventListener("click", () => {
+		if (currentId > 1) {
+			currentId--;
+			loadNomination(currentId);
 		}
 	});
 
-	observer.observe(sentinel);
-
-	container.appendChild(grid);
+	nextBtn.addEventListener("click", () => {
+		currentId++;
+		loadNomination(currentId);
+	});
 }
