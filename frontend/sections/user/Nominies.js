@@ -7,14 +7,15 @@ import {
 	removeLoadingState,
 } from "../../components/utils.js";
 
-const loadData = async (id) => {
+const loadData = async (id, tries = 0, maxTries = 5) => {
 	try {
 		const userDataRaw = localStorage.getItem("w-user");
 		const userData = JSON.parse(userDataRaw);
-		const authToken = userData.token;
+		const authToken = userData?.token;
 
 		if (!authToken) {
 			console.log("Nu exista access token");
+			return null;
 		}
 
 		const URL = `https://web-technologies-project-2025-production.up.railway.app`;
@@ -24,8 +25,14 @@ const loadData = async (id) => {
 		});
 
 		if (!response.ok) {
-			console.log(response.message);
-			throw new Error(`HTTP error! status: ${response.status}`);
+			if (tries < maxTries) {
+				console.warn(`Nominie id=${id} nu găsit, încerc cu id=${id + 1}`);
+				return await loadData(id + 1, tries + 1, maxTries);
+			} else {
+				throw new Error(
+					`HTTP error! status: ${response.status}, după ${maxTries} încercări`
+				);
+			}
 		}
 
 		const data = await response.json();
