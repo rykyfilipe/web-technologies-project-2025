@@ -321,8 +321,8 @@ export const createNominalizationShowData = async (data) => {
 		for (const item of data) {
 			if (!item.won) {
 				const movie = movieData.find((m) => m.id === item.movie_id);
-				showNominalization[movie.title] =
-					(showNominalization[movie.title] || 0) + 1;
+				showNominalization[movie?.title] =
+					(showNominalization[movie?.title] || 0) + 1;
 			}
 		}
 	} catch (error) {

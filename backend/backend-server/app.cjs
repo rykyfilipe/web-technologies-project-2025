@@ -140,7 +140,7 @@ const server = http.createServer(async (req, res) => {
 			res.end("Token invalid sau expirat");
 		}
 	} else if (method === "GET" && pathname === "/nominies") {
-		const page = sanitizeInput(parsedUrl.query.id);
+		const id = sanitizeInput(parsedUrl.query.id);
 
 		try {
 			const data = await getNomin(connection, id);

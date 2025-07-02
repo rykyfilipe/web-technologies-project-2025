@@ -363,6 +363,7 @@ function removeUser(req, res, connection, userId) {
 }
 
 async function getNomin(connection, id) {
+	console.log(id);
 	return new Promise((resolve, reject) => {
 		const sql = `
 			SELECT 

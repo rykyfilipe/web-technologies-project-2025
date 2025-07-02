@@ -3,6 +3,8 @@
 import Actors from "../sections/user/Actors.js";
 import Home from "../sections/user/Home.js";
 import Movies from "../sections/user/Movies.js";
+import Nominies from "../sections/user/Nominies.js";
+
 import News from "../sections/user/News.js";
 import Documentation from "../sections/user/Documentation.js";
 import dashboard from "../assets/icons/dashboard.svg";
@@ -21,6 +23,12 @@ import MoviesPanel from "../sections/admin-panel/Movies.js";
 import NewsPanel from "../sections/admin-panel/News.js";
 
 export const navItems = [
+	{
+		id: 0,
+		name: "Nominies",
+		icon: doc,
+		callBack: Nominies,
+	},
 	{
 		id: 1,
 		name: "Dashboard",

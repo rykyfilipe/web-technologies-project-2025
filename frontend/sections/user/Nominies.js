@@ -1,6 +1,6 @@
 /** @format */
 
-import Movie from "../../components/Movie.js";
+// import Nomination from "../../components/Nomination.js";
 import "../../styles/Movie.css";
 import {
 	showErrorState,
@@ -8,25 +8,43 @@ import {
 	removeLoadingState,
 } from "../../components/utils.js";
 
-const loadData = async (id) => {
-	const url = `https://web-technologies-project-2025-production.up.railway.app/nominies?id=${id}`;
-	const options = {
-		method: "GET",
-		headers: {
-			accept: "application/json",
-			Authorization:
-				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjMxN2ZmNTFiY2EyODRhZjhmMmViY2I3Y2JmZDIxNCIsIm5iZiI6MTc0NDQ2NTYzMS42OTYsInN1YiI6IjY3ZmE2ZWRmMWYzYmNmZWE0OGQ5MzE0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CFeNy56ZByIQE7jKLZHCzZ74pKnkvjlm3COEs1UDmuA",
-		},
-	};
+const loadData = async (page) => {
+	try {
+		const userDataRaw = localStorage.getItem("w-user");
+		const userData = JSON.parse(userDataRaw);
+		const authToken = userData.token;
 
-	const response = await fetch(url, options);
-	const data = await response.json();
+		if (!authToken) {
+			console.log("Nu exista access token");
+		}
 
-	return data.results;
+		const URL = `https://web-technologies-project-2025-production.up.railway.app`;
+
+		const response = await fetch(`${URL}/nominies?id=${page}`, {
+			headers: { Authorization: `Bearer ${authToken}` },
+		});
+
+		if (!response.ok) {
+			console.log(response.message);
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		console.log(data);
+
+		if (!Array.isArray(data)) {
+			throw new Error("Invalid data format: expected array");
+		}
+
+		return data;
+	} catch (error) {
+		console.error("Error fetching nominations data:", error);
+		return null;
+	}
 };
-export default async function Movies(container) {
-	const navbar = document.querySelector(".navbar");
 
+export default async function Nominations(container) {
+	const navbar = document.querySelector(".navbar");
 	if (navbar.classList.contains("show")) navbar.classList.remove("show");
 
 	let currentPage = 1;
@@ -34,7 +52,7 @@ export default async function Movies(container) {
 
 	const grid = document.createElement("div");
 	grid.className = "movies-grid";
-	grid.id = "movies";
+	grid.id = "nominations";
 
 	const sentinel = document.createElement("div");
 	sentinel.id = "sentinel";
@@ -42,11 +60,12 @@ export default async function Movies(container) {
 	const loadPage = async (page) => {
 		showLoadingState(grid);
 		try {
-			const movies = await loadData(page);
-
+			const nominations = await loadData(page);
 			removeLoadingState();
-			movies.forEach((movie) => {
-				Movie(grid, movie);
+
+			nominations.forEach((nomination) => {
+				// Nomination(grid, nomination);
+				console.log(nomination);
 			});
 			grid.append(sentinel);
 		} catch (error) {
