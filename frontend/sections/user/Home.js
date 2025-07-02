@@ -73,7 +73,6 @@ const Home = async (container) => {
 	section.id = "home";
 	container.appendChild(section);
 
-	// Year Input + Button
 	const filterContainer = document.createElement("div");
 	filterContainer.classList.add("filter-container");
 
