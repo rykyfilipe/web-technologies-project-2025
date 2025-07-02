@@ -18,6 +18,7 @@ const {
 	getUsers,
 	removeUser,
 	removeMovie,
+	getNomin,
 	addMovie,
 } = require("./controllers/dataController.cjs");
 const { uniqueActors } = require("./data/data.cjs");
@@ -100,6 +101,27 @@ const server = http.createServer(async (req, res) => {
 		} catch (err) {
 			res.writeHead(403);
 			res.end("Token invalid sau expirat");
+		}
+	} else if (method === "GET" && pathname === "/nominies") {
+		const page = parsedUrl.query.page;
+
+		try {
+			const data = await getNomin(connection, page);
+
+			if (!data || data.length === 0) {
+				res.writeHead(404, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Niciun film găsit" }));
+				return;
+			}
+
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify(data));
+		} catch (error) {
+			console.error("Eroare în server:", error);
+			if (!res.headersSent) {
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ message: "Eroare internă server" }));
+			}
 		}
 	} else if (method === "POST" && url === "/login") {
 		auth.resolve_login(req, res, connection);
