@@ -222,7 +222,7 @@ async function UsersPanel() {
 	table.classList.add("table");
 	table.append(createHeaderRow());
 
-	users.forEach((user) => {
+	users?.forEach((user) => {
 		const row = createUserRow(user, section, table, p);
 		table.append(row);
 	});
