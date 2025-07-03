@@ -63,9 +63,7 @@ function sanitizeObject(obj) {
 	if (typeof obj === "object") {
 		const sanitized = {};
 		for (const key in obj) {
-			if (obj.hasOwnProperty(key)) {
-				sanitized[key] = sanitizeObject(obj[key]);
-			}
+			sanitized[key] = sanitizeObject(obj[key]);
 		}
 		return sanitized;
 	}
@@ -260,7 +258,7 @@ const server = http.createServer(async (req, res) => {
 		const options = {
 			hostname: "newsapi.org",
 			path: `/v2/everything?q=${encodeURIComponent(
-				actorQuery
+				actorQuery,
 			)}&apiKey=${NEWSAPI_KEY}`,
 			method: "GET",
 			headers: {
@@ -282,7 +280,7 @@ const server = http.createServer(async (req, res) => {
 					} catch (parseError) {
 						console.error(
 							"Eroare la parsarea datelor din NewsAPI:",
-							parseError
+							parseError,
 						);
 						res.writeHead(500);
 						res.end(JSON.stringify({ error: "Eroare la procesarea datelor" }));

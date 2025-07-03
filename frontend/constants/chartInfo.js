@@ -1,18 +1,18 @@
 /** @format */
 
-export const createCategoryWinsData = (data) => {
-	const categoryWins = {};
+	export const createCategoryWinsData = (data) => {
+		const categoryWins = {};
 
-	data.forEach((item) => {
-		if (item.won && item.category) {
-			categoryWins[item.category] = (categoryWins[item.category] || 0) + 1;
-		}
-	});
+		data.forEach((item) => {
+			if (item.won && item.category) {
+				categoryWins[item.category] = (categoryWins[item.category] || 0) + 1;
+			}
+		});
 
-	return Object.entries(categoryWins)
-		.map(([category, count]) => ({ category, count }))
-		.sort((a, b) => b.count - a.count);
-};
+		return Object.entries(categoryWins)
+			.map(([category, count]) => ({ category, count }))
+			.sort((a, b) => b.count - a.count);
+	};
 
 export const createTimeSeriesData = (data) => {
 	const yearData = new Map();
